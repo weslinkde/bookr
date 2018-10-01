@@ -8,10 +8,11 @@ use App\Models\UserMeta;
 use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The database table used by the model.

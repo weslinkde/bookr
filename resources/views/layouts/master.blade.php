@@ -23,14 +23,27 @@
         @include('partials.message')
 
         <div class="container-fluid">
-            <div class="row">
+            <div class="row" style="width: 800px; margin: 0 auto;">
                 @yield("app-content")
             </div>
         </div>
 
-        <footer class="footer bg-dark">
+        <style>
+            .footer {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                /* Set the fixed height of the footer here */
+                height: 60px;
+                line-height: 60px; /* Vertically center the text there */
+                background-color: #f5f5f5;
+            }
+        </style>
+
+        <footer class="footer bg-dark" style="">
             <div class="container-fluid">
-                <span class="text-muted">&copy; {!! date('Y'); !!} <a href="">You</a>
+                <span class="text-muted">&copy; {!! date('Y'); !!} <a href="" style="text-decoration: none; color: inherit">Jesse Dubbink | Weslink</a>
                     @if (Session::get('original_user'))
                         <a class="btn btn-link btn-sm" href="/users/switch-back">Return to your Login</a>
                     @endif
