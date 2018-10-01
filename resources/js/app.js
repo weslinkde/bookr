@@ -1,22 +1,18 @@
+$(document).ready(function () {
+    $('.alert').delay(7000).fadeOut();
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+    // toggle sidebar when button clicked
+    $('.sidebar-toggle').on('click', function () {
+        $('.sidebar').toggleClass('toggled');
+    });
 
-require('./bootstrap');
+    // auto-expand submenu if an item is active
+    var active = $('.sidebar .active');
 
-window.Vue = require('vue');
+    if (active.length && active.parent('.collapse').length) {
+        var parent = active.parent('.collapse');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
-const app = new Vue({
-    el: '#app'
+        parent.prev('a').attr('aria-expanded', true);
+        parent.addClass('show');
+    }
 });
