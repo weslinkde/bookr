@@ -30,7 +30,7 @@
 
         <footer class="footer bg-dark">
             <div class="container-fluid">
-                <span class="text-muted">&copy; {!! date('Y'); !!} <a href="">You</a>
+                <span class="text-muted">&copy; {!! date('Y'); !!} <a href="https://www.weslink.de" target="_blank" style="color: inherit">Jesse Dubbink | Weslink</a>
                     @if (Session::get('original_user'))
                         <a class="btn btn-link btn-sm" href="/users/switch-back">Return to your Login</a>
                     @endif
