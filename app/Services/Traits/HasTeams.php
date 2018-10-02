@@ -5,7 +5,7 @@ namespace App\Services\Traits;
 trait HasTeams
 {
     /**
-     * Join a team
+     * Join a assets
      *
      * @param  integer $teamId
      * @param  integer $userId
@@ -20,7 +20,7 @@ trait HasTeams
     }
 
     /**
-     * Leave a team
+     * Leave a assets
      *
      * @param  integer $teamId
      * @param  integer $userId

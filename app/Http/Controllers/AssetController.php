@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserInviteRequest;
 use App\Http\Requests\TeamUpdateRequest;
 
-class TeamController extends Controller
+class AssetController extends Controller
 {
     public function __construct(TeamService $teamService)
     {

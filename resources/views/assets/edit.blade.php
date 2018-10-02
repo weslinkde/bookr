@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-6 raw-margin-bottom-24">
             <div>
-                <form method="post" action="{{ url('teams/'.$team->id) }}">
+                <form method="post" action="{{ url('assets/'.$team->id) }}">
                     {!! csrf_field() !!}
                     {!! method_field('PATCH') !!}
 
                     @form_maker_object($team, ['name' => 'string'])
 
                     <div class="raw-margin-top-24">
-                        <a class="btn btn-secondary pull-left" href="{{ url('teams') }}">Cancel</a>
+                        <a class="btn btn-secondary pull-left" href="{{ url('assets') }}">Cancel</a>
                         <button class="btn btn-primary pull-right" type="submit">Save</button>
                     </div>
 
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-6 raw-margin-bottom-24">
             @if (Auth::user()->isTeamAdmin($team->id))
-                <form method="post" action="{{ url('teams/'.$team->id.'/invite') }}">
+                <form method="post" action="{{ url('assets/'.$team->id.'/invite') }}">
                     {!! csrf_field() !!}
                     <div class="form-group">
                         <label>Invite a new member</label>

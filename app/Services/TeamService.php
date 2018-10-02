@@ -79,7 +79,7 @@ class TeamService
     }
 
     /**
-     * Create a team
+     * Create a assets
      *
      * @param integer $userId
      * @param array $input
@@ -98,12 +98,12 @@ class TeamService
 
             return $team;
         } catch (Exception $e) {
-            throw new Exception("Failed to create team", 1);
+            throw new Exception("Failed to create assets", 1);
         }
     }
 
     /**
-     * Find a team
+     * Find a assets
      *
      * @param integer $id
      *
@@ -115,7 +115,7 @@ class TeamService
     }
 
     /**
-     * Find a team by name
+     * Find a assets by name
      *
      * @param string $name
      *
@@ -127,7 +127,7 @@ class TeamService
     }
 
     /**
-     * Update a team
+     * Update a assets
      *
      * @param integer $id
      * @param array $input
@@ -143,7 +143,7 @@ class TeamService
     }
 
     /**
-     * Delete a team
+     * Delete a assets
      *
      * @param User $user
      * @param integer $id
@@ -164,7 +164,7 @@ class TeamService
     }
 
     /**
-     * Invite a team member
+     * Invite a assets member
      *
      * @param User $admin
      * @param integer $id
@@ -198,7 +198,7 @@ class TeamService
     }
 
     /**
-     * Remove a team member
+     * Remove a assets member
      *
      * @param User $admin
      * @param integer $id

@@ -1,13 +1,13 @@
 @extends('dashboard')
 
-@section('pageTitle') Teams @stop
+@section('pageTitle') Book Assets @stop
 
 @section('content')
 
     <div class="row">
         <div class="col-md-12">
             <div class="btn-toolbar justify-content-between">
-                <a class="btn btn-primary raw-margin-right-8" href="{{ url('teams/create') }}">Create Team</a>
+                <a class="btn btn-primary raw-margin-right-8" href="{{ url('assets/create') }}">Create Team</a>
                 <form class="form-inline" method="post" action="/teams/search">
                     {!! csrf_field() !!}
                     <input class="form-control mr-sm-2" name="search" type="search" value="{{ request('search') }}" placeholder="Search" aria-label="Search">
@@ -22,7 +22,7 @@
             @if ($teams->isEmpty())
                 <div class="card card-default text-center">
                     <div class="card-body">
-                        <span>No teams found.</span>
+                        <span>No Calendar found.</span>
                     </div>
                 </div>
             @else
@@ -41,7 +41,7 @@
                                         <form class="form" method="post" action="{!! url('teams/'.$team->id) !!}">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}
-                                            <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Are you sure you want to delete this team?')"><i class="fa fa-trash"></i> Delete</button>
+                                            <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Are you sure you want to delete this assets?')"><i class="fa fa-trash"></i> Delete</button>
                                         </form>
                                     </div>
                                 </td>

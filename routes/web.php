@@ -89,15 +89,19 @@ Route::group(['middleware' => ['auth' ]], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Team Routes
+    | Asset Routes
     |--------------------------------------------------------------------------
     */
 
-    Route::get('team/{name}', 'TeamController@showByName');
-    Route::resource('teams', 'TeamController', ['except' => ['show']]);
-    Route::post('teams/search', 'TeamController@search');
-    Route::post('teams/{id}/invite', 'TeamController@inviteMember');
-    Route::get('teams/{id}/remove/{userId}', 'TeamController@removeMember');
+    Route::get('assets/{name}', 'AssetController@showByName');
+    Route::resource('assets', 'AssetController', ['except' => ['show']]);
+    Route::get('assets/create', 'AssetController@create');
+    Route::post('assets/post', 'AssetController@store');
+    Route::post('assets/search', 'AssetController@search');
+    Route::get('assets/{id}/remove/{userId}', 'AssetController@removeMember');
+
+    Route::resource('bookings', 'BookingController');
+
 
     /*
     |--------------------------------------------------------------------------
