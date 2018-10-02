@@ -27,7 +27,7 @@ class TeamController extends Controller
     public function index(Request $request)
     {
         $teams = $this->service->paginated($request->user()->id);
-        return view('team.index')->with('teams', $teams);
+        return view('assets.index')->with('teams', $teams);
     }
 
     /**
@@ -38,7 +38,7 @@ class TeamController extends Controller
     public function search(Request $request)
     {
         $teams = $this->service->search($request->user()->id, $request->search);
-        return view('team.index')->with('teams', $teams);
+        return view('assets.index')->with('teams', $teams);
     }
 
     /**
@@ -48,7 +48,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('team.create');
+        return view('assets.create');
     }
 
     /**
@@ -73,7 +73,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Display the specified team.
+     * Display the specified assets.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -82,8 +82,8 @@ class TeamController extends Controller
     {
         $team = $this->service->findByName($name);
 
-        if (Gate::allows('team-member', [$team, Auth::user()])) {
-            return view('team.show')->with('team', $team);
+        if (Gate::allows('assets-member', [$team, Auth::user()])) {
+            return view('assets.show')->with('team', $team);
         }
 
         return back();
@@ -98,7 +98,7 @@ class TeamController extends Controller
     public function edit($id)
     {
         $team = $this->service->find($id);
-        return view('team.edit')->with('team', $team);
+        return view('assets.edit')->with('team', $team);
     }
 
     /**
@@ -145,7 +145,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Invite a team member
+     * Invite a assets member
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -166,7 +166,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Remove a team member
+     * Remove a assets member
      *
      * @param  int  $userId
      * @return \Illuminate\Http\Response
