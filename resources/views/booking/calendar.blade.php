@@ -18,17 +18,68 @@
         </div>
     </div>
     <script type="text/javascript">
-            $('#calendar').fullCalendar({
-                header: { center: 'month,agendaWeek' }, // buttons for switching between views
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek'
+            },
+            views: {
+                month: { // name of view
+                    titleFormat: 'DD, MMM, YYYY',
+                    titleRangeSeparator: ""
+                    // other view-specific options here
+                },
+                week: {
+                  titleFormat: 'DD, MMM',
+                    titleRangeSeparator: " - "
 
-                views: {
-                    month: { // name of view
-                        titleFormat: 'YYYY, MM, DD',
-                    },
-                    agendaWeek: {
-                        titleFormat: 'YYYY, MM, DD',
-                    },
+                },
+            },
+            defaultView: 'agendaWeek',
+            nowIndicator: true,
+            weekends: false,
+            axisFormat: 'HH:mm',
+            defaultTimedEventDuration: '01:00',
+            allDaySlot: false,
+            scrollTime: '08:00',
+            businessHours: {
+                start: '8:00',
+                end: '20:00',
+            },
+            selectOverlap: false,
+            eventOverlap: function(stillEvent, movingEvent) {
+                return false;
+            },
+            editable: true,
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end) {
+                var duration = (end - start) /1000;
+                if(duration == 1800) {
+                    // set default duration to 1 hr.
+                    end = start.add(30, 'mins');
+                    return calendar.fullCalendar('select', start, end);
                 }
-            });
+                var title = prompt('Event Title:');
+                var eventData;
+                if (title && title.trim()) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    calendar.fullCalendar('renderEvent', eventData);
+                }
+                calendar.fullCalendar('unselect');
+            },
+            eventRender: function(event, element) {
+                var start = moment(event.start).fromNow();
+                element.attr('title', start);
+            },
+            loading: function() {
+
+            }
+        });
     </script>
 @endsection
