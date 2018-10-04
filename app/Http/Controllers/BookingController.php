@@ -4,9 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bookings;
+use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 
 class BookingController extends Controller
 {
+
+    public function calendar()
+    {
+        $events = [];
+        $data = Bookings::all();
+        if($data->count()) {
+            foreach ($data as $key => $value) {
+                $events[] = Calendar::event(
+                    $value->title,
+                    true,
+                    new \DateTime($value->start_date),
+                    new \DateTime($value->end_date.' +1 day'),
+                    null,
+                    // Add color and link on event
+                    [
+                        'color' => '#ff0000',
+                        'url' => 'pass here url and any route',
+                    ]
+                );
+            }
+        }
+        $calendar = Calendar::addEvents($events);
+        return view('booking.calendar', compact('calendar'));
+    }
+
     public function index()
     {
         $bookings = Bookings::all();

@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth' ]], function () {
     Route::post('bookings/store', 'BookingController@store')->name('bookingStore');
     Route::delete('bookings/delete/{id}', 'BookingController@destroy')->name('bookingDelete');
 
+    Route::get('calendar', 'BookingController@calendar');
 
     /*
     |--------------------------------------------------------------------------
