@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Welcome Page
+| Welcome Route
 |--------------------------------------------------------------------------
 */
 
@@ -23,7 +23,7 @@ Route::get('/', 'PagesController@home');
 
 /*
 |--------------------------------------------------------------------------
-| Login/ Logout/ Password
+| Login/ Logout/ Password Routes
 |--------------------------------------------------------------------------
 */
 
@@ -32,7 +32,6 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 
-// Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -40,9 +39,10 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*
 |--------------------------------------------------------------------------
-| Registration & Activation
+| Registration & Activation Routes
 |--------------------------------------------------------------------------
 */
+
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
 
@@ -57,12 +57,13 @@ Route::group(['middleware' => ['auth']], function () {
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */
-// add 'active' guard to ask for email activation
-Route::group(['middleware' => ['auth' ]], function () {
+
+
+Route::group(['middleware' => ['auth']], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | General
+    | General Routes
     |--------------------------------------------------------------------------
     */
 
@@ -70,7 +71,7 @@ Route::group(['middleware' => ['auth' ]], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | User
+    | User Routes
     |--------------------------------------------------------------------------
     */
 
@@ -83,7 +84,7 @@ Route::group(['middleware' => ['auth' ]], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Dashboard
+    | Dashboard Routes
     |--------------------------------------------------------------------------
     */
 
@@ -102,15 +103,19 @@ Route::group(['middleware' => ['auth' ]], function () {
     Route::post('assets/search', 'AssetController@search');
     Route::get('assets/{id}/remove/{userId}', 'AssetController@removeMember');
 
-    Route::resource('bookings', 'BookingController');
+    Route::resource('book', 'BookingController');
+    Route::get('book/Room1', 'BookingController@Room1');
+    Route::get('book/Room2', 'BookingController@Room2');
+    Route::get('book/Beamer', 'BookingController@Beamer');
     Route::post('bookings/store', 'BookingController@store')->name('bookingStore');
     Route::delete('bookings/delete/{id}', 'BookingController@destroy')->name('bookingDelete');
 
     Route::get('calendar', 'BookingController@calendar');
+    Route::get('caldendar/create', 'BookingController@calendar');
 
     /*
     |--------------------------------------------------------------------------
-    | Admin
+    | Admin Routes
     |--------------------------------------------------------------------------
     */
 
@@ -120,9 +125,10 @@ Route::group(['middleware' => ['auth' ]], function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Users
+        | User Routes
         |--------------------------------------------------------------------------
         */
+
         Route::resource('users', 'UserController', ['except' => ['create', 'show']]);
         Route::post('users/search', 'UserController@search');
         Route::get('users/search', 'UserController@index');
@@ -132,9 +138,10 @@ Route::group(['middleware' => ['auth' ]], function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Roles
+        | Role Routes
         |--------------------------------------------------------------------------
         */
+
         Route::resource('roles', 'RoleController', ['except' => ['show']]);
         Route::post('roles/search', 'RoleController@search');
         Route::get('roles/search', 'RoleController@index');

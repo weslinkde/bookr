@@ -11,31 +11,14 @@ class BookingController extends Controller
 
     public function calendar()
     {
-        $events = [];
-        $data = Bookings::all();
-        if($data->count()) {
-            foreach ($data as $key => $value) {
-                $events[] = Calendar::event(
-                    $value->title,
-                    true,
-                    new \DateTime($value->start_date),
-                    new \DateTime($value->end_date.' +1 day'),
-                    null,
-                    // Add color and link on event
-                    [
-                        'color' => '#ff0000',
-                        'url' => 'pass here url and any route',
-                    ]
-                );
-            }
-        }
-        $calendar = Calendar::addEvents($events);
-        return view('booking.calendar', compact('calendar'));
+
+        return view('booking.calendar');
     }
 
     public function index()
     {
         $bookings = Bookings::all();
+        session()->flash('Succesfully collected all bookings');
         return view('booking.list')->with('bookings', $bookings);
     }
 
@@ -71,7 +54,6 @@ class BookingController extends Controller
     public function update(Request $request, $id)
     {
         $time = explode(" - ", $request->input('time'));
-
         $booking = Bookings::findOrFail($id);
         $booking->name = $request->input('name');
         $booking->title = $request->input('title');

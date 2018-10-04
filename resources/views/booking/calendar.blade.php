@@ -25,15 +25,13 @@
                 right: 'month,agendaWeek'
             },
             views: {
-                month: { // name of view
+                month: {
                     titleFormat: 'DD, MMM, YYYY',
                     titleRangeSeparator: ""
-                    // other view-specific options here
                 },
                 week: {
-                  titleFormat: 'DD, MMM',
+                    titleFormat: 'DD, MMM',
                     titleRangeSeparator: " - "
-
                 },
             },
             defaultView: 'agendaWeek',
@@ -48,16 +46,17 @@
                 end: '20:00',
             },
             selectOverlap: false,
-            eventOverlap: function(stillEvent, movingEvent) {
+            eventOverlap: function (stillEvent, movingEvent) {
                 return false;
             },
             editable: true,
             selectable: true,
             selectHelper: true,
-            select: function(start, end) {
-                var duration = (end - start) /1000;
-                if(duration == 1800) {
-                    // set default duration to 1 hr.
+            eventColor: '#64eae8',
+            eventBorderColor: '#5dccca',
+            select: function (start, end) {
+                var duration = (end - start) / 1000;
+                if (duration == 1800) {
                     end = start.add(30, 'mins');
                     return calendar.fullCalendar('select', start, end);
                 }
@@ -73,13 +72,13 @@
                 }
                 calendar.fullCalendar('unselect');
             },
-            eventRender: function(event, element) {
+            eventRender: function (event, element) {
                 var start = moment(event.start).fromNow();
                 element.attr('title', start);
             },
-            loading: function() {
-
-            }
+            loading: function () {
+                //
+            },
         });
     </script>
 @endsection
