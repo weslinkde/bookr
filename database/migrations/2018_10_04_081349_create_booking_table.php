@@ -18,8 +18,8 @@ class CreateBookingTable extends Migration
             $table->string('name', 15);
             $table->string('title', 100);
             $table->date('date');
-            $table->timestamp('start_time');
-            $table->timestamp('end_time')->nullable();
+            $table->time('start_time');
+            $table->time('end_time')->nullable();
             $table->timestamps();
         });
     }

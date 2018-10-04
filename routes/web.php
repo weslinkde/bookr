@@ -103,6 +103,8 @@ Route::group(['middleware' => ['auth' ]], function () {
     Route::get('assets/{id}/remove/{userId}', 'AssetController@removeMember');
 
     Route::resource('bookings', 'BookingController');
+    Route::post('bookings/store', 'BookingController@store')->name('bookingStore');
+    Route::delete('bookings/delete/{id}', 'BookingController@destroy')->name('bookingDelete');
 
 
     /*

@@ -9,7 +9,8 @@ class BookingController extends Controller
 {
     public function index()
     {
-        return view('booking.list', ['bookings' => Bookings::orderBy('start_time')]);
+        $bookings = Bookings::all();
+        return view('booking.list')->with('bookings', $bookings);
     }
 
     public function create()
@@ -23,12 +24,12 @@ class BookingController extends Controller
         $booking->name = $request->input('name');
         $booking->title = $request->input('title');
         $booking->date = $request->input('date');
-        $booking->start_time = $request->input('time1');
-        $booking->end_time = $request->input('time2');
+        $booking->start_time = $request->input('start_time');
+        $booking->end_time = $request->input('end_time');
         $booking->save();
 
         $request->session()->flash('succes', 'The booking was made succesfully.');
-        return view('booking.create');
+        return view('booking.list');
     }
 
     public function show($id)
@@ -60,6 +61,6 @@ class BookingController extends Controller
         $booking = Bookings::find($id);
         $booking->delete();
 
-        return redirect('assets');
+        return redirect('bookings');
     }
 }
