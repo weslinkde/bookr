@@ -4,8 +4,8 @@
 <li class="nav-item @if(Request::is('user/settings', 'user/password')) active @endif">
     <a class="nav-link" href="{!! url('user/settings') !!}"><span class="fas fa-user"></span> Settings</a>
 </li>
-<li class="nav-item @if(Request::is('teams', 'teams/*')) active @endif">
-    <a class="nav-link" href="{!! url('teams') !!}"><span class="fas fa-users"></span> Teams</a>
+<li class="nav-item @if(Request::is('bookings', 'bookings/*')) active @endif">
+    <a class="nav-link" href="{!! url('bookings') !!}"><span class="fas fa-users"></span> Booking</a>
 </li>
 @if (Gate::allows('admin'))
     <li class="sidebar-header"><span>Admin</span></li>

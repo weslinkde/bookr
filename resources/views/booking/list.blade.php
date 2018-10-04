@@ -22,13 +22,13 @@
             @if ($bookings)
                 <table class="table table-striped">
                     <thead>
-                        <th>Name</th>
+                        <th></th>
                         <th width="165px" class="text-right">Action</th>
                     </thead>
                     <tbody>
                         @foreach($bookings as $booking)
                             <tr>
-                                <td>{{ $booking->title }}</td>
+                                <td>{{ $booking->name }}</td>
                                 <td>
                                     <div class="btn-toolbar pull-right">
                                         <a class="btn btn-outline-primary btn-sm raw-margin-right-8" href="{!! route('booking.edit', [$booking->id]) !!}"><i class="fa fa-edit"></i> Edit</a>

@@ -11,10 +11,11 @@
                     <form method="post" action="{{ route('bookings.store') }}">
                         {!! csrf_field() !!}
 
-                        @form_maker_table("bookings", ['name' => 'string'])
-                        @form_maker_table("bookings", ['title' => 'string'])
-                        @form_maker_table("bookings", ['start_time' => 'time'])
-                        @form_maker_table("bookings", ['end_time' => 'time'])
+                        @form_maker_table("booking", ['name' => 'string'])
+                        @form_maker_table("booking", ['title' => 'string'])
+                        @form_maker_table("booking", ['date' => 'date'])
+                        @form_maker_table("booking", ['start_time' => 'time1'])
+                        @form_maker_table("booking", ['end_time' => 'time2'])
 
                         <div class="raw-margin-top-24">
                             <a class="btn btn-secondary pull-left" href="{{ url('bookings') }}">Cancel</a>

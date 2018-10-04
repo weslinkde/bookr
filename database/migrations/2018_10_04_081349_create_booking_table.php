@@ -13,10 +13,11 @@ class CreateBookingTable extends Migration
      */
     public function up()
     {
-        Schema::create('my_booking', function (Blueprint $table) {
+        Schema::create('booking', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 15);
             $table->string('title', 100);
+            $table->date('date');
             $table->timestamp('start_time');
             $table->timestamp('end_time')->nullable();
             $table->timestamps();
@@ -30,6 +31,6 @@ class CreateBookingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('my_booking');
+        Schema::dropIfExists('booking');
     }
 }

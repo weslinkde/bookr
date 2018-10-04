@@ -19,17 +19,16 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $time = explode(" - ", $request->input('time'));
-
         $booking = new Bookings;
         $booking->name = $request->input('name');
         $booking->title = $request->input('title');
-        $booking->start_time = $time[0];
-        $booking->end_time = $time[0];
+        $booking->date = $request->input('date');
+        $booking->start_time = $request->input('time1');
+        $booking->end_time = $request->input('time2');
         $booking->save();
 
         $request->session()->flash('succes', 'The booking was made succesfully.');
-        return redirect('booking.create');
+        return view('booking.create');
     }
 
     public function show($id)
