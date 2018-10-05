@@ -1,6 +1,12 @@
 @extends('dashboard')
 
 @section('content')
+    <style>
+        body .fc {
+            overflow: auto;
+            touch-action: manipulation;
+        }
+    </style>
     <script src='{{asset('js/moment.js')}}'></script>
     <script src='{{asset('js/jquery.js')}}'></script>
     <script src='{{asset('js/jqueryui.js')}}'></script>
@@ -34,6 +40,9 @@
                     titleRangeSeparator: " - "
                 },
             },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             defaultView: 'agendaWeek',
             nowIndicator: true,
             weekends: false,
@@ -52,33 +61,42 @@
             editable: true,
             selectable: true,
             selectHelper: true,
-            eventColor: '#64eae8',
-            eventBorderColor: '#5dccca',
-            select: function (start, end) {
-                var duration = (end - start) / 1000;
-                if (duration == 1800) {
-                    end = start.add(30, 'mins');
-                    return calendar.fullCalendar('select', start, end);
+            eventColor: 'rgb(215,215,215)',
+            eventBorderColor: 'rgb(195,195,195)',
+            events: '{{url('calendar')}}',
+            select: function (start, end, allDay) {
+                var title = prompt("Enter title");
+                var name = prompt("Enter your name");
+                if (title && name) {
+                    console.log(title + name);
+                    var start_time = moment(start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{route("storeBeamer")}}",
+                        type: "POST",
+                        data: {title: title, name: name, start_time: start_time, end_time: end_time},
+                        dataType: "json",
+                        succes: function () {
+                            calendar.fullCalendar('refetchEvents');
+                            console.log("Added Succesfully");
+                        },
+                    })
                 }
-                var title = prompt('Event Title:');
-                var eventData;
-                if (title && title.trim()) {
-                    eventData = {
-                        title: title,
-                        start: start,
-                        end: end
-                    };
-                    calendar.fullCalendar('renderEvent', eventData);
-                }
-                calendar.fullCalendar('unselect');
-            },
-            eventRender: function (event, element) {
-                var start = moment(event.start).fromNow();
-                element.attr('title', start);
-            },
-            loading: function () {
-                //
+
             },
         });
+        @if($booking)
+        @foreach($booking as $book)
+        $('#calendar').fullCalendar('renderEvent', {
+            title: '{{$book->title()}}',
+            name: '{{$book->name()}}',
+            start: '{{$book->start_time()}}',
+            end: '{{$book->end_time()}}',
+        });
+        @endforeach
+        @endif
     </script>
 @endsection

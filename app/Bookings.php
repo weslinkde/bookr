@@ -9,6 +9,6 @@ class Bookings extends Model
     protected $table = 'booking';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name', 'title', 'date', 'start_time', 'end_time',
+        'name', 'title', 'start_time', 'end_time',
     ];
 }

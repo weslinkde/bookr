@@ -96,22 +96,13 @@ Route::group(['middleware' => ['auth']], function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('assets/{name}', 'AssetController@showByName');
-    Route::resource('assets', 'AssetController', ['except' => ['show']]);
-    Route::get('assets/create', 'AssetController@create');
-    Route::post('assets/post', 'AssetController@store');
-    Route::post('assets/search', 'AssetController@search');
-    Route::get('assets/{id}/remove/{userId}', 'AssetController@removeMember');
-
     Route::resource('book', 'BookingController');
-    Route::get('book/Room1', 'BookingController@Room1');
-    Route::get('book/Room2', 'BookingController@Room2');
-    Route::get('book/Beamer', 'BookingController@Beamer');
-    Route::post('bookings/store', 'BookingController@store')->name('bookingStore');
-    Route::delete('bookings/delete/{id}', 'BookingController@destroy')->name('bookingDelete');
+    Route::get('book/room1', 'bookRoom1@index');
+    Route::post('book/Room1/store', 'BookingController@storeRoom1')->name('Room1Store');
 
     Route::get('calendar', 'BookingController@calendar');
-    Route::get('caldendar/create', 'BookingController@calendar');
+    Route::post('book/beamer/store', 'BookingController@store')->name('storeBeamer');
+
 
     /*
     |--------------------------------------------------------------------------

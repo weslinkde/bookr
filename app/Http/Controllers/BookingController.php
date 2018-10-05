@@ -4,51 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bookings;
+use Illuminate\Support\Facades\DB;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
+use Dotenv\Validator;
 
 class BookingController extends Controller
 {
 
     public function calendar()
     {
-
-        return view('booking.calendar');
-    }
-
-    public function index()
-    {
-        $bookings = Bookings::all();
-        session()->flash('Succesfully collected all bookings');
-        return view('booking.list')->with('bookings', $bookings);
-    }
-
-    public function create()
-    {
-        return view('booking.create');
+        $booking = Bookings::orderBy('id');
+        return view('booking.calendar', compact('booking'));
     }
 
     public function store(Request $request)
     {
         $booking = new Bookings;
-        $booking->name = $request->input('name');
-        $booking->title = $request->input('title');
-        $booking->date = $request->input('date');
-        $booking->start_time = $request->input('start_time');
-        $booking->end_time = $request->input('end_time');
+        $booking->name = $request['name'];
+        $booking->title = $request['title'];
+        $booking->start_time = $request['start_time'];
+        $booking->end_time = $request['end_time'];
         $booking->save();
-
         $request->session()->flash('succes', 'The booking was made succesfully.');
-        return view('booking.list');
-    }
-
-    public function show($id)
-    {
-        return view('bookings.view', ['booking' => Bookings::findOrFail($id)]);
-    }
-
-    public function edit($id)
-    {
-        return view('assets.edit', ['booking' => Bookings::findOrFail($id)]);
+        return url('/calendar');
     }
 
     public function update(Request $request, $id)
