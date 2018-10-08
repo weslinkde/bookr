@@ -7,14 +7,25 @@ use App\Bookings;
 use Illuminate\Support\Facades\DB;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 use Dotenv\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 class BookingController extends Controller
 {
 
     public function calendar()
     {
-        $booking = Bookings::orderBy('id');
-        return view('booking.calendar', compact('booking'));
+        $user = Auth::user();
+        $columns = [
+            'id AS id',
+            'start_time AS start',
+            'end_time AS end',
+            'title AS title',
+            'name AS name'
+        ];
+        $allBookings = Bookings::get($columns);
+        $bookings = $allBookings->toJson();
+        return view('booking.calendar', compact('bookings', 'user'));
     }
 
     public function store(Request $request)
@@ -26,20 +37,17 @@ class BookingController extends Controller
         $booking->end_time = $request['end_time'];
         $booking->save();
         $request->session()->flash('succes', 'The booking was made succesfully.');
-        return url('/calendar');
+        return view('booking.calendar');
     }
 
     public function update(Request $request, $id)
     {
-        $time = explode(" - ", $request->input('time'));
-        $booking = Bookings::findOrFail($id);
-        $booking->name = $request->input('name');
-        $booking->title = $request->input('title');
-        $booking->start_time = $time[0];
-        $booking->end_time = $time[1];
+        $booking = Bookings::find($id);
+        $booking->start_time = $request['start_time'];
+        $booking->end_time = $request['end_time'];
         $booking->save();
 
-        return redirect('assets');
+
     }
 
     public function destroy($id)
@@ -47,6 +55,6 @@ class BookingController extends Controller
         $booking = Bookings::find($id);
         $booking->delete();
 
-        return redirect('bookings');
+        return view('booking.calendar');
     }
 }

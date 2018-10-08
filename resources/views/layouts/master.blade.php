@@ -11,6 +11,7 @@
         <link rel="icon" type="image/ico" href="">
 
         <!-- Local -->
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="/css/raw.min.css">
         <link rel="stylesheet" type="text/css" href="/css/app.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">

@@ -102,7 +102,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('calendar', 'BookingController@calendar');
     Route::post('book/beamer/store', 'BookingController@store')->name('storeBeamer');
-
+    Route::patch('calendar/edit/{id}', 'BookingController@update')->name('editBeamer');
+    Route::delete('calendar/delete/{id}', 'BookingController@destroy')->name('deleteBeamer');
 
     /*
     |--------------------------------------------------------------------------
