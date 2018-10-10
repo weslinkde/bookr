@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'dashboard';
+    protected $redirectTo = 'book';
 
     /**
      * Create a new controller instance.
@@ -47,6 +47,6 @@ class LoginController extends Controller
             return redirect('/admin/dashboard');
         }
 
-        return redirect('dashboard');
+        return redirect('book');
     }
 }

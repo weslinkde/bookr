@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bookings;
+use App\Assets;
 use Illuminate\Support\Facades\DB;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 use Dotenv\Validator;
@@ -13,19 +14,21 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
 
-    public function calendar()
+    public function calendar($href)
     {
+        $asset = $href;
         $user = Auth::user();
         $columns = [
             'id AS id',
             'start_time AS start',
             'end_time AS end',
+            'description AS description',
             'title AS title',
             'name AS name'
         ];
-        $allBookings = Bookings::get($columns);
+        $allBookings = Bookings::where('type', $href)->get($columns);
         $bookings = $allBookings->toJson();
-        return view('booking.calendar', compact('bookings', 'user'));
+        return view('booking.calendar', compact('bookings', 'description', 'assetid', 'user', 'asset'));
     }
 
     public function store(Request $request)
@@ -33,6 +36,8 @@ class BookingController extends Controller
         $booking = new Bookings;
         $booking->name = $request['name'];
         $booking->title = $request['title'];
+        $booking->description = $request['description'];
+        $booking->type = $request['type'];
         $booking->start_time = $request['start_time'];
         $booking->end_time = $request['end_time'];
         $booking->save();
@@ -40,19 +45,19 @@ class BookingController extends Controller
         return view('booking.calendar');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $booking = Bookings::find($id);
+        $booking_id = $request->route()->parameter('id');
+        $booking = Bookings::find($booking_id);
         $booking->start_time = $request['start_time'];
         $booking->end_time = $request['end_time'];
         $booking->save();
-
-
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $booking = Bookings::find($id);
+        $booking_id = $request->route()->parameter('id');
+        $booking = Bookings::find($booking_id);
         $booking->delete();
 
         return view('booking.calendar');

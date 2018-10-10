@@ -84,26 +84,35 @@ Route::group(['middleware' => ['auth']], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Dashboard Routes
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/dashboard', 'PagesController@dashboard');
-
-    /*
-    |--------------------------------------------------------------------------
     | Asset Routes
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('book', 'BookingController');
-    Route::get('book/room1', 'bookRoom1@index');
-    Route::post('book/Room1/store', 'BookingController@storeRoom1')->name('Room1Store');
+    Route::get('book', 'AssetsController@index');
+    Route::get('assets/create', 'AssetsController@create');
+    Route::post('assets/store', 'AssetsController@store')->name('storeAsset');
+    Route::get('assets/edit/{id}', 'AssetsController@edit');
+    Route::patch('assets/update/{id}', 'AssetsController@update')->name('updateAsset');
+    Route::delete('assets/delete/{id}', 'AssetsController@destroy')->name('deleteAsset');
 
-    Route::get('calendar', 'BookingController@calendar');
-    Route::post('book/beamer/store', 'BookingController@store')->name('storeBeamer');
-    Route::patch('calendar/edit/{id}', 'BookingController@update')->name('editBeamer');
-    Route::delete('calendar/delete/{id}', 'BookingController@destroy')->name('deleteBeamer');
+
+    //Route::get('book', 'BookingController@index');
+    Route::get('book/{href}',[
+        'uses' => 'BookingController@calendar',
+        'as'   => 'href'
+    ]);
+    Route::post('book/{href}/store',[
+        'uses' => 'BookingController@store',
+        'as'   => 'href'
+    ])->name('storeBeamer');
+    Route::patch('book/{href}/edit/{id}',[
+        'uses' => 'BookingController@update',
+        'as'   => 'id'
+    ])->name('editBeamer');
+    Route::delete('book/{href}/delete/{id}',[
+        'uses' => 'BookingController@destroy',
+        'as'   => 'href'
+    ])->name('deleteBeamer');
 
     /*
     |--------------------------------------------------------------------------

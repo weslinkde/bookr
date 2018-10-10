@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bookings extends Model
+class Assets extends Model
 {
-    protected $table = 'booking';
+    protected $table = 'assets';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name', 'title', 'description', 'type', 'start_time', 'end_time',
+        'name', 'href',
     ];
 }

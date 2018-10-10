@@ -1,68 +1,53 @@
 @extends('dashboard')
 
-@section('pageTitle') Teams: Edit @stop
+@section('pageTitle') Edit Asset: {{$asset->name}} @stop
 
 @section('content')
 
     <div class="row">
-        <div class="col-md-6 raw-margin-bottom-24">
-            <div>
-                <form method="post" action="{{ url('assets/'.$team->id) }}">
-                    {!! csrf_field() !!}
-                    {!! method_field('PATCH') !!}
-
-                    @form_maker_object($team, ['name' => 'string'])
-
-                    <div class="raw-margin-top-24">
-                        <a class="btn btn-secondary pull-left" href="{{ url('assets') }}">Cancel</a>
-                        <button class="btn btn-primary pull-right" type="submit">Save</button>
+        <div class="col-md-12">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Warning!</strong><br> If you edit this asset, all the reservations in this asset will be deleted!
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-5" style="margin: 0 auto;">
+                    {{ Form::open(['method' => 'PATCH', 'url' => 'assets/update/' . $asset->id]) }}
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12 raw-margin-top-24">
+                            <label>Name</label>
+                            {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'For example: Meeting Room']) }}
+                        </div>
                     </div>
-
-                </form>
+                    <div class="row">
+                        <div class="col-md-12 raw-margin-top-24">
+                            <label>Href <br> (No spaces, capital letters and special characters)</label>
+                            {{ Form::text('href', null, ['class' => 'form-control', 'placeholder' => 'For example: beamer']) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 raw-margin-top-24">
+                            <div class="btn-toolbar justify-content-between">
+                                {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
+                            </div>
+                            <a href="{{url('book')}}" style="float: right; margin-top: -32px;">Back</a>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
+                    <div class="row">
+                        <div class="col-md-12 raw-margin-top-24">
+                            {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id]) }}
+                            @csrf
+                            {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-6 raw-margin-bottom-24">
-            @if (Auth::user()->isTeamAdmin($team->id))
-                <form method="post" action="{{ url('assets/'.$team->id.'/invite') }}">
-                    {!! csrf_field() !!}
-                    <div class="form-group">
-                        <label>Invite a new member</label>
-                        <input class="form-control" type="email" name="email" placeholder="Email">
-                    </div>
-                    <button class="btn btn-primary pull-right" type="submit">Invite</button>
-                </form>
-            @endif
-        </div>
-        @if (Auth::user()->isTeamAdmin($team->id))
-            <div class="col-md-12 raw-margin-top-24">
-                <h2 class="text-left">Members</h2>
-                @if ($team->members->isEmpty())
-                    <div class="col-md-12 raw-margin-bottom-24">
-                        <div class="well text-center">No members found.</div>
-                    </div>
-                @else
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Name</th>
-                            <th class="text-right">Action</th>
-                        </thead>
-                        <tbody>
-                            @foreach($team->members as $member)
-                                <tr>
-                                    <td>{{ $member->name }}</td>
-                                    <td>
-                                        @if (! $member->isTeamAdmin($team->id))
-                                            <a class="btn btn-danger pull-right btn-xs" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
-            </div>
-        @endif
     </div>
 
 @stop
-

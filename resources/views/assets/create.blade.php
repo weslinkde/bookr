@@ -1,23 +1,34 @@
 @extends('dashboard')
 
-@section('pageTitle') Teams: Create @stop
+@section('pageTitle') Create a new Asset @stop
 
 @section('content')
 
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <form method="post" action="{{ route('assets.store') }}">
+                <div class="col-md-4 col-md-offset-5" style="margin: 0 auto;">
+                    <form method="post" action="{{ route('storeAsset') }}">
                         {!! csrf_field() !!}
-
-                        @form_maker_table("teams", ['name' => 'string'])
-
-                        <div class="raw-margin-top-24">
-                            <a class="btn btn-secondary pull-left" href="{{ url('teams') }}">Cancel</a>
-                            <button class="btn btn-primary pull-right" type="submit">Create</button>
+                        <div class="row">
+                            <div class="col-md-12 raw-margin-top-24">
+                                <label>Name</label>
+                                <input class="form-control" type="text" name="name" placeholder="Name" value="{{ old('name') }}">
+                            </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-12 raw-margin-top-24">
+                                <label>href</label>
+                                <input class="form-control" type="text" name="href" placeholder="Href, like Beamer or Room1." id="href">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 raw-margin-top-24">
+                                <div class="btn-toolbar justify-content-between">
+                                    <button class="btn btn-primary" type="submit">Create asset</button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -10518,7 +10518,7 @@ body {
 }
 
 .navbar-brand {
-  width: 320px;
+  width: 200px;
   padding-top: .75rem;
   padding-bottom: .75rem;
   font-size: 1rem;
@@ -10615,13 +10615,8 @@ body {
 }
 
 .sidebar-toggle {
-  display: none;
+  display: inline-block;
 }
-
-@media (max-width: 768px) {
-  .sidebar-toggle {
-    display: inline-block;
-  }
 
   .main {
     width: 100%;

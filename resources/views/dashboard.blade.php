@@ -2,6 +2,7 @@
 
 @section('app-content')
 
+    @if (Gate::allows('admin'))
     <nav id="sidebar" class="bg-light sidebar">
         <div class="sidebar-sticky">
             <ul class="nav flex-column">
@@ -9,8 +10,9 @@
             </ul>
         </div>
     </nav>
+    @endif
 
-    <main class="ml-sm-auto pt-3 px-4 main">
+    <main class="pt-3 px-4 main" style="margin: auto">
         @yield('content')
     </main>
 
