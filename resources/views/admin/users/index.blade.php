@@ -27,6 +27,9 @@
                 <table class="table table-striped">
                     <thead>
                         <th>Email</th>
+                        <th>Name</th>
+                        <th>Email verified</th>
+                        <th>Member since</th>
                         <th class="text-right" width="165px">Actions</th>
                     </thead>
                     <tbody>
@@ -34,6 +37,15 @@
                             @if ($user->id !== Auth::id())
                                 <tr>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>
+                                        @if($user->email_verified_at == null)
+                                            No
+                                        @else
+                                            yes
+                                        @endif
+                                    </td>
+                                    <td>{{ $user->created_at }}</td>
                                     <td>
                                         <div class="btn-toolbar justify-content-between">
                                             <a class="btn btn-outline-primary btn-sm raw-margin-right-8" href="{{ url('admin/users/'.$user->id.'/edit') }}"><span class="fa fa-edit"></span> Edit</a>

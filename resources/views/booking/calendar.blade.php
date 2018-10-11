@@ -1,6 +1,7 @@
 @extends('dashboard')
 
 @section('content')
+    {{$message = null}}
     <style>
         body .fc {
             overflow: auto;
@@ -185,7 +186,7 @@
                         },
                         dataType: "json",
                     });
-                    alert("Reservation succesfully created.");
+                    alert("Reservation created.");
                     location.reload(false);
                 }
             },
@@ -205,8 +206,10 @@
                     data: {id: event._id, start_time: start_time, end_time: end_time},
                     type: "PATCH",
                 });
-                alert("Reservation succesfully edited.");
                 location.reload(false);
+                document.getElementById('message').empty();
+                document.getElementById('message').innerText = "Reservation was deleted succesfully";
+
             },
 
             eventDrop: function (event) {
@@ -224,8 +227,9 @@
                     data: {id: event._id, start_time: start_time, end_time: end_time},
                     type: "PATCH",
                 });
-                alert("Reservation succesfully edited.");
                 location.reload(false);
+                document.getElementById('message').empty();
+                document.getElementById('message').innerText = "Reservation was deleted succesfully";
             },
             eventClick: function (event) {
 
@@ -259,7 +263,7 @@
                         data: 'id=' + event._id,
                         type: "DELETE",
                     });
-                    alert("Reservation succesfully deleted.");
+                    alert("Reservation deleted.");
                     location.reload(false);
                 };
 
@@ -304,6 +308,6 @@
     </div>
     <div class="alert alert-success alert-dismissible refreshwarning">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Note:</strong> If the description is wrong, that means that you have updated the asset.
+        <strong>Note:</strong><div id="message">If the descriptions do not fit the Asset, the Asset has been updated resently.</div>
     </div>
 @endsection

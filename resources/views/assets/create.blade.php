@@ -21,8 +21,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 raw-margin-top-24">
-                                <label>href</label>
-                                <input class="form-control" type="text" name="href" placeholder="Href, like Beamer or Room1." id="href">
+                                <label>slug</label>
+                                <input class="form-control" type="text" name="href" placeholder="slug, like Beamer or Room1." id="href">
                             </div>
                         </div>
                         <div class="row">

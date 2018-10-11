@@ -28,7 +28,7 @@
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
                             <label>Href <br> (No spaces, capital letters and special characters)</label>
-                            {{ Form::text('href', null, ['class' => 'form-control', 'placeholder' => 'For example: beamer']) }}
+                            {{ Form::text('slug', null, ['class' => 'form-control', 'placeholder' => 'For example: beamer']) }}
                         </div>
                     </div>
                     <div class="row">

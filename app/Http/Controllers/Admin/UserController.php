@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserInviteRequest;
+use App\Models\Role;
 
 class UserController extends Controller
 {
@@ -75,10 +76,10 @@ class UserController extends Controller
     public function switchToUser($id)
     {
         if ($this->service->switchToUser($id)) {
-            return redirect('dashboard')->with('message', 'You\'ve switched users.');
+            return redirect('book')->with('message', 'You\'ve switched users.');
         }
 
-        return redirect('dashboard')->with('errors', ['Could not switch users']);
+        return redirect('book')->with('errors', ['Could not switch users']);
     }
 
     /**

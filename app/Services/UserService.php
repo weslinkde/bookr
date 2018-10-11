@@ -230,7 +230,6 @@ class UserService
     public function invite($info)
     {
         $password = substr(md5(rand(1111, 9999)), 0, 10);
-
         return DB::transaction(function () use ($password, $info) {
             $user = $this->model->create([
                 'email' => $info['email'],

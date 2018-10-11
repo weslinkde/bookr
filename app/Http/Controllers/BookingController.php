@@ -53,6 +53,7 @@ class BookingController extends Controller
         $booking->start_time = $request['start_time'];
         $booking->end_time = $request['end_time'];
         $booking->save();
+        return view('booking.calendar');
     }
 
     public function destroy(Request $request)
