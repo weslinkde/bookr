@@ -7,43 +7,36 @@
             touch-action: manipulation;
         }
 
-        .assets a {
-            text-decoration: none;
+        .assets, .options {
             color: black;
+            text-decoration: none;
+        }
+
+        .assets:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        .options:hover {
+            text-decoration: none;
+            color: dodgerblue;
         }
 
         .asset {
-            display: inline-flex;
-            align-items: center;
-            margin: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            text-decoration: none;
-            color: black;
-            padding-top: -24px;
-            padding-bottom: -24px;
+            display: flex;
+            flex-direction: column;
+
+            margin: 5px;
+            line-height: 50px;
+            vertical-align: middle;
+
+            border: 1px solid #C3C3C3;
+            border-radius: 15px;
+            background-color: #E0E0E0;
         }
 
         .asset:hover {
-            background-color: #a4e8b4;
-        }
-
-        .vertRow {
-            flex-direction: column;
-            display: inline-flex;
-            align-items: right;
-            margin-left: 20px;
-            margin-right: -20px;
-        }
-
-        .editButton {
-            padding: 2px;
-        }
-
-        .editButton:hover {
-            background-color: #d4edda;
+            background-color: #e8e8e8;
         }
     </style>
     <div class="container">
@@ -51,27 +44,27 @@
             <div class="col-md-12 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="choose flex-column">
-                        <h1 class="col-12" style="text-align: center; margin-top: 50px; margin-bottom: 40px;">Choose what you want you want to reservate.</h1>
-                        <div class="d-flex flex-lg-column justify-content-center assets" align="center">
+                        <h1 class="col-12" style="text-align: center; margin-top: 50px; margin-bottom: 40px;">Choose
+                            what you want you want to reservate.</h1>
+                        <div class="d-flex flex-sm-column justify-content-center assets" align="center">
                             @if($assets)
                                 @foreach($assets as $asset)
-                                    <div class="asset p-4" style="padding-top: -24px; padding-bottom: -24px">
-                                        <div class="link">
-                                            <a href="{{url('book/' . $asset->href)}}">{{$asset->name}}</a>
-                                        </div>
-                                        @if (Gate::allows('admin'))
-                                            <div class="d-flex vertRow">
-                                                <div class="edit">
-                                                    <a href="{{url('assets/edit/' . $asset->id)}}" class="editButton"><i class="far fa-edit"></i></a>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
+                                    <a href="{{url('book/' . $asset->href)}}" class="col-xs-10 col-md-6 m-2 assets">
+                                        <span class="asset">
+                                            {{$asset->name}}
+                                        </span>
+                                    </a>
+                                    @if (Gate::allows('admin'))
+                                        <a href="{{url('assets/edit/' . $asset->id)}}" class="options" style="width: 180px">Edit {{$asset->name}} <i class="far fa-edit"></i></a>
+                                    @endif
                                 @endforeach
                             @else
                                 <p>No Assets found.</p>
                             @endif
                         </div>
+                        @if (Gate::allows('admin'))
+                            <a href="{{url('assets/create')}}" class="btn btn-primary" style="width: 180px">Create an Asset.</a>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -10,7 +10,10 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <strong>Warning!</strong><br> If you edit this asset, all the reservations in this asset will be deleted!
+                <strong>Warning!</strong>
+                <br> If you edit the asset, and nothing happened. The Asset already exists.
+                <br>
+                <br> When you edit an asset, the descriptions of bookings from that asset will not update.
             </div>
             <div class="row">
                 <div class="col-md-4 col-md-offset-5" style="margin: 0 auto;">

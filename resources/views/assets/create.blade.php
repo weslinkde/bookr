@@ -8,6 +8,9 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 col-md-offset-5" style="margin: 0 auto;">
+                    @if($error != "")
+                        {{$error}}
+                    @endif
                     <form method="post" action="{{ route('storeAsset') }}">
                         {!! csrf_field() !!}
                         <div class="row">

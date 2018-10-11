@@ -25,11 +25,11 @@ class PagesController extends Controller
      */
     public function dashboard()
     {
-        return view('dashboard.main');
+        return view('assets.choose');
     }
 
     public function assets()
     {
-        return view('dashboard.assets');
+        return view('assets.choose');
     }
 }

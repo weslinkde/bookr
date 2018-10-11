@@ -10,8 +10,13 @@
         /* Modal Header */
         .modal-header {
             padding: 2px 16px;
-            background-color: #5cb85c;
+            background-color: #343A40;
             color: white;
+        }
+
+        .modal-header h2 {
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
         /* Modal Body */
@@ -89,21 +94,11 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-2">
                 <div class="panel panel-default">
-                @if (Gate::allows('admin'))
-                    <!--<a class="nav-link nav-item" href="">Edit this Asset</a>-->
-                    @endif
                     <div class="panel-heading heading"><h1>Creating a reservation</h1></div>
                     <div class="panel-body body">
                         <p>You can create a reservation by dragging in the calendar.</p>
                         <p style="margin-top: -20px;">You can edit it by dragging the reservation. And deleting it by
                             clicking on it.</p>
-                        <div class="refresh">
-                            <button type="button"
-                                    style="margin-bottom: 15px; margin-left: 30px; background-color: deepskyblue; color: white;"
-                                    class="btn btn-default btn-sm" onClick="refresh()">
-                                <span class="glyphicon glyphicon-refresh">Refresh</span>
-                            </button>
-                        </div>
                         <div id='calendar' class="calendar"></div>
                     </div>
                 </div>
@@ -137,7 +132,10 @@
             defaultView: 'agendaWeek',
             nowIndicator: true,
             weekends: false,
+            displayEventTitle : false,
             axisFormat: 'HH:mm',
+            timeFormat: 'HH:mm',
+            height: 618,
             defaultTimedEventDuration: '01:00',
             allDaySlot: false,
             scrollTime: '08:00',
@@ -155,11 +153,13 @@
             eventColor: 'rgb(215,215,215)',
             eventBorderColor: 'rgb(195,195,195)',
             events: {!! $bookings !!},
-            eventRender: function (event, element) {
+            eventRender: function (event, element,) {
+                element.find('.fc-title').empty();
+                element.find('.fc-title').append("{{$assets}}");
                 element.find('.fc-title').append("<br/>" + event.description);
             },
             select: function (start, end) {
-                var title = '{{$asset}}';
+                var title = '{{$href}}';
                 var name = '{{$user->name}}';
                 var description = prompt();
                 console.log(name);
@@ -167,8 +167,8 @@
                     console.log(title + name);
                     var start_time = moment(start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    console.log("{{$asset}}");
-                    var type = '{{$asset}}';
+                    console.log("{{$assets}}");
+                    var type = '{{$href}}';
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -184,11 +184,9 @@
                             end_time: end_time
                         },
                         dataType: "json",
-                        success: function () {
-                            location.reload(false);
-                            console.log("Added Succesfully");
-                        },
                     });
+                    alert("Reservation succesfully created.");
+                    location.reload(false);
                 }
             },
             eventResize: function (event) {
@@ -197,8 +195,8 @@
                 var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                 console.log("start-time", start_time);
                 console.log("end-time", end_time);
-                console.log("{{$asset}}");
-                var url = '{{ url("book/" . $asset ."/edit") }}';
+                console.log("{{$assets}}");
+                var url = '{{ url("book/" . $href ."/edit") }}';
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -206,11 +204,9 @@
                     url: url + '/' + event._id,
                     data: {id: event._id, start_time: start_time, end_time: end_time},
                     type: "PATCH",
-                    success: function () {
-                        location.reload(false);
-                        console.log("Reservation Updated");
-                    }
-                })
+                });
+                alert("Reservation succesfully edited.");
+                location.reload(false);
             },
 
             eventDrop: function (event) {
@@ -227,28 +223,51 @@
                     url: url + '/' + event._id,
                     data: {id: event._id, start_time: start_time, end_time: end_time},
                     type: "PATCH",
-                    success: function () {
-                        location.reload(false);
-                        console.log("Reservation Updated");
-                    }
-                })
+                });
+                alert("Reservation succesfully edited.");
+                location.reload(false);
             },
             eventClick: function (event) {
-                // Get the modal
+
                 var modal = document.getElementById('myModal');
 
-                // Get the <span> element that closes the modal
+                var deleteBook = document.getElementsByClassName("deleteSpan")[0];
+
                 var span = document.getElementsByClassName("close")[0];
 
-                // When the user clicks on the button, open the modal
                 modal.style.display = "block";
+
+                span.onclick = function () {
+                    modal.style.display = "none";
+                };
+
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                };
+
+                deleteBook.onclick = function () {
+                    console.log("{{$assets}}");
+                    console.log(event._id);
+                    var url = '{{ url("book/" . $href ."/delete") }}';
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: url + '/' + event._id,
+                        data: 'id=' + event._id,
+                        type: "DELETE",
+                    });
+                    alert("Reservation succesfully deleted.");
+                    location.reload(false);
+                };
 
                 var beginDate = moment(event.start, 'YYYY-MM-DD').format('YYYY-MM-DD');
                 var endDate = moment(event.end, 'YYYY-MM-DD').format('YYYY-MM-DD');
-                var start_time = moment(event.start, 'HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                var start_time = moment(event.start, 'HH:mm:ss').format('HH:mm:ss');
                 var end_time = moment(event.end, 'HH:mm:ss').format('HH:mm:ss');
-
-                document.getElementById("bookItem").innerText = "Booked: " + event.title;
+                document.getElementById("bookItem").innerText = "Booked: {{$assets}}";
                 document.getElementById("bookName").innerText = "Booked by: " + event.name;
                 document.getElementById("bookDescription").innerText = "Description: " + event.description;
                 if (beginDate == endDate) {
@@ -259,28 +278,14 @@
                 }
                 document.getElementById("bookStart").innerText = "Booked from: " + start_time;
                 document.getElementById("bookEnd").innerText = "Booked until: " + end_time;
-
-
-                // When the user clicks on <span> (x), close the modal
-                span.onclick = function () {
-                    modal.style.display = "none";
-                };
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                };
             }
         });
     </script>
-    <!-- The Modal -->
+    <!-- Modal content -->
     <div id="myModal" class="modal">
-        <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <h2>{{$asset}} reservation.</h2>
+                <h2>Edit reservation: {{$assets}}</h2>
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
@@ -292,33 +297,13 @@
                 <div id="bookStart"></div>
                 <div id="bookEnd"></div>
             </div>
+            <div class="modal-footer">
+                <span class='deleteSpan btn btn-danger' style="width: 25%; margin: 0 auto;">Delete</span>
+            </div>
         </div>
-
     </div>
     <div class="alert alert-success alert-dismissible refreshwarning">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Note:</strong> Be aware that if your reservation doesn't show on the page, that you need to refresh the
-        page.
+        <strong>Note:</strong> If the description is wrong, that means that you have updated the asset.
     </div>
 @endsection
-
-<!-- <script type="text/javascript">
-                function deleteBook(event) {
-                    var id = '{{$bookings->id}}';
-                    console.log("{{$asset}}");
-                    console.log(event._id);
-                    var url = '{{ url("book/" . $asset ."/delete") }}';
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: 'id=' + event._id,
-                        type: "DELETE",
-                        success: function () {
-                            location.reload(false);
-                            console.log("Deleted Succesfully");
-                        }
-                    })
-                }
-            </script> -->

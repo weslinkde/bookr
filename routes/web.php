@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', 'PagesController@home');
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 /*
 |--------------------------------------------------------------------------

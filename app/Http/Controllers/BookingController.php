@@ -16,7 +16,8 @@ class BookingController extends Controller
 
     public function calendar($href)
     {
-        $asset = $href;
+        $asset = Assets::where('href', $href)->first();
+        $assets = $asset->name;
         $user = Auth::user();
         $columns = [
             'id AS id',
@@ -28,7 +29,7 @@ class BookingController extends Controller
         ];
         $allBookings = Bookings::where('type', $href)->get($columns);
         $bookings = $allBookings->toJson();
-        return view('booking.calendar', compact('bookings', 'description', 'assetid', 'user', 'asset'));
+        return view('booking.calendar', compact('bookings', 'href', 'description', 'assetid', 'user', 'assets'));
     }
 
     public function store(Request $request)
