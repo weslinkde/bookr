@@ -2,11 +2,6 @@
 
 @section('content')
     <style>
-        body .fc {
-            overflow: auto;
-            touch-action: manipulation;
-        }
-
         .assets, .options {
             color: black;
             text-decoration: none;
@@ -26,10 +21,11 @@
             display: flex;
             flex-direction: column;
 
-            margin: 5px;
-            line-height: 50px;
-            vertical-align: middle;
 
+            line-height: 50px;
+            margin-bottom: 20px;
+
+            text-align: center;
             border: 1px solid #C3C3C3;
             border-radius: 15px;
             background-color: #E0E0E0;
@@ -46,25 +42,27 @@
                     <div class="choose flex-column">
                         <h1 class="col-12" style="text-align: center; margin-top: 50px; margin-bottom: 40px;">Choose
                             what you want you want to reservate.</h1>
-                        <div class="d-flex flex-sm-column justify-content-center assets" align="center">
+                        <div class="d-flex flex-column justify-content-center assets">
                             @if($assets)
-                                @foreach($assets as $asset)
-                                    <a href="{{url('book/' . $asset->href)}}" class="col-xs-10 col-md-6 m-2 assets">
-                                        <span class="asset">
-                                            {{$asset->name}}
-                                        </span>
-                                    </a>
-                                    @if (Gate::allows('admin'))
-                                        <a href="{{url('assets/edit/' . $asset->id)}}" class="options" style="width: 180px">Edit {{$asset->name}} <i class="far fa-edit"></i></a>
-                                    @endif
+                                @foreach(array_chunk($assets->all(), 3) as $asset)
+                                    <div class="row">
+                                        @foreach($asset as $item)
+                                            <a href="{{url('book/' . $item->href)}}" class="col-xs-10 col-md-4 assets">
+                                                <span class="asset">{{$item->name}}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
                                 @endforeach
                             @else
                                 <p>No Assets found.</p>
                             @endif
+                                @if (Gate::allows('admin'))
+                                    <row style="margin: 0 auto">
+                                        <a href="{{url('assets/create')}}" class="btn btn-primary" style="width: 180px;">Create an Asset.</a>
+                                        <a href="{{url('assets/edit')}}" class="btn btn-primary" style="width: 180px;">Edit an Asset.</a>
+                                    </row>
+                                @endif
                         </div>
-                        @if (Gate::allows('admin'))
-                            <a href="{{url('assets/create')}}" class="btn btn-primary" style="width: 180px">Create an Asset.</a>
-                        @endif
                     </div>
                 </div>
             </div>

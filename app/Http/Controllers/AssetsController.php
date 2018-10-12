@@ -58,6 +58,12 @@ class AssetsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    public function chooseEdit()
+    {
+        $assets = Assets::orderBy('name', 'asc')->get();
+        return view('assets.editlist', compact('assets'));
+    }
+
     public function edit(Request $request)
     {
         $asset_id = $request->route()->parameter('id');
@@ -78,7 +84,7 @@ class AssetsController extends Controller
             $id = $request->route()->parameter('id');
             return redirect('assets/edit/'. $id);
         } else {
-            $title = $request['href'];
+            $title = $request['slug'];
             $asset_id = $request->route()->parameter('id');
             $asset = Assets::find($asset_id);
             $booking = Bookings::where('type', $asset->href)->get();
@@ -88,9 +94,9 @@ class AssetsController extends Controller
                 $book->save();
             }
             $asset->name = $request['name'];
-            $asset->href = $request['href'];
+            $asset->href = $request['slug'];
             $asset->save();
-            return redirect('book');
+            return redirect('assets/edit');
         }
     }
 
@@ -108,6 +114,6 @@ class AssetsController extends Controller
         Bookings::where('type', $type)->delete();
         $asset->delete();
 
-        return redirect('book');
+        return back();
     }
 }

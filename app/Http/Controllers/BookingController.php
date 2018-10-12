@@ -28,8 +28,9 @@ class BookingController extends Controller
             'name AS name'
         ];
         $allBookings = Bookings::where('type', $href)->get($columns);
+        $name = Bookings::where('type', $href)->first();
         $bookings = $allBookings->toJson();
-        return view('booking.calendar', compact('bookings', 'href', 'description', 'assetid', 'user', 'assets'));
+        return view('booking.calendar', compact('bookings', 'name', 'href', 'description', 'assetid', 'user', 'assets'));
     }
 
     public function store(Request $request)
@@ -42,7 +43,6 @@ class BookingController extends Controller
         $booking->start_time = $request['start_time'];
         $booking->end_time = $request['end_time'];
         $booking->save();
-        $request->session()->flash('succes', 'The booking was made succesfully.');
         return view('booking.calendar');
     }
 

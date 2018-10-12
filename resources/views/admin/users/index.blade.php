@@ -7,10 +7,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="btn-toolbar justify-content-between">
-                <a class="btn btn-primary" href="{{ url('admin/users/invite') }}">Invite New User</a>
                 <form method="post" action="/admin/users/search">
                     {!! csrf_field() !!}
-                    <input class="form-control" name="search"  value="{{ request('search') }}" placeholder="Search">
+                    <input class="form-control" name="search"  value="{{ request('search') }}" placeholder="Search...">
                 </form>
             </div>
         </div>

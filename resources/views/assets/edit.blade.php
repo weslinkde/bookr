@@ -11,8 +11,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <strong>Warning!</strong>
-                <br> If you edit the asset, and nothing happened. The Asset already exists.
-                <br>
                 <br> When you edit an asset, the descriptions of bookings from that asset will not update.
             </div>
             <div class="row">
@@ -22,35 +20,42 @@
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
                             <label>Name</label>
-                            {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'For example: Meeting Room']) }}
+                            {{ Form::text('name', $value = $asset->name, ['class' => 'form-control', 'value' => $asset->name]) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
                             <label>Href <br> (No spaces, capital letters and special characters)</label>
-                            {{ Form::text('slug', null, ['class' => 'form-control', 'placeholder' => 'For example: beamer']) }}
+                            {{ Form::text('slug', $value = $asset->href, ['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
-                            <div class="btn-toolbar justify-content-between">
-                                {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
+                            <div class="d-flex">
+                                <div class="p-2">
+                                    {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id]) }}
+                                    @csrf
+                                    {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
+                                    {{ Form::close() }}
+                                </div>
+                                <div class="ml-auto p-2">
+                                    {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
+                                    {{ Form::close() }}
+                                </div>
                             </div>
-                            <a href="{{url('book')}}" style="float: right; margin-top: -32px;">Back</a>
                         </div>
                     </div>
-                    {{ Form::close() }}
                     <div class="row">
-                        <div class="col-md-12 raw-margin-top-24">
-                            {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id]) }}
-                            @csrf
-                            {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
-                            {{ Form::close() }}
+                        <div class="col-md-12">
+                            <div class="d-flex">
+                                <div class="p-2">
+                                    <a href="{{url('book')}}">Back</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 @stop

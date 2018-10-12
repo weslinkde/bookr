@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6" style="margin: 0 auto">
             <form method="POST" action="/admin/users/{{ $user->id }}">
                 <input name="_method" type="hidden" value="PATCH">
                 {!! csrf_field() !!}
@@ -26,9 +26,6 @@
                     @input_maker_label('Name')
                     @input_maker_create('name', ['type' => 'string'], $user)
                 </div>
-
-                @include('user.meta')
-
                 <div class="raw-margin-top-24">
                     @input_maker_label('Role')
                     @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Models\Role', 'label' => 'label', 'value' => 'name'], $user)
@@ -36,8 +33,8 @@
 
                 <div class="raw-margin-top-24">
                     <div class="btn-toolbar justify-content-between">
-                        <button class="btn btn-primary" type="submit">Save</button>
                         <a class="btn btn-secondary" href="/admin/users">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Save</button>
                     </div>
                 </div>
             </form>

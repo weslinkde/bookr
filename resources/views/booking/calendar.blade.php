@@ -133,7 +133,7 @@
             defaultView: 'agendaWeek',
             nowIndicator: true,
             weekends: false,
-            displayEventTitle : false,
+            displayEventTitle: false,
             axisFormat: 'HH:mm',
             timeFormat: 'HH:mm',
             height: 618,
@@ -191,6 +191,7 @@
                 }
             },
             eventResize: function (event) {
+                @if (Gate::allows('admin') || $name->name == $user->name)
                 console.log(event._id);
                 var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                 var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
@@ -206,13 +207,15 @@
                     data: {id: event._id, start_time: start_time, end_time: end_time},
                     type: "PATCH",
                 });
+                alert("Reservation deleted.");
                 location.reload(false);
-                document.getElementById('message').empty();
-                document.getElementById('message').innerText = "Reservation was deleted succesfully";
-
+                @else
+                    location.reload(false);
+                @endif
             },
 
             eventDrop: function (event) {
+                @if (Gate::allows('admin') || $name->name == $user->name)
                 console.log(event._id);
                 var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                 var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
@@ -227,12 +230,14 @@
                     data: {id: event._id, start_time: start_time, end_time: end_time},
                     type: "PATCH",
                 });
+                alert("Reservation deleted.");
                 location.reload(false);
-                document.getElementById('message').empty();
-                document.getElementById('message').innerText = "Reservation was deleted succesfully";
+                @else
+                location.reload(false);
+                @endif
             },
-            eventClick: function (event) {
 
+            eventClick: function (event) {
                 var modal = document.getElementById('myModal');
 
                 var deleteBook = document.getElementsByClassName("deleteSpan")[0];
@@ -251,22 +256,6 @@
                     }
                 };
 
-                deleteBook.onclick = function () {
-                    console.log("{{$assets}}");
-                    console.log(event._id);
-                    var url = '{{ url("book/" . $href ."/delete") }}';
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: 'id=' + event._id,
-                        type: "DELETE",
-                    });
-                    alert("Reservation deleted.");
-                    location.reload(false);
-                };
-
                 var beginDate = moment(event.start, 'YYYY-MM-DD').format('YYYY-MM-DD');
                 var endDate = moment(event.end, 'YYYY-MM-DD').format('YYYY-MM-DD');
                 var start_time = moment(event.start, 'HH:mm:ss').format('HH:mm:ss');
@@ -282,6 +271,22 @@
                 }
                 document.getElementById("bookStart").innerText = "Booked from: " + start_time;
                 document.getElementById("bookEnd").innerText = "Booked until: " + end_time;
+
+                deleteBook.onclick = function () {
+                    console.log("{{$assets}}");
+                    console.log(event._id);
+                    var url = '{{ url("book/" . $href ."/delete") }}';
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: url + '/' + event._id,
+                        data: 'id=' + event._id,
+                        type: "DELETE",
+                    });
+                    alert("Reservation deleted.");
+                    location.reload(false);
+                };
             }
         });
     </script>
@@ -289,7 +294,13 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Edit reservation: {{$assets}}</h2>
+                <h2>
+                    @if (Gate::allows('admin') || $name->name == $user->name)
+                        Edit reservation: {{$assets}}
+                    @else
+                        Reservation: {{$assets}}
+                    @endif
+                </h2>
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
@@ -301,13 +312,16 @@
                 <div id="bookStart"></div>
                 <div id="bookEnd"></div>
             </div>
-            <div class="modal-footer">
-                <span class='deleteSpan btn btn-danger' style="width: 25%; margin: 0 auto;">Delete</span>
-            </div>
+            @if (Gate::allows('admin') || $name->name == $user->name)
+                <div class="modal-footer">
+                    <span class='deleteSpan btn btn-danger' style="width: 25%; margin: 0 auto;"><i class="fa fa-trash"></i> Delete</span>
+                </div>
+            @endif
         </div>
     </div>
     <div class="alert alert-success alert-dismissible refreshwarning">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Note:</strong><div id="message">If the descriptions do not fit the Asset, the Asset has been updated resently.</div>
+        <strong>Note:</strong>
+        <div id="message">If the descriptions do not fit the Asset, the Asset has been updated resently.</div>
     </div>
 @endsection

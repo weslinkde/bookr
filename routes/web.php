@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('book', 'AssetsController@index');
     Route::get('assets/create', 'AssetsController@create');
     Route::post('assets/store', 'AssetsController@store')->name('storeAsset');
+    Route::get('assets/edit', 'AssetsController@chooseEdit');
     Route::get('assets/edit/{id}', 'AssetsController@edit');
     Route::patch('assets/update/{id}', 'AssetsController@update')->name('updateAsset');
     Route::delete('assets/delete/{id}', 'AssetsController@destroy')->name('deleteAsset');
@@ -101,6 +102,7 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => 'BookingController@calendar',
         'as'   => 'href'
     ]);
+    Route::get('book/edit/{id}', 'BookingController@editInfo');
     Route::post('book/{href}/store',[
         'uses' => 'BookingController@store',
         'as'   => 'href'

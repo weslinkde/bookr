@@ -29,6 +29,7 @@
                             <div class="col-md-12 raw-margin-top-24">
                                 <div class="btn-toolbar justify-content-between">
                                     <button class="btn btn-primary" type="submit">Create asset</button>
+                                    <a href="{{url('book')}}">Back</a>
                                 </div>
                             </div>
                         </div>

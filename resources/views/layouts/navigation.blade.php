@@ -8,13 +8,6 @@
         </span>
     </ul>
     <ul class="navbar-nav flex-row px-3">
-        @if(Gate::allows('admin'))
-            <li class="nav-item text-nowrap" style="margin-right: 20px;">
-                @if (Auth::user())
-                    <a class="nav-link" href="settings">Settings</a>
-                @endif
-            </li>
-        @endif
         <li class="nav-item text-nowrap">
             @if (Auth::user())
                 <a class="nav-link" href="/logout">Sign out</a>
