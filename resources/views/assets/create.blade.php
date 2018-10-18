@@ -21,12 +21,6 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 raw-margin-top-24">
-                                <label>slug</label>
-                                <input class="form-control" type="text" name="href" placeholder="slug, like Beamer or Room1." id="href">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 raw-margin-top-24">
                                 <div class="btn-toolbar justify-content-between">
                                     <button class="btn btn-primary" type="submit">Create asset</button>
                                     <a href="{{url('book')}}">Back</a>

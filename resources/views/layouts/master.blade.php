@@ -11,7 +11,7 @@
         <link rel="icon" type="image/ico" href="">
 
         <!-- Local -->
-        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/css/raw.min.css">
         <link rel="stylesheet" type="text/css" href="/css/app.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">

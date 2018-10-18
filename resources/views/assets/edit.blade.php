@@ -25,21 +25,15 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
-                            <label>Href <br> (No spaces, capital letters and special characters)</label>
-                            {{ Form::text('slug', $value = $asset->href, ['class' => 'form-control']) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 raw-margin-top-24">
                             <div class="d-flex">
+                                <div class="ml-auto p-2">
+                                    {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
+                                    {{ Form::close() }}
+                                </div>
                                 <div class="p-2">
                                     {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id]) }}
                                     @csrf
                                     {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
-                                    {{ Form::close() }}
-                                </div>
-                                <div class="ml-auto p-2">
-                                    {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
                                     {{ Form::close() }}
                                 </div>
                             </div>

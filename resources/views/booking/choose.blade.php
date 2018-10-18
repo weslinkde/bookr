@@ -47,7 +47,7 @@
                                 @foreach(array_chunk($assets->all(), 3) as $asset)
                                     <div class="row">
                                         @foreach($asset as $item)
-                                            <a href="{{url('book/' . $item->href)}}" class="col-xs-10 col-md-4 assets">
+                                            <a href="{{url('book/' . $item->id)}}" class="col-xs-10 col-md-4 assets">
                                                 <span class="asset">{{$item->name}}</span>
                                             </a>
                                         @endforeach

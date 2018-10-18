@@ -6111,11 +6111,8 @@ input[type="button"].btn-block {
 .close {
   float: right;
   font-size: 1.35rem;
-  font-weight: 700;
   line-height: 1;
-  color: #000;
-  text-shadow: 0 1px 0 #fff;
-  opacity: .5;
+  color: white;
 }
 
 .close:not(:disabled):not(.disabled) {
@@ -6124,14 +6121,12 @@ input[type="button"].btn-block {
 
 .close:not(:disabled):not(.disabled):hover,
 .close:not(:disabled):not(.disabled):focus {
-  color: #000;
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  opacity: .75;
 }
 
 button.close {
   padding: 0;
-  background-color: transparent;
   border: 0;
   -webkit-appearance: none;
 }
@@ -6254,7 +6249,8 @@ button.close {
 }
 
 .modal-header .close {
-  padding: 1rem;
+  color: white;
+  padding: 1.2rem;
   margin: -1rem -1rem -1rem auto;
 }
 
@@ -10508,6 +10504,7 @@ body {
 
 .footer {
   position: fixed;
+  y-index: 10;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
@@ -10629,7 +10626,6 @@ body {
   .sidebar.toggled {
     margin-left: 0;
   }
-}
 
 @media (max-width: 576px) {
   .sidebar-sticky {

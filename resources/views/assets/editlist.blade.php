@@ -11,16 +11,14 @@
             <table class="table table-striped">
                 <thead>
                 <th>Asset</th>
-                <th>Current slug</th>
                 <th>Number of Bookings</th>
                 <th class="text-right" style="width: 165px">Actions</th>
                 </thead>
                 <tbody>
                 @foreach($assets as $asset)
                     <tr>
-                        <td><a href="{{url('book/' . $asset->href)}}">{{ $asset->name }}</a></td>
-                        <td>{{ $asset->href }}</td>
-                        <td>{{ count(\App\Bookings::where('type', $asset->href)->get()) }}</td>
+                        <td><a href="{{url('book/' . $asset->id)}}">{{ $asset->name }}</a></td>
+                        <td>{{ count(\App\Bookings::where('assetId', $asset->id)->get()) }}</td>
                         <td>
                             <div class="btn-toolbar justify-content-between">
                                 <a class="btn btn-outline-primary btn-sm raw-margin-right-8"

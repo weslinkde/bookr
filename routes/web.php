@@ -98,22 +98,22 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Route::get('book', 'BookingController@index');
-    Route::get('book/{href}',[
+    Route::get('book/{assetId}',[
         'uses' => 'BookingController@calendar',
-        'as'   => 'href'
+        'as'   => 'assetId'
     ]);
     Route::get('book/edit/{id}', 'BookingController@editInfo');
-    Route::post('book/{href}/store',[
+    Route::post('book/{assetId}/store',[
         'uses' => 'BookingController@store',
-        'as'   => 'href'
+        'as'   => 'assetId'
     ])->name('storeBeamer');
-    Route::patch('book/{href}/edit/{id}',[
+    Route::patch('book/{assetId}/edit/{id}',[
         'uses' => 'BookingController@update',
-        'as'   => 'id'
+        'as'   => 'assetId'
     ])->name('editBeamer');
-    Route::delete('book/{href}/delete/{id}',[
+    Route::delete('book/{assetId}/delete/{id}',[
         'uses' => 'BookingController@destroy',
-        'as'   => 'href'
+        'as'   => 'assetId'
     ])->name('deleteBeamer');
 
     /*

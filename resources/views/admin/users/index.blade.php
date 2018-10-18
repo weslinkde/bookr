@@ -11,6 +11,7 @@
                     {!! csrf_field() !!}
                     <input class="form-control" name="search"  value="{{ request('search') }}" placeholder="Search...">
                 </form>
+                <a href="{{url('admin/users/invite')}}"><span class="btn-primary btn">Invite users</span></a>
             </div>
         </div>
     </div>

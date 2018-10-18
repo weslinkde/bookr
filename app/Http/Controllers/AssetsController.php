@@ -40,13 +40,12 @@ class AssetsController extends Controller
      */
     public function store(Request $request)
     {
-        if (Assets::where('name', $request['name'])->orWhere('href', $request['href'])->exists()) {
+        if (Assets::where('name', $request['name'])->exists()) {
             $error = "This Asset or href already exists.";
             return view('assets.create', compact('error'));
         } else {
             $booking = new Assets();
             $booking->name = $request['name'];
-            $booking->href = $request['href'];
             $booking->save();
             return redirect('book');
         }
@@ -80,21 +79,19 @@ class AssetsController extends Controller
      */
     public function update(Request $request)
     {
-        if (Assets::where('name', $request['name'])->orWhere('href', $request['href'])->exists()) {
-            $id = $request->route()->parameter('id');
-            return redirect('assets/edit/'. $id);
+        $asset_id = $request->route()->parameter('id');
+        $asset = Assets::where('id', $asset_id);
+        if (Assets::where('name', $request['name'])->exists()) {
+            return redirect('assets/edit/'. $asset_id);
         } else {
-            $title = $request['slug'];
-            $asset_id = $request->route()->parameter('id');
             $asset = Assets::find($asset_id);
-            $booking = Bookings::where('type', $asset->href)->get();
+            $booking = Bookings::where('id', $asset->id)->get();
+            $title = $asset->name;
             foreach ($booking as $book) {
                 $book->title = $title;
-                $book->type = $title;
                 $book->save();
             }
             $asset->name = $request['name'];
-            $asset->href = $request['slug'];
             $asset->save();
             return redirect('assets/edit');
         }
@@ -110,10 +107,9 @@ class AssetsController extends Controller
     {
         $asset_id = $request->route()->parameter('id');
         $asset = Assets::find($asset_id);
-        $type = $asset->href;
-        Bookings::where('type', $type)->delete();
+        Bookings::where('assetId', $asset_id)->delete();
         $asset->delete();
 
-        return back();
+        return redirect('assets/edit');
     }
 }

@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Bookings;
 use App\Assets;
-use Illuminate\Support\Facades\DB;
-use MaddHatter\LaravelFullcalendar\Facades\Calendar;
-use Dotenv\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class BookingController extends Controller
 {
 
-    public function calendar($href)
+    public function calendar($assetId)
     {
-        $asset = Assets::where('href', $href)->first();
-        $assets = $asset->name;
+        $myAsset = Assets::find($assetId);
+        $assets = $myAsset->name;
         $user = Auth::user();
         $columns = [
             'id AS id',
@@ -25,23 +24,24 @@ class BookingController extends Controller
             'end_time AS end',
             'description AS description',
             'title AS title',
-            'name AS name'
+            'user_id AS user_id',
         ];
-        $allBookings = Bookings::where('type', $href)->get($columns);
-        $name = Bookings::where('type', $href)->first();
+        $book = Bookings::where('assetId', $assetId);
+        $allBookings = $book->get($columns);
         $bookings = $allBookings->toJson();
-        return view('booking.calendar', compact('bookings', 'name', 'href', 'description', 'assetid', 'user', 'assets'));
+        return view('booking.calendar', compact('bookings','name', 'book', 'assetId', 'description', 'assetid', 'user', 'assets'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $assetId)
     {
-        $booking = new Bookings;
-        $booking->name = $request['name'];
-        $booking->title = $request['title'];
-        $booking->description = $request['description'];
-        $booking->type = $request['type'];
-        $booking->start_time = $request['start_time'];
-        $booking->end_time = $request['end_time'];
+        $user = Auth::user();
+            $booking = new Bookings;
+            $booking->user_id = $user->id;
+            $booking->title = $request['title'];
+            $booking->description = $request['description'];
+            $booking->assetId = $assetId;
+            $booking->start_time = $request['start_time'];
+            $booking->end_time = $request['end_time'];
         $booking->save();
         return view('booking.calendar');
     }

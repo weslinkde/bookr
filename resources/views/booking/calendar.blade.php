@@ -95,7 +95,10 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading heading"><h1>Creating a reservation</h1></div>
+                    <div class="panel-heading heading">
+                        <div class="title"><h1>Creating a reservation</h1></div>
+                        <div class="backbtn"><a class="btn btn-primary" href="{{url('book')}}" style="float: right; margin-top: -40px;">Back</a></div>
+                    </div>
                     <div class="panel-body body">
                         <p>You can create a reservation by dragging in the calendar.</p>
                         <p style="margin-top: -20px;">You can edit it by dragging the reservation. And deleting it by
@@ -156,31 +159,25 @@
             events: {!! $bookings !!},
             eventRender: function (event, element,) {
                 element.find('.fc-title').empty();
-                element.find('.fc-title').append("{{$assets}}");
+                element.find('.fc-title').append(event.creator_nicename);
                 element.find('.fc-title').append("<br/>" + event.description);
             },
             select: function (start, end) {
-                var title = '{{$href}}';
-                var name = '{{$user->name}}';
+                var title = '{{$assets}}';
                 var description = prompt();
-                console.log(name);
-                if (title && name && description) {
-                    console.log(title + name);
+                if (title && description) {
                     var start_time = moment(start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     console.log("{{$assets}}");
-                    var type = '{{$href}}';
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{url('book/{href}/store')}}",
+                        url: "{{url('book/' . $assetId . '/store')}}",
                         type: "POST",
                         data: {
                             title: title,
-                            name: name,
                             description: description,
-                            type: type,
                             start_time: start_time,
                             end_time: end_time
                         },
@@ -191,53 +188,89 @@
                 }
             },
             eventResize: function (event) {
-                @if (Gate::allows('admin') || $name->name == $user->name)
-                console.log(event._id);
-                var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                console.log("start-time", start_time);
-                console.log("end-time", end_time);
-                console.log("{{$assets}}");
-                var url = '{{ url("book/" . $href ."/edit") }}';
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: url + '/' + event._id,
-                    data: {id: event._id, start_time: start_time, end_time: end_time},
-                    type: "PATCH",
-                });
-                alert("Reservation deleted.");
-                location.reload(false);
-                @else
+                if (event.user_id == '{{$user->id}}') {
+                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: url + '/' + event._id,
+                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        type: "PATCH",
+                    });
+                    alert("Reservation updated.");
                     location.reload(false);
-                @endif
+                }
+                else if ('{{Gate::allows('admin')}}') {
+                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: url + '/' + event._id,
+                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        type: "PATCH",
+                    });
+                    alert("Reservation updated.");
+                    location.reload(false);
+                }
+                else {
+                    location.reload(false);
+                }
             },
 
             eventDrop: function (event) {
-                @if (Gate::allows('admin') || $name->name == $user->name)
-                console.log(event._id);
-                var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                console.log("start-time", start_time);
-                console.log("end-time", end_time);
-                var url = '{{ url("book/{href}/edit/") }}';
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: url + '/' + event._id,
-                    data: {id: event._id, start_time: start_time, end_time: end_time},
-                    type: "PATCH",
-                });
-                alert("Reservation deleted.");
-                location.reload(false);
-                @else
-                location.reload(false);
-                @endif
+                console.log(event.user_id);
+                if (event.user_id == '{{$user->id}}') {
+                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: url + '/' + event._id,
+                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        type: "PATCH",
+                    });
+                    alert("Reservation updated.");
+                    location.reload(false);
+                }
+                else if ('{{Gate::allows('admin')}}') {
+                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: url + '/' + event._id,
+                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        type: "PATCH",
+                    });
+                    alert("Reservation updated.");
+                    location.reload(false);
+                }
+                else {
+                    location.reload(false);
+                }
             },
 
             eventClick: function (event) {
+                if (event.user_id == '{{$user->id}}') {
+                    document.getElementById("modalfooter").innerHTML = "<span class='deleteSpan btn btn-danger' style=\"width: 40%; margin: 0 auto;\"><i class=\"fa fa-trash\"></i> Delete</span>";
+                }
+                else if ('{{Gate::allows('admin')}}') {
+                    document.getElementById("modalfooter").innerHTML = "<span class='deleteSpan btn btn-danger' style=\"width: 40%; margin: 0 auto;\"><i class=\"fa fa-trash\"></i> Delete</span>";
+                }
+                else {
+                    document.getElementById("modalfooter").innerHTML = null;
+                }
+
                 var modal = document.getElementById('myModal');
 
                 var deleteBook = document.getElementsByClassName("deleteSpan")[0];
@@ -261,7 +294,7 @@
                 var start_time = moment(event.start, 'HH:mm:ss').format('HH:mm:ss');
                 var end_time = moment(event.end, 'HH:mm:ss').format('HH:mm:ss');
                 document.getElementById("bookItem").innerText = "Booked: {{$assets}}";
-                document.getElementById("bookName").innerText = "Booked by: " + event.name;
+                document.getElementById("bookName").innerText = "Booked by: " + event.creator_nicename;
                 document.getElementById("bookDescription").innerText = "Description: " + event.description;
                 if (beginDate == endDate) {
                     document.getElementById("bookDate").innerText = ("Date: " + beginDate);
@@ -273,9 +306,9 @@
                 document.getElementById("bookEnd").innerText = "Booked until: " + end_time;
 
                 deleteBook.onclick = function () {
-                    console.log("{{$assets}}");
-                    console.log(event._id);
-                    var url = '{{ url("book/" . $href ."/delete") }}';
+                    var r = confirm("Are you sure you want to delete this Booking?");
+                    if (r == true)
+                    var url = '{{ url("book/" . $assetId ."/delete") }}';
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -295,11 +328,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>
-                    @if (Gate::allows('admin') || $name->name == $user->name)
-                        Edit reservation: {{$assets}}
-                    @else
-                        Reservation: {{$assets}}
-                    @endif
+                    Reservation: {{$assets}}
                 </h2>
                 <span class="close">&times;</span>
             </div>
@@ -312,11 +341,8 @@
                 <div id="bookStart"></div>
                 <div id="bookEnd"></div>
             </div>
-            @if (Gate::allows('admin') || $name->name == $user->name)
-                <div class="modal-footer">
-                    <span class='deleteSpan btn btn-danger' style="width: 25%; margin: 0 auto;"><i class="fa fa-trash"></i> Delete</span>
-                </div>
-            @endif
+            <div class="modal-footer" id="modalfooter">
+            </div>
         </div>
     </div>
     <div class="alert alert-success alert-dismissible refreshwarning">
