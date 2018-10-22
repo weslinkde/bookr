@@ -149,6 +149,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('roles/search', 'RoleController@search');
         Route::get('roles/search', 'RoleController@index');
     });
+
 });
 
 /*

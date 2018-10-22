@@ -97,7 +97,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading heading">
                         <div class="title"><h1>Creating a reservation</h1></div>
-                        <div class="backbtn"><a class="btn btn-primary" href="{{url('book')}}" style="float: right; margin-top: -40px;">Back</a></div>
+                        <div class="backbtn"><a class="btn btn-primary" href="{{url('book')}}"
+                                                style="float: right; margin-top: -40px;">Back</a></div>
                     </div>
                     <div class="panel-body body">
                         <p>You can create a reservation by dragging in the calendar.</p>
@@ -110,10 +111,6 @@
         </div>
     </div>
     <script type="text/javascript">
-        function refresh() {
-            location.reload(true);
-        }
-
         var calendar = $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -162,29 +159,33 @@
                 element.find('.fc-title').append(event.creator_nicename);
                 element.find('.fc-title').append("<br/>" + event.description);
             },
-            select: function (start, end) {
-                var title = '{{$assets}}';
+            select: function (start, end, jsEvent, view) {
+                var title = "{{$assets}}";
                 var description = prompt();
+
                 if (title && description) {
                     var start_time = moment(start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    console.log("{{$assets}}");
+                    var event = {
+                        title: title,
+                        description: description,
+                        start: start_time,
+                        end: end_time
+                    };
+                    console.log(event);
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{url('book/' . $assetId . '/store')}}",
+                        url: "{{url('book/' . $assetId . '/store')}}", //placeholder URL for test
                         type: "POST",
-                        data: {
-                            title: title,
-                            description: description,
-                            start_time: start_time,
-                            end_time: end_time
-                        },
-                        dataType: "json",
+                        data: event,
+                        success: function(event) {
+                            console.log(event);
+                            calendar.fullCalendar('renderEvent', JSON.parse(event));
+                            calendar.fullCalendar('rerenderEvents');
+                        }
                     });
-                    alert("Reservation created.");
-                    location.reload(false);
                 }
             },
             eventResize: function (event) {
@@ -192,34 +193,51 @@
                     var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    var eventData = {
+                        id: event._id,
+                        title: event.title,
+                        start_time: start_time,
+                        end_time: end_time,
+                    };
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: url + '/' + event._id,
-                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        data: eventData,
                         type: "PATCH",
+                        success: function (eventData) {
+                            console.log(eventData);
+                            calendar.fullCalendar('rerenderEvents');
+                        }
                     });
-                    alert("Reservation updated.");
-                    location.reload(false);
                 }
+
                 else if ('{{Gate::allows('admin')}}') {
                     var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    var eventData = {
+                        id: event._id,
+                        title: event.title,
+                        start_time: start_time,
+                        end_time: end_time,
+                    };
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: url + '/' + event._id,
-                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        data: eventData,
                         type: "PATCH",
+                        success: function (eventData) {
+                            console.log(eventData);
+                            calendar.fullCalendar('rerenderEvents');
+                        }
                     });
-                    alert("Reservation updated.");
-                    location.reload(false);
                 }
                 else {
-                    location.reload(false);
+                    calendar.fullCalendar('rerenderEvents');
                 }
             },
 
@@ -229,34 +247,52 @@
                     var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    var eventData = {
+                        id: event._id,
+                        title: event.title,
+                        start_time: start_time,
+                        end_time: end_time,
+                    };
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: url + '/' + event._id,
-                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        data: eventData,
                         type: "PATCH",
+                        success: function (eventData) {
+                            console.log(eventData);
+                            calendar.fullCalendar('rerenderEvents');
+                        }
                     });
-                    alert("Reservation updated.");
-                    location.reload(false);
+                    calendar.fullCalendar('rerenderEvents');
                 }
                 else if ('{{Gate::allows('admin')}}') {
                     var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var url = '{{ url("book/" . $assetId ."/edit") }}';
+                    var eventData = {
+                        id: event._id,
+                        title: event.title,
+                        start_time: start_time,
+                        end_time: end_time,
+                    };
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         url: url + '/' + event._id,
-                        data: {id: event._id, start_time: start_time, end_time: end_time},
+                        data: eventData,
                         type: "PATCH",
+                        success: function (eventData) {
+                            console.log(eventData);
+                            calendar.fullCalendar('rerenderEvents');
+                        }
                     });
-                    alert("Reservation updated.");
-                    location.reload(false);
+                    calendar.fullCalendar('rerenderEvents');
                 }
                 else {
-                    location.reload(false);
+                    calendar.fullCalendar('rerenderEvents');
                 }
             },
 
@@ -307,20 +343,26 @@
 
                 deleteBook.onclick = function () {
                     var r = confirm("Are you sure you want to delete this Booking?");
-                    if (r == true)
-                    var url = '{{ url("book/" . $assetId ."/delete") }}';
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: 'id=' + event._id,
-                        type: "DELETE",
-                    });
-                    alert("Reservation deleted.");
-                    location.reload(false);
+                    if (r == true) {
+                        modal.style.display = "none";
+                        var url = '{{ url("book/" . $assetId ."/delete") }}';
+                        var eventData = {
+                            id: event._id,
+                            title: event.title,
+                        };
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: url + '/' + event._id,
+                            data: eventData,
+                            type: "DELETE",
+                        });
+                        calendar.fullCalendar('removeEvents', [event._id] );
+                        calendar.fullCalendar('rerenderEvents');
+                    }
                 };
-            }
+            },
         });
     </script>
     <!-- Modal content -->
@@ -344,10 +386,5 @@
             <div class="modal-footer" id="modalfooter">
             </div>
         </div>
-    </div>
-    <div class="alert alert-success alert-dismissible refreshwarning">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Note:</strong>
-        <div id="message">If the descriptions do not fit the Asset, the Asset has been updated resently.</div>
     </div>
 @endsection

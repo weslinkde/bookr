@@ -11,7 +11,6 @@
                     {!! csrf_field() !!}
                     <input class="form-control" name="search"  value="{{ request('search') }}" placeholder="Search...">
                 </form>
-                <a href="{{url('admin/users/invite')}}"><span class="btn-primary btn">Invite users</span></a>
             </div>
         </div>
     </div>
@@ -28,7 +27,7 @@
                     <thead>
                         <th>Email</th>
                         <th>Name</th>
-                        <th>Email verified</th>
+                        <th>Role</th>
                         <th>Member since</th>
                         <th class="text-right" width="165px">Actions</th>
                     </thead>
@@ -39,10 +38,10 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>
-                                        @if($user->email_verified_at == null)
-                                            No
+                                        @if ($user->roles->first()->name === "admin")
+                                            Admin
                                         @else
-                                            yes
+                                            Member
                                         @endif
                                     </td>
                                     <td>{{ $user->created_at }}</td>

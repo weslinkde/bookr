@@ -6,6 +6,7 @@ use function GuzzleHttp\Psr7\uri_for;
 use Illuminate\Http\Request;
 use App\Assets;
 use App\Bookings;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 
 class AssetsController extends Controller
@@ -17,6 +18,7 @@ class AssetsController extends Controller
      */
     public function index()
     {
+        echo Auth::user();
         $assets = Assets::orderBy('name', 'asc')->get();
         return view('booking.choose', compact('assets'));
     }

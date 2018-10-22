@@ -12,38 +12,49 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+    private $columns = [
+        'id AS id',
+        'start_time AS start',
+        'end_time AS end',
+        'description AS description',
+        'title AS title',
+        'user_id AS user_id',
+    ];
 
     public function calendar($assetId)
     {
         $myAsset = Assets::find($assetId);
         $assets = $myAsset->name;
         $user = Auth::user();
-        $columns = [
-            'id AS id',
-            'start_time AS start',
-            'end_time AS end',
-            'description AS description',
-            'title AS title',
-            'user_id AS user_id',
-        ];
         $book = Bookings::where('assetId', $assetId);
-        $allBookings = $book->get($columns);
+        $allBookings = $book->get($this->columns);
         $bookings = $allBookings->toJson();
-        return view('booking.calendar', compact('bookings','name', 'book', 'assetId', 'description', 'assetid', 'user', 'assets'));
+        return view('booking.calendar', compact('bookings', 'name', 'book', 'assetId', 'description', 'assetid', 'user', 'assets'));
     }
 
     public function store(Request $request, $assetId)
     {
         $user = Auth::user();
-            $booking = new Bookings;
-            $booking->user_id = $user->id;
-            $booking->title = $request['title'];
-            $booking->description = $request['description'];
-            $booking->assetId = $assetId;
-            $booking->start_time = $request['start_time'];
-            $booking->end_time = $request['end_time'];
+        $booking = new Bookings;
+        $booking->user_id = $user->id;
+        $booking->title = $request['title'];
+        $booking->description = $request['description'];
+        $booking->assetId = $assetId;
+        $booking->start_time = $request['start'];
+        $booking->end_time = $request['end'];
         $booking->save();
-        return view('booking.calendar');
+        $creator = User::find($booking->user_id);
+        $lb = [
+            'id' => $booking->id,
+            'title' => $booking->title,
+            'start' => $booking->start_time,
+            'end' => $booking->end_time,
+            'description' => $booking->description,
+            'user_id' => $booking->user_id,
+            'creator_nicename' => $creator->name,
+        ];
+
+        return json_encode($lb);
     }
 
     public function update(Request $request)
@@ -53,7 +64,14 @@ class BookingController extends Controller
         $booking->start_time = $request['start_time'];
         $booking->end_time = $request['end_time'];
         $booking->save();
-        return view('booking.calendar');
+        $lb = [
+            'id' => $booking_id,
+            'title' => $booking->title,
+            'start' => $booking->start_time,
+            'end' => $booking->end_time,
+        ];
+
+        return json_encode($lb);
     }
 
     public function destroy(Request $request)
@@ -61,7 +79,5 @@ class BookingController extends Controller
         $booking_id = $request->route()->parameter('id');
         $booking = Bookings::find($booking_id);
         $booking->delete();
-
-        return view('booking.calendar');
     }
 }

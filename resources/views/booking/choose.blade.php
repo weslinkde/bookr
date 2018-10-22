@@ -44,6 +44,7 @@
                             what you want you want to reservate.</h1>
                         <div class="d-flex flex-column justify-content-center assets">
                             @if($assets)
+
                                 @foreach(array_chunk($assets->all(), 3) as $asset)
                                     <div class="row">
                                         @foreach($asset as $item)

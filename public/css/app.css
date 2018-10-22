@@ -10504,7 +10504,7 @@ body {
 
 .footer {
   position: fixed;
-  y-index: 10;
+  z-index: 10;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
