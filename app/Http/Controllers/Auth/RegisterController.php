@@ -71,8 +71,6 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
-                'api_token' => bin2hex(openssl_random_pseudo_bytes(30))
-
             ]);
 
             return $this->service->create($user, $data['password']);

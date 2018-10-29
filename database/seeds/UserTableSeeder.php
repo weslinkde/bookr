@@ -20,7 +20,6 @@ class UserTableSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@example.com',
                 'password' => bcrypt('admin'),
-                'api_token' => bin2hex(openssl_random_pseudo_bytes(30)),
             ]);
 
             $service->create($user, 'admin', 'admin', false);

@@ -5693,6 +5693,7 @@ input[type="button"].btn-block {
   right: 0;
   padding: 0.75rem 1.25rem;
   color: inherit;
+  background-color: inherit;
 }
 
 .alert-primary {
@@ -5769,6 +5770,11 @@ input[type="button"].btn-block {
   color: #721c24;
   background-color: #f8d7da;
   border-color: #f5c6cb;
+  padding-bottom: 0;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
 }
 
 .alert-danger hr {
@@ -6112,7 +6118,6 @@ input[type="button"].btn-block {
   float: right;
   font-size: 1.35rem;
   line-height: 1;
-  color: white;
 }
 
 .close:not(:disabled):not(.disabled) {
@@ -6121,7 +6126,6 @@ input[type="button"].btn-block {
 
 .close:not(:disabled):not(.disabled):hover,
 .close:not(:disabled):not(.disabled):focus {
-  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
 }
 
@@ -6129,6 +6133,10 @@ button.close {
   padding: 0;
   border: 0;
   -webkit-appearance: none;
+}
+
+button.close:hover {
+  opacity: 0.6;
 }
 
 .modal-open {
@@ -6249,7 +6257,6 @@ button.close {
 }
 
 .modal-header .close {
-  color: white;
   padding: 1.2rem;
   margin: -1rem -1rem -1rem auto;
 }

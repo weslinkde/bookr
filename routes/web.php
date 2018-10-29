@@ -115,6 +115,10 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => 'BookingController@destroy',
         'as'   => 'assetId'
     ])->name('deleteBeamer');
+    Route::delete('book/{assetId}/delete',[
+        'uses' => 'BookingController@destroyAll',
+        'as'   => 'assetId'
+    ])->name('deleteAll');
 
     /*
     |--------------------------------------------------------------------------

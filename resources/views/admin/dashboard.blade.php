@@ -77,6 +77,14 @@
                     <td>Roles</td>
                     <td class="text-right">{{ app(App\Models\Role::class)->count() }}</td>
                 </tr>
+                <tr>
+                    <td>assets</td>
+                    <td class="text-right">{{ app(App\Assets::class)->count() }}</td>
+                </tr>
+                <tr>
+                    <td>Bookings</td>
+                    <td class="text-right">{{ app(App\Bookings::class)->count() }}</td>
+                </tr>
             </table>
         </div>
     </div>

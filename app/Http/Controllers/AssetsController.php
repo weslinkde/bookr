@@ -18,7 +18,6 @@ class AssetsController extends Controller
      */
     public function index()
     {
-        echo Auth::user();
         $assets = Assets::orderBy('name', 'asc')->get();
         return view('booking.choose', compact('assets'));
     }
@@ -30,8 +29,7 @@ class AssetsController extends Controller
      */
     public function create()
     {
-        $error = "";
-        return view('assets.create', compact('error'));
+        return view('assets.create');
     }
 
     /**
@@ -43,13 +41,12 @@ class AssetsController extends Controller
     public function store(Request $request)
     {
         if (Assets::where('name', $request['name'])->exists()) {
-            $error = "This Asset or href already exists.";
-            return view('assets.create', compact('error'));
+            return redirect('assets/create')->withErrors('This Asset already exists');
         } else {
             $booking = new Assets();
             $booking->name = $request['name'];
             $booking->save();
-            return redirect('book');
+            return redirect('book')->with('message', 'Succesfully created ' . $booking->name);
         }
     }
 
@@ -84,7 +81,7 @@ class AssetsController extends Controller
         $asset_id = $request->route()->parameter('id');
         $asset = Assets::where('id', $asset_id);
         if (Assets::where('name', $request['name'])->exists()) {
-            return redirect('assets/edit/'. $asset_id);
+            return redirect('assets/edit/'. $asset_id)->withErrors('This Asset could not be updated, This Asset already exists');
         } else {
             $asset = Assets::find($asset_id);
             $booking = Bookings::where('id', $asset->id)->get();
@@ -95,7 +92,7 @@ class AssetsController extends Controller
             }
             $asset->name = $request['name'];
             $asset->save();
-            return redirect('assets/edit');
+            return redirect('assets/edit')->with('message', 'Succesfully updated ' . $asset->name);
         }
     }
 
@@ -112,6 +109,6 @@ class AssetsController extends Controller
         Bookings::where('assetId', $asset_id)->delete();
         $asset->delete();
 
-        return redirect('assets/edit');
+        return redirect('assets/edit')->with('message', 'Succesfully deleted ' . $asset->name);
     }
 }

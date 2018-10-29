@@ -80,4 +80,13 @@ class BookingController extends Controller
         $booking = Bookings::find($booking_id);
         $booking->delete();
     }
+
+    public function destroyAll(Request $request)
+    {
+        $asset_id = $request->route()->parameter('assetId');
+        $bookings = Bookings::where('assetId', $asset_id);
+        $bookingId = $bookings->get();
+        $bookings->delete();
+        return redirect('assets/edit')->with('message', count($bookingId) .' bookings have been deleted from this Asset');
+    }
 }

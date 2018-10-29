@@ -148,11 +148,11 @@
             eventOverlap: function (stillEvent, movingEvent) {
                 return false;
             },
-            editable: true,
             selectable: true,
             selectHelper: true,
             eventColor: 'rgb(215,215,215)',
             eventBorderColor: 'rgb(195,195,195)',
+            editable: true,
             events: {!! $bookings !!},
             eventRender: function (event, element,) {
                 element.find('.fc-title').empty();
@@ -162,7 +162,6 @@
             select: function (start, end, jsEvent, view) {
                 var title = "{{$assets}}";
                 var description = prompt();
-
                 if (title && description) {
                     var start_time = moment(start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
@@ -172,7 +171,6 @@
                         start: start_time,
                         end: end_time
                     };
-                    console.log(event);
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -180,8 +178,7 @@
                         url: "{{url('book/' . $assetId . '/store')}}", //placeholder URL for test
                         type: "POST",
                         data: event,
-                        success: function(event) {
-                            console.log(event);
+                        success: function (event) {
                             calendar.fullCalendar('renderEvent', JSON.parse(event));
                             calendar.fullCalendar('rerenderEvents');
                         }
@@ -207,7 +204,6 @@
                         data: eventData,
                         type: "PATCH",
                         success: function (eventData) {
-                            console.log(eventData);
                             calendar.fullCalendar('rerenderEvents');
                         }
                     });
@@ -231,18 +227,15 @@
                         data: eventData,
                         type: "PATCH",
                         success: function (eventData) {
-                            console.log(eventData);
                             calendar.fullCalendar('rerenderEvents');
                         }
                     });
                 }
                 else {
-                    calendar.fullCalendar('rerenderEvents');
+                    location.reload(false);
                 }
             },
-
             eventDrop: function (event) {
-                console.log(event.user_id);
                 if (event.user_id == '{{$user->id}}') {
                     var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
@@ -261,7 +254,6 @@
                         data: eventData,
                         type: "PATCH",
                         success: function (eventData) {
-                            console.log(eventData);
                             calendar.fullCalendar('rerenderEvents');
                         }
                     });
@@ -285,14 +277,13 @@
                         data: eventData,
                         type: "PATCH",
                         success: function (eventData) {
-                            console.log(eventData);
                             calendar.fullCalendar('rerenderEvents');
                         }
                     });
                     calendar.fullCalendar('rerenderEvents');
                 }
                 else {
-                    calendar.fullCalendar('rerenderEvents');
+                    location.reload(false);
                 }
             },
 
@@ -358,7 +349,7 @@
                             data: eventData,
                             type: "DELETE",
                         });
-                        calendar.fullCalendar('removeEvents', [event._id] );
+                        calendar.fullCalendar('removeEvents', [event._id]);
                         calendar.fullCalendar('rerenderEvents');
                     }
                 };
@@ -372,7 +363,7 @@
                 <h2>
                     Reservation: {{$assets}}
                 </h2>
-                <span class="close">&times;</span>
+                <span class="close" style="color: white;">&times;</span>
             </div>
             <div class="modal-body">
                 <div id="bookItem"></div>

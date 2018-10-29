@@ -30,8 +30,20 @@
                                     {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
                                     {{ Form::close() }}
                                 </div>
+                                <script>
+
+                                    function ConfirmDelete()
+                                    {
+                                        var x = confirm("Are you sure you want to delete this Asset?");
+                                        if (x)
+                                            return true;
+                                        else
+                                            return false;
+                                    }
+
+                                </script>
                                 <div class="p-2">
-                                    {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id]) }}
+                                    {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id, 'onsubmit' => 'ConfirmDelete()']) }}
                                     @csrf
                                     {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
                                     {{ Form::close() }}
@@ -42,7 +54,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="d-flex">
-                                <div class="p-2">
+                                <div class="p-2" style="margin-top: -45px;">
                                     <a href="{{url('book')}}">Back</a>
                                 </div>
                             </div>
