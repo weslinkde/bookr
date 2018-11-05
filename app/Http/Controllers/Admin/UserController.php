@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Bookings;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Services\UserService;
@@ -134,6 +135,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        Bookings::where('user_id', $id)->delete();
         $result = $this->service->destroy($id);
 
         if ($result) {

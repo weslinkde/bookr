@@ -206,8 +206,6 @@ class UserService
                     $payload['meta']['terms_and_cond'] = 0;
                 }
 
-                $userMetaResult = (isset($payload['meta'])) ? $user->meta->update($payload['meta']) : true;
-
                 $user->update($payload);
 
                 if (isset($payload['roles'])) {
@@ -253,7 +251,6 @@ class UserService
         try {
             return DB::transaction(function () use ($id) {
                 $this->unassignAllRoles($id);
-                $this->leaveAllTeams($id);
 
                 $userMetaResult = $this->userMeta->where('user_id', $id)->delete();
                 $userResult = $this->model->find($id)->delete();
@@ -261,7 +258,7 @@ class UserService
                 return ($userMetaResult && $userResult);
             });
         } catch (Exception $e) {
-            throw new Exception("We were unable to delete this profile", 1);
+            throw new Exception("We were unable to delete this profile" . $e, 1);
         }
     }
 

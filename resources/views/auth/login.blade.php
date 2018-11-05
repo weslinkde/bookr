@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('app-content')
-
     <div class="form-small">
 
         <h2 class="text-center">Please sign in</h2>
@@ -11,7 +10,8 @@
             <div class="row">
                 <div class="col-md-12 raw-margin-top-24">
                     <label>Email</label>
-                    <input class="form-control" type="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                    <input class="form-control" type="email" name="email" placeholder="Email"
+                           value="{{ old('email') }}">
                 </div>
             </div>
             <div class="row">
@@ -41,8 +41,14 @@
                 </div>
             </div>
         </form>
-
+        <div class="row">
+            <div class="col-md-12 raw-margin-top-24">
+                <a href="{{url('/redirect')}}">
+                    <button type="button" class="btn btn-danger"><i class="fab fa-google-plus-g"></i> Login with Google +
+                    </button>
+                </a>
+            </div>
+        </div>
     </div>
-
 @stop
 
