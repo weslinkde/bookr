@@ -3,12 +3,12 @@
 @section('app-content')
     <div class="form-small">
 
-        <h2 class="text-center">Please sign in</h2>
+        <h2 class="text-center" style="margin-top: -8px;">Please sign in</h2>
 
         <form method="POST" action="/login">
             {!! csrf_field() !!}
             <div class="row">
-                <div class="col-md-12 raw-margin-top-24">
+                <div class="col-md-12 raw-margin-top-16">
                     <label>Email</label>
                     <input class="form-control" type="email" name="email" placeholder="Email"
                            value="{{ old('email') }}">

@@ -36,9 +36,9 @@
                 </div>
 
                 <div class="raw-margin-top-24">
-                    <div class="btn-toolbar justify-content-between">
-                        <button class="btn btn-primary" type="submit">Save</button>
-                        <a class="btn btn-secondary" href="/admin/roles">Cancel</a>
+                    <div class="btn-toolbar">
+                        <a class="btn btn-secondary raw-margin-right-12" href="/admin/roles">Cancel</a>
+                        <button class="btn btn-primary raw-margin-left: 12" type="submit">Edit</button>
                     </div>
                 </div>
             </form>

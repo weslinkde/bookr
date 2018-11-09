@@ -61,16 +61,29 @@ class BookingController extends Controller
     {
         $booking_id = $request->route()->parameter('id');
         $booking = Bookings::find($booking_id);
+        $booking->description = $request['description'];
         $booking->start_time = $request['start_time'];
         $booking->end_time = $request['end_time'];
         $booking->save();
         $lb = [
             'id' => $booking_id,
-            'title' => $booking->title,
+            'description' => $booking->description,
             'start' => $booking->start_time,
             'end' => $booking->end_time,
         ];
+        return json_encode($lb);
+    }
 
+    public function updateDescription(Request $request)
+    {
+        $booking_id = $request->route()->parameter('id');
+        $booking = Bookings::find($booking_id);
+        $booking->description = $request['description'];
+        $booking->save();
+        $lb = [
+            'id' => $booking_id,
+            'description' => $booking->description,
+        ];
         return json_encode($lb);
     }
 

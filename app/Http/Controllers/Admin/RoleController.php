@@ -91,7 +91,7 @@ class RoleController extends Controller
         $result = $this->service->update($id, $request->except(['_token', '_method']));
 
         if ($result) {
-            return back()->with('message', 'Successfully updated');
+            return redirect('admin/roles')->with('message', 'Successfully updated');
         }
 
         return back()->with('error', 'Failed to update');

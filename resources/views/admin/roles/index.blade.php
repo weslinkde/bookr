@@ -7,11 +7,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="btn-toolbar justify-content-between">
-                <a class="btn btn-primary" href="{{ url('admin/roles/create') }}">Create Role</a>
-                <form id="" class="raw-margin-left-24" method="post" action="/admin/roles/search">
+                <form id="" method="post" action="/admin/roles/search">
                     {!! csrf_field() !!}
                     <input class="form-control" name="search"  value="{{ request('search') }}" placeholder="Search">
                 </form>
+                <a class="btn btn-primary" href="{{ url('admin/roles/create') }}">Create Role</a>
             </div>
         </div>
     </div>

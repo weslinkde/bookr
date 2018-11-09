@@ -17,7 +17,7 @@ class CreateBookingTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('title', 100);
-            $table->string('description', 100);
+            $table->string('description', 100)->nullable();
             $table->integer('assetId');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
