@@ -8785,6 +8785,7 @@ button.bg-dark:focus {
 }
 
 .p-2 {
+  padding: 0.5rem !important;
 }
 
 .pt-2,
@@ -8808,6 +8809,7 @@ button.bg-dark:focus {
 }
 
 .p-3 {
+  padding: 1rem !important;
 }
 
 .pt-3,

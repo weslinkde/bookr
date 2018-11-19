@@ -111,7 +111,6 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => 'BookingController@store',
         'as'   => 'assetId'
     ])->name('storeBeamer');
-    //time
     Route::patch('book/{assetId}/edit/{id}',[
         'uses' => 'BookingController@update',
         'as'   => 'assetId'
