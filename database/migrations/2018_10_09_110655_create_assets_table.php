@@ -15,6 +15,7 @@ class CreateAssetsTable extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('calendar_id');
             $table->string('name', 20);
             $table->timestamps();
         });

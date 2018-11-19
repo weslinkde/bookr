@@ -92,13 +92,16 @@ Route::group(['middleware' => ['auth']], function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('book', 'AssetsController@index');
-    Route::get('assets/create', 'AssetsController@create');
-    Route::post('assets/store', 'AssetsController@store')->name('storeAsset');
-    Route::get('assets/edit', 'AssetsController@chooseEdit');
-    Route::get('assets/edit/{id}', 'AssetsController@edit');
-    Route::patch('assets/update/{id}', 'AssetsController@update')->name('updateAsset');
-    Route::delete('assets/delete/{id}', 'AssetsController@destroy')->name('deleteAsset');
+    Route::get('calendar/create',                                   'CalendarController@create');
+    Route::post('calendar/store',                                   'CalendarController@store');
+
+    Route::get('book',                                              'AssetsController@index');
+    Route::get('calendar/{calendar_id}/asset/create',               'AssetsController@create');
+    Route::post('calendar/{calendar_id}/asset/store',               'AssetsController@store')->name('storeAsset');
+    Route::get('calendar/{calendar_id}/asset/edit',                 'AssetsController@chooseEdit');
+    Route::get('calendar/{calendar_id}/asset/{asset_id}/edit',      'AssetsController@edit');
+    Route::patch('calendar/{calendar_id}/asset/{asset_id}/update',  'AssetsController@update')->name('updateAsset');
+    Route::delete('calendar/{calendar_id}/asset/{asset_id}/delete', 'AssetsController@destroy')->name('deleteAsset');
 
 
     //Route::get('book', 'BookingController@index');
@@ -123,6 +126,13 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => 'BookingController@destroyAll',
         'as'   => 'assetId'
     ])->name('deleteAll');
+
+
+    Route::get('team/{name}', 'TeamController@showByName');
+    Route::resource('teams', 'TeamController', ['except' => ['show']]);
+    Route::post('teams/search', 'TeamController@search');
+    Route::post('teams/{id}/invite', 'TeamController@inviteMember');
+    Route::get('teams/{id}/remove/{userId}', 'TeamController@removeMember');
 
     /*
     |--------------------------------------------------------------------------

@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Assets extends Model
+class Calendars extends Model
 {
-    protected $table = 'assets';
+    protected $table = 'calendars';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'calendar_id','name',
+        'team_id','name',
     ];
 }

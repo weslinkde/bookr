@@ -11,51 +11,64 @@
             color: black;
             text-decoration: none;
         }
-
-        .asset {
-            display: flex;
-            flex-direction: column;
-
-
-            line-height: 50px;
-            margin-bottom: 20px;
-
-            text-align: center;
-            border: 1px solid #C3C3C3;
-            background-color: #E0E0E0;
-        }
-
-        .asset:hover {
-            background-color: #e8e8e8;
-        }
     </style>
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-md-offset-2">
+            <div class="col-md-4 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="choose flex-column">
-                        <h1 class="col-12" style="font-size: 28px; text-align: center; margin-top: 50px; margin-bottom: 40px;">Choose
-                            what you want you want to reservate.</h1>
                         <div class="d-flex flex-column justify-content-center assets">
-                            @if(count($assets) > 0)
-                                @foreach(array_chunk($assets->all(), 3) as $asset)
-                                    <div class="row">
-                                        @foreach($asset as $item)
-                                            <a href="{{url('book/' . $item->id)}}" class="col-xs-10 col-md-4 assets">
-                                                <span class="asset">{{$item->name}}</span>
-                                            </a>
-                                        @endforeach
-                                    </div>
+                            <div class="card">
+                                <div class="card-header mb-0">Team</div>
+                                <div class="card-body">
+                                    <ul>
+                                        <li>
+                                            Member1
+                                        </li>
+                                        <li>
+                                            Member2
+                                        </li>
+                                        <li>
+                                            Member3
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="choose flex-column">
+                        <div class="d-flex flex-column justify-content-center assets">
+                            <div id="accordion">
+                                @foreach($calendars as $calendar)
+                                    @if ($user->isTeamMember($calendar->id) || Gate::allows('admin'))
+                                        <div class="card">
+                                            <div class="card-header" id="heading{{$calendar->id}}">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$calendar->id}}" aria-expanded="true" aria-controls="collapse{{$calendar->id}}">
+                                                        {{$calendar->name}}
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapse{{$calendar->id}}" class="collapse show" aria-labelledby="heading{{$calendar->id}}" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    @if(count($assets) > 0)
+                                                        @foreach($assets as $asset)
+                                                            <a href="{{url('book/'.$asset->id)}}">{{$asset->name}}</a>
+                                                        @endforeach
+                                                    @else
+                                                        <p>No Assets were found for in this Calendar</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 @endforeach
-                            @else
-                                <p style="margin: 0 auto; font-size: 20px;">No Assets were found.</p>
-                            @endif
-                                @if (Gate::allows('admin'))
-                                    <row style="margin: 30px auto">
-                                        <a href="{{url('assets/create')}}" class="btn btn-primary" style="width: 155px;">Create an Asset.</a>
-                                        <a href="{{url('assets/edit')}}" class="btn btn-primary" style="width: 155px;">Edit an Asset.</a>
-                                    </row>
-                                @endif
+                            </div>
+                            <a href="{{url('calendar/create')}}">Create a new calendar</a>
                         </div>
                     </div>
                 </div>
