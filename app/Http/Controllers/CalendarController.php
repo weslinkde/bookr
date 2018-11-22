@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Calendars;
+use App\Services\TeamService;
 use function GuzzleHttp\Psr7\uri_for;
 use Illuminate\Http\Request;
 use App\Assets;
 use App\Bookings;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CalendarController extends Controller
 {
+    public function __construct(TeamService $teamService)
+    {
+        $this->service = $teamService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +37,9 @@ class CalendarController extends Controller
      */
     public function create(Request $request)
     {
-        return view('calendar.create');
+        $user = Auth::user();
+        $teams = $this->service->all($user->id);
+        return view('calendar.create', compact('teams', 'user'));
     }
 
     /**
@@ -42,11 +50,11 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        if (Calendars::where('name', $request['name'])->exists()) {
-            return redirect('calendar/create')->withErrors('This Asset already exists');
+        if (Calendars::where('name', $request['name'])->where('team_id', $request['team_id'])->exists()) {
+            return redirect('book')->withErrors('This Asset already exists');
         } else {
             $booking = new Calendars();
-            $booking->team_id = $request['team'];
+            $booking->team_id = $request['team_id'];
             $booking->name = $request['name'];
             $booking->save();
             return redirect('book')->with('message', 'Succesfully created ' . $booking->name);
@@ -67,9 +75,9 @@ class CalendarController extends Controller
 
     public function edit(Request $request)
     {
-        $asset_id = $request->route()->parameter('id');
-        $asset = Assets::find($asset_id);
-        return view('assets.edit', compact('asset'));
+        $calendar_id = $request->route()->parameter('calendar_id');
+        $calendar = Calendars::find($calendar_id);
+        return view('calendar.edit', compact('calendar'));
     }
 
     /**
@@ -81,21 +89,15 @@ class CalendarController extends Controller
      */
     public function update(Request $request)
     {
-        $asset_id = $request->route()->parameter('id');
-        $asset = Assets::where('id', $asset_id);
-        if (Assets::where('name', $request['name'])->exists()) {
-            return redirect('assets/edit/'. $asset_id)->withErrors('This Asset could not be updated, This Asset already exists');
-        } else {
-            $asset = Assets::find($asset_id);
-            $booking = Bookings::where('id', $asset->id)->get();
-            $title = $asset->name;
-            foreach ($booking as $book) {
-                $book->title = $title;
-                $book->save();
-            }
-            $asset->name = $request['name'];
-            $asset->save();
-            return redirect('assets/edit')->with('message', 'Succesfully updated ' . $asset->name);
+        $calendar_id = $request->route()->parameter('calendar_id');
+        if (Calendars::where('name', $request['name'])->exists()) {
+            return redirect('book')->withErrors('This Calendar could not be updated, This Calendar already exists');
+        }
+        else {
+            $calendar = Calendars::find($calendar_id);
+            $calendar->name = $request['name'];
+            $calendar->save();
+            return redirect('book')->with('message', 'Succesfully updated ' . $calendar->name);
         }
     }
 
@@ -107,11 +109,12 @@ class CalendarController extends Controller
      */
     public function destroy(Request $request)
     {
-        $asset_id = $request->route()->parameter('id');
-        $asset = Assets::find($asset_id);
-        Bookings::where('assetId', $asset_id)->delete();
-        $asset->delete();
+        $calendar_id = $request->route()->parameter('calendar_id');
+        Assets::where('calendar_id', $calendar_id)->delete();
+        Bookings::where('assetId', $calendar_id)->delete();
+        $calendar = Calendars::find($calendar_id);
+        $calendar->delete();
 
-        return redirect('assets/edit')->with('message', 'Succesfully deleted ' . $asset->name);
+        return redirect('book')->with('message', 'Succesfully deleted ' . $calendar->name);
     }
 }

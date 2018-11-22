@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Assets;
+use App\Bookings;
+use App\Calendars;
+use App\Invite;
 use Auth;
+use Carbon\Carbon;
 use Gate;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,6 +16,8 @@ use App\Http\Requests\TeamCreateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserInviteRequest;
 use App\Http\Requests\TeamUpdateRequest;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -30,6 +37,17 @@ class TeamController extends Controller
         return view('team.index')->with('teams', $teams);
     }
 
+    public function show(Request $request)
+    {
+        $id = $request->route()->parameter('id');
+        $team = $this->service->find($id);
+        $user = Auth::user();
+        $calendars = Calendars::orderBy('name', 'asc')->get();
+        $assets = Assets::orderBy('name', 'asc')->get();
+
+        return view('team.show', compact('team', 'user', 'calendars', 'assets', 'bookings'));
+    }
+
     /**
      * Display a listing of the resource searched.
      *
@@ -46,9 +64,10 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('team.create');
+        $team = $request->route()->parameter('id');
+        return view('team.create', compact('team'));
     }
 
     /**
@@ -63,7 +82,7 @@ class TeamController extends Controller
             $result = $this->service->create(Auth::id(), $request->except('_token'));
 
             if ($result) {
-                return redirect('teams/'.$result->id.'/edit')->with('message', 'Successfully created');
+                return redirect('teams/'.$result->id.'/show')->with('message', 'Successfully created');
             }
 
             return redirect('teams')->with('message', 'Failed to create');
@@ -82,7 +101,7 @@ class TeamController extends Controller
     {
         $team = $this->service->findByName($name);
 
-        if (Gate::allows('team-member', [$team, Auth::user()])) {
+        if (Gate::allows('team-member', [$team, Auth::user()]) || Gate::allows('admin')) {
             return view('team.show')->with('team', $team);
         }
 
@@ -150,6 +169,38 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function invite(Request $request)
+    {
+        $team_id = $request->route()->parameter('id');
+        $team = $this->service->find($team_id);
+        $token = new Invite();
+        $token->team_id = $team->id;
+        $token->token = bin2hex(random_bytes(10));
+        $token->save();
+
+        $url = "localhost:8000/team/".$team->id."/accept/".$token->token;
+
+        return view('team.invite', compact('team', 'url'));
+    }
+
+    public function accept(Request $request)
+    {
+        $team_id = $request->route()->parameter('id');
+        $token = $request->route()->parameter('token');
+        $team = $this->service->find($team_id);
+        $user = Auth::user();
+        $invite = Invite::where('token', $token)->first();
+        if($invite->created_at->toDateTimeString() >= Carbon::now()->subHours(2)->toDateTimeString()) {
+            DB::table('team_user')->updateOrInsert(
+                ['user_id' => $user->id, 'team_id' => $team->id]
+            );
+            return redirect('teams/'.$team->id.'/show');
+        }
+        else {
+            return redirect('book')->withErrors('Your invite token has expired.');
+        }
+    }
+
     public function inviteMember(UserInviteRequest $request, $id)
     {
         try {

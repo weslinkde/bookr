@@ -12,6 +12,7 @@
                     {!! method_field('PATCH') !!}
 
                     @form_maker_object($team, ['name' => 'string'])
+                    @form_maker_object($team, ['description' => 'string'])
 
                     <div class="raw-margin-top-24">
                         <a class="btn btn-secondary pull-left" href="{{ url('teams') }}">Cancel</a>
@@ -44,12 +45,18 @@
                     <table class="table table-striped">
                         <thead>
                             <th>Name</th>
+                            <th>Role</th>
                             <th class="text-right">Action</th>
                         </thead>
                         <tbody>
                             @foreach($team->members as $member)
                                 <tr>
                                     <td>{{ $member->name }}</td>
+                                    <td>
+                                        @if (Auth::user()->isTeamAdmin($team->id))
+                                            Team Owner
+                                        @endif
+                                    </td>
                                     <td>
                                         @if (! $member->isTeamAdmin($team->id))
                                             <a class="btn btn-danger pull-right btn-xs" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>

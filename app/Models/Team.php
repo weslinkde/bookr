@@ -16,6 +16,7 @@ class Team extends Model
     public $fillable = [
         'user_id',
         'name',
+        'description'
     ];
 
     public static $rules = [

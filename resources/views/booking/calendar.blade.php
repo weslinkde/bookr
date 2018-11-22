@@ -97,21 +97,6 @@
             }
         }
 
-        @keyframes modalclose {
-            0% {
-                opacity: 1;
-            }
-            30% {
-                top: 0;
-                width: 80%;
-            }
-            100% {
-                top: 80px;
-                opacity: 0;
-                width: 70%
-            }
-        }
-
         textarea {
             resize: vertical;
             width: 100%;
@@ -156,30 +141,34 @@
                                             <table>
                                                 <tr>
                                                     <td class="left">Title</td>
-                                                    <td class="right"><input type="text" id="bookTitle"
-                                                                             style="width: 100%;"></td>
+                                                    <td class="right"><input type="text" id="bookTitle" name="bookTitle" style="width: 100%;"></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="left">Date</td>
                                                     <td id="date" class="right">
-                                                        <input type='text' data-toggle='datepicker' id='bDate'
-                                                               name='beginDate' style='width: 42.5%;'>
-                                                        <p id="till"
-                                                           style='width: 12.5%; margin: 0;  display: inline-block; text-align: center;'>
-                                                            Until</p>
-                                                        <input type='text' data-toggle='datepicker' id='eDate'
-                                                               style='width: 42.5%;' name='endDate'>
+                                                        <input type='text' data-toggle='datepicker' id='bDate' name='beginDate' style='width: 42.5%;'>
+                                                        <p id="till" style='width: 12.5%; margin: 0;  display: inline-block; text-align: center;'>Until</p>
+                                                        <input type='text' data-toggle='datepicker' id='eDate' style='width: 42.5%;' name='endDate'>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="left">Time</td>
                                                     <td id="time" class="right">
-                                                        <input type='text' id='beginTime' name='beginTime'
-                                                               style='width: 42.5%;'>
-                                                        <p style='width: 12.5%; margin: 0;  display: inline-block; text-align: center;'>
-                                                            Until</p>
-                                                        <input type='text' id='endTime' name='endTime'
-                                                               style='width: 42.5%;'>
+                                                        <input type='text' id='beginTime' name='beginTime' style='width: 42.5%;'>
+                                                        <p style='width: 12.5%; margin: 0;  display: inline-block; text-align: center;'>Until</p>
+                                                        <input type='text' id='endTime' name='endTime' style='width: 42.5%;'>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="left">Recurring event</td>
+                                                    <td class="right">
+                                                        <select>
+                                                            <option selected="selected">No</option>
+                                                            <option>Daily</option>
+                                                            <option>Weekly</option>
+                                                            <option>Monthly</option>
+                                                            <option>Yearly</option>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -188,18 +177,11 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                        <div id="modalfooter" class="d-flex" style="margin: 10px 0 10px 0;">
-                                            <span class='close btn btn-danger p-3'
-                                                  style="padding-top: 10px; font-size: 14px; margin-right: 10px;">
-                                                <i class="fas fa-window-close"></i> Close
-                                            </span>
-                                            <span id="deleteBook" class='deleteSpan btn btn-danger p-2'
-                                                  style="padding-top: 8px;"><i class="fa fa-trash"></i></span>
-                                            <span id="editBook" class='editSpan btn btn-primary ml-auto p-3'
-                                                  style="padding-top: 8px;"><i class="fas fa-edit"></i> Save</span>
-                                            <span id="createBook" class='btn btn-primary ml-auto p-3'
-                                                  style="padding-top: 8px;"><i
-                                                        class="fas fa-pencil-alt"></i> Create</span>
+                                        <div id="modalfooter" class="col-md-12 d-flex raw-margin-bottom-12">
+                                            <span class='closeModal btn btn-danger mr-2'><i class="fas fa-window-close"></i> Close</span>
+                                            <span id="deleteBook" class='deleteSpan btn btn-danger pull-right mr-auto'><i class="fa fa-trash"></i></span>
+                                            <span id="editBook" class='editSpan btn btn-primary pull-right'><i class="fas fa-edit"></i> Save</span>
+                                            <span id="createBook" class='btn btn-primary pull-right'><i class="fas fa-pencil-alt"></i> Create</span>
                                         </div>
                                     </div>
                                 </div>
@@ -285,23 +267,28 @@
                 var end_time = endDate + " " + endTime;
 
                 var modal = document.getElementById('myModal');
-                var span = document.getElementsByClassName("close")[0];
+                var span = document.getElementsByClassName("closeModal")[0];
+                span.classList.add("mr-auto");
                 modal.style.display = "block";
                 span.onclick = function () {
                     modal.style.display = "none";
                 };
+                document.getElementById("bDate").value = beginDate;
+                document.getElementById("eDate").value = endDate;
+                document.getElementById("beginTime").value = beginTime;
+                document.getElementById("endTime").value = endTime;
+
                 var titleText = document.getElementById("bookTitle");
                 titleText.value = '{{$assets}}';
-                $("bookTitle").val = '{{$assets}}';
+
                 document.getElementById("description").innerHTML = "<textarea class='textarea' id='descriptionText' name='message' rows='10' cols= '30'></textarea>";
 
                 create.onclick = function(){
                     var title = titleText.value;
                     modal.style.display = "none";
                     var descriptionText = document.getElementById("descriptionText");
-                    console.log(descriptionText);
                     var description = $(descriptionText).val();
-                    console.log(description);
+
                     var eventData = {
                         title: title,
                         description: description,
@@ -434,8 +421,7 @@
                 var deletebutton = document.getElementById("deleteBook");
 
                 var titleText = document.getElementById("bookTitle");
-                titleText.value = '{{$assets}}';
-                $("bookTitle").val = '{{$assets}}';
+                titleText.value = event.title;
 
                 deletebutton.style.display = "block";
                 savebutton.style.display = "block";
@@ -494,11 +480,10 @@
                 var modal = document.getElementById('myModal');
 
                 var descr = document.getElementById('descriptionText');
+                descr.value = event.description;
 
-                var editBook = document.getElementsByClassName("editSpan")[0];
-                var deleteBook = document.getElementsByClassName("deleteSpan")[0];
-
-                var span = document.getElementsByClassName("close")[0];
+                var span = document.getElementsByClassName("closeModal")[0];
+                span.classList.remove("mr-auto");
 
                 var bTime = document.getElementById("beginTime");
                 var eTime = document.getElementById("endTime");
@@ -515,10 +500,11 @@
                 };
 
                 document.getElementById("bookName").innerText = "Booked by: " + event.creator_nicename;
-                descr.innerText = event.description;
+                var descriptionText = descr;
+
 
                 if($(".footerbuttons")) {
-                    editBook.onclick = function () {
+                    savebutton.onclick = function () {
                         var bTimeForm = $(bTime).val();
                         var eTimeForm = $(eTime).val();
                         var bDateForm = $(bDate).val();
@@ -529,9 +515,14 @@
 
                         var url = '{{ url("book/" . $assetId ."/edit") }}';
                         descr.innerText = event.description;
+
+                        var title = titleText.value;
+                        var description = $(descriptionText).val();
+
                         var eventData = {
                             id: event._id,
-                            description: $("textarea").val(),
+                            title: title,
+                            description: description,
                             start_time: start_time,
                             end_time: end_time,
                         };
@@ -543,6 +534,7 @@
                             data: eventData,
                             type: "PATCH",
                             success: function (eventData) {
+
                                 calendar.fullCalendar('rerenderEvents');
                                 modal.style.display = "none";
                             },
@@ -551,7 +543,7 @@
                     };
                 }
 
-                deleteBook.onclick = function () {
+                deletebutton.onclick = function () {
                     var r = confirm("Are you sure you want to delete this Booking?");
                     if (r == true) {
                         modal.style.display = "none";

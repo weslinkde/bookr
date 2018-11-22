@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>App</title>
+        <title>Bookr | Easy Room and Assets Reservation</title>
 
         <link rel="icon" type="image/ico" href="">
 

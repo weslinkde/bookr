@@ -22,7 +22,7 @@
             @if ($teams->isEmpty())
                 <div class="card card-default text-center">
                     <div class="card-body">
-                        <span>No teams found.</span>
+                        <span>You are currently not part of a team, you can create one by clicking on <b>Create Team</b> in the top-left of your screen.</span>
                     </div>
                 </div>
             @else

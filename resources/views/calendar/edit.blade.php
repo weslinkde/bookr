@@ -1,6 +1,6 @@
 @extends('dashboard')
 
-@section('pageTitle') Edit Asset: {{$asset->name}} @stop
+@section('pageTitle') Edit calendar: {{$calendar->name}} @stop
 
 @section('content')
 
@@ -8,12 +8,12 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 col-md-offset-5" style="margin: 0 auto;">
-                    {{ Form::open(['method' => 'PATCH', 'url' => 'calendar/'.$calendar_id.'/asset/'.$asset->id.'/update']) }}
+                    {{ Form::open(['method' => 'PATCH', 'url' => 'calendar/' . $calendar->id . '/update']) }}
                     @csrf
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
                             <label>Name</label>
-                            {{ Form::text('name', $value = $asset->name, ['class' => 'form-control', 'value' => $asset->name]) }}
+                            {{ Form::text('name', $value = $calendar->name, ['class' => 'form-control', 'value' => $calendar->name]) }}
                         </div>
                     </div>
                     <div class="row">
@@ -24,7 +24,7 @@
                                     {{ Form::close() }}
                                 </div>
                                 <div class="p-2">
-                                    {{ Form::open(['method' => 'DELETE', 'url' => 'assets/delete/' . $asset->id, 'onsubmit' => 'ConfirmDelete()']) }}
+                                    {{ Form::open(['method' => 'DELETE', 'url' => 'calendar/' . $calendar->id . '/delete']) }}
                                     @csrf
                                     {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
                                     {{ Form::close() }}

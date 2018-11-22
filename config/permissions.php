@@ -14,6 +14,6 @@
 return [
 
     'admin' => 'Admin',
+    'teamowner' => 'Team Owner',
     'regular' => 'Regular',
-
 ];

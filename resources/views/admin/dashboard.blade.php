@@ -78,6 +78,14 @@
                     <td class="text-right">{{ app(App\Models\Role::class)->count() }}</td>
                 </tr>
                 <tr>
+                    <td>Teams</td>
+                    <td class="text-right">{{ app(App\Models\Team::class)->count() }}</td>
+                </tr>
+                <tr>
+                    <td>Calendars</td>
+                    <td class="text-right">{{ app(App\Calendars::class)->count() }}</td>
+                </tr>
+                <tr>
                     <td>assets</td>
                     <td class="text-right">{{ app(App\Assets::class)->count() }}</td>
                 </tr>

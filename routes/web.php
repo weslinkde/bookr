@@ -35,7 +35,6 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -94,6 +93,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('calendar/create',                                   'CalendarController@create');
     Route::post('calendar/store',                                   'CalendarController@store');
+    Route::get('calendar/{calendar_id}/edit',                    'CalendarController@edit');
+    Route::patch('calendar/{calendar_id}/update',                   'CalendarController@update');
+    Route::delete('calendar/{calendar_id}/delete',                  'CalendarController@destroy');
 
     Route::get('book',                                              'AssetsController@index');
     Route::get('calendar/{calendar_id}/asset/create',               'AssetsController@create');
@@ -129,10 +131,15 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::get('team/{name}', 'TeamController@showByName');
+    Route::get('teams/{id}/show', 'TeamController@show');
     Route::resource('teams', 'TeamController', ['except' => ['show']]);
     Route::post('teams/search', 'TeamController@search');
-    Route::post('teams/{id}/invite', 'TeamController@inviteMember');
+    Route::get('team/{id}/invite', 'TeamController@invite');
+    Route::post('team/{id}/invite/send', 'TeamController@inviteMember');
     Route::get('teams/{id}/remove/{userId}', 'TeamController@removeMember');
+
+    Route::get('team/{id}/accept/{token}', 'Teamcontroller@accept')->name('accept');
+
 
     /*
     |--------------------------------------------------------------------------

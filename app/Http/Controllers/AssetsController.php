@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Calendars;
+use App\Models\Team;
 use App\Models\User;
 use function GuzzleHttp\Psr7\uri_for;
 use Illuminate\Http\Request;
@@ -23,7 +24,11 @@ class AssetsController extends Controller
         $calendars = Calendars::orderBy('name', 'asc')->get();
         $assets = Assets::orderBy('name', 'asc')->get();
         $user = Auth::user();
-        return view('booking.choose', compact('assets', 'calendars', 'user'));
+        $i = 0;
+        foreach(Team::all() as $team) {
+            $i++;
+        }
+        return view('booking.choose', compact('assets', 'calendars', 'user', 'i'));
     }
 
     /**
@@ -46,8 +51,8 @@ class AssetsController extends Controller
     public function store(Request $request)
     {
         $calendar_id = $request->route()->parameter('calendar_id');
-        if (Assets::where('name', $request['name'])->exists()) {
-            return redirect('assets/create')->withErrors('This Asset already exists');
+        if (Assets::where('name', $request['name'])->where('calendar_id', $calendar_id)->exists()) {
+            return redirect('book')->withErrors('This Asset already exists');
         } else {
             $booking = new Assets();
             $booking->calendar_id = $calendar_id;
@@ -71,9 +76,10 @@ class AssetsController extends Controller
 
     public function edit(Request $request)
     {
-        $asset_id = $request->route()->parameter('id');
+        $calendar_id = $request->route()->parameter('calendar_id');
+        $asset_id = $request->route()->parameter('asset_id');
         $asset = Assets::find($asset_id);
-        return view('assets.edit', compact('asset'));
+        return view('assets.edit', compact('asset', 'calendar_id'));
     }
 
     /**
@@ -85,21 +91,15 @@ class AssetsController extends Controller
      */
     public function update(Request $request)
     {
-        $asset_id = $request->route()->parameter('id');
-        $asset = Assets::where('id', $asset_id);
-        if (Assets::where('name', $request['name'])->exists()) {
-            return redirect('assets/edit/'. $asset_id)->withErrors('This Asset could not be updated, This Asset already exists');
+        $asset_id = $request->route()->parameter('asset_id');
+        $calendar_id = $request->route()->parameter('calendar_id');
+        if (Assets::where('name', $request['name'])->where('calendar_id', $calendar_id)->exists()) {
+            return redirect('book')->withErrors('This Asset could not be updated, This Asset already exists');
         } else {
             $asset = Assets::find($asset_id);
-            $booking = Bookings::where('id', $asset->id)->get();
-            $title = $asset->name;
-            foreach ($booking as $book) {
-                $book->title = $title;
-                $book->save();
-            }
             $asset->name = $request['name'];
             $asset->save();
-            return redirect('assets/edit')->with('message', 'Succesfully updated ' . $asset->name);
+            return redirect('book')->with('message', 'Succesfully updated ' . $asset->name);
         }
     }
 
@@ -111,11 +111,10 @@ class AssetsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $asset_id = $request->route()->parameter('id');
+        $asset_id = $request->route()->parameter('asset_id');
         $asset = Assets::find($asset_id);
-        Bookings::where('assetId', $asset_id)->delete();
         $asset->delete();
 
-        return redirect('assets/edit')->with('message', 'Succesfully deleted ' . $asset->name);
+        return redirect('book')->with('message', 'Succesfully deleted '.$asset->name);
     }
 }
