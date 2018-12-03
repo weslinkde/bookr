@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Calendars;
 use App\Services\TeamService;
-use function GuzzleHttp\Psr7\uri_for;
 use Illuminate\Http\Request;
 use App\Assets;
 use App\Bookings;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class CalendarController extends Controller
 {
@@ -50,11 +47,26 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        if (Calendars::where('name', $request['name'])->where('team_id', $request['team_id'])->exists()) {
-            return redirect('book')->withErrors('This Asset already exists');
+        $user = Auth::user();
+        if($request->has('personal')) {
+            $personal = $user->id;
+            $team = null;
+        }
+        else {
+            if($request['team_id'] == null) {
+                return redirect('calendar/create')->withErrors('You have not selected a team, if this is a personal calendar pleace check "Personal"');
+            }
+            else {
+                $personal = null;
+                $team = $request['team_id'];
+            }
+        }
+        if (Calendars::where('name', $request['name'])->where('team_id', $request['team_id'])->where('user_id', $user->id)->exists()) {
+            return redirect('calendar/create')->withErrors('This Asset already exists');
         } else {
             $booking = new Calendars();
-            $booking->team_id = $request['team_id'];
+            $booking->user_id = $personal;
+            $booking->team_id = $team;
             $booking->name = $request['name'];
             $booking->save();
             return redirect('book')->with('message', 'Succesfully created ' . $booking->name);

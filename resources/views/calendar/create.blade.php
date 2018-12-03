@@ -1,6 +1,6 @@
 @extends('dashboard')
 
-@section('pageTitle') Book an Asset @stop
+@section('pageTitle') Create a Calendar @stop
 
 @section('content')
 
@@ -15,11 +15,14 @@
                                 <label>Name</label>
                                 <input class="form-control" type="text" name="name" placeholder="Name" id="name">
                                 <br>
+                                <label>Personal?</label>
+                                <input type="checkbox" name="personal" value="personal?">
+                                <br>
                                 <label>Teams</label>
                                 <select name="team_id" form="calendarForm">
-                                    <option selected="selected">Personal</option>
+                                    <option selected="selected" value="{{null}}">none</option>
                                     @foreach($teams as $team)
-                                        @if($user->isTeamAdmin($team->id))
+                                        @if($user->isTeamMember($team->id))
                                             <option value="{{$team->id}}">{{$team->name}}</option>
                                         @endif
                                     @endforeach

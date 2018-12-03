@@ -44,8 +44,14 @@ class TeamController extends Controller
         $user = Auth::user();
         $calendars = Calendars::orderBy('name', 'asc')->get();
         $assets = Assets::orderBy('name', 'asc')->get();
+        $bookings = Bookings::orderBy('id', 'asc')->get();
 
-        return view('team.show', compact('team', 'user', 'calendars', 'assets', 'bookings'));
+        if($user->isTeamMember($team->id) || Gate::allows('admin')) {
+            return view('team.show', compact( 'team', 'user', 'calendars', 'assets', 'bookings'));
+        }
+        else {
+            abort(500, 'Unable to view this team, you are not a member of this team.');
+        }
     }
 
     /**

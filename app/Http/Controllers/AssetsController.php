@@ -113,6 +113,7 @@ class AssetsController extends Controller
     {
         $asset_id = $request->route()->parameter('asset_id');
         $asset = Assets::find($asset_id);
+        Bookings::where('assetId', $asset_id)->delete();
         $asset->delete();
 
         return redirect('book')->with('message', 'Succesfully deleted '.$asset->name);

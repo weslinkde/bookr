@@ -11,7 +11,7 @@ class Bookings extends Model
     protected $appends = array('creator_nicename');
 
     protected $fillable = [
-        'user_id','title', 'description', 'type', 'start_time', 'end_time',
+        'user_id','title', 'description', 'type', 'recurring', 'start', 'end', 'start_time', 'end_time',
     ];
 
     public function getCreatorNicenameAttribute(){

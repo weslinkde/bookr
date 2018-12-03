@@ -1,7 +1,6 @@
 @extends('dashboard')
 
 @section('content')
-    {{$message = null}}
     <style>
         body .fc {
             overflow: auto;
@@ -39,10 +38,7 @@
         .modal-content {
             position: relative;
             background-color: #fefefe;
-            margin: auto;
-            padding: 0;
             border: 1px solid #888;
-            width: 600px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             margin: 200px auto 0 auto;
             background-color: #fefefe;
@@ -86,11 +82,9 @@
             0% {
                 top: 80px;
                 opacity: 0;
-                width: 400px
             }
             70% {
                 top: 0;
-                width: 600px;
             }
             100% {
                 opacity: 1;
@@ -104,6 +98,7 @@
             border-radius: 5px;
             border: 1px solid lightgray;
             background-color: white;
+            padding: 5px;
 
             -webkit-transition: border 200ms ease-out;
             -moz-transition: border 200ms ease-out;
@@ -113,6 +108,30 @@
 
         textarea:hover {
             border: 1px solid darkgray;
+        }
+
+        .select-size  input[type=checkbox]{
+            display: none;
+        }
+        .select-size label {
+            border-left: 1px solid lightgray;
+            border-right: 1px solid lightgray;
+            padding: 5px;
+            margin: 5px;
+        }
+        .select-size label:hover {
+            background-color: ghostwhite;
+            cursor: pointer;
+        }
+
+        #sunday:checked ~ label[for="sunday"],
+        #monday:checked ~ label[for="monday"],
+        #tuesday:checked ~ label[for="tuesday"],
+        #wednesday:checked ~ label[for="wednesday"],
+        #thursday:checked ~ label[for="thursday"],
+        #friday:checked ~ label[for="friday"],
+        #saturday:checked ~ label[for="saturday"] {
+            background-color: whitesmoke;
         }
     </style>
     <script src='{{asset('js/moment.js')}}'></script>
@@ -130,9 +149,9 @@
                     <div class="panel-body body">
                         <div id='calendar' class="calendar">
                             <!-- Modal content -->
-                            <div id="myModal" class="modal">
-                                <div class="modal-content" id="modal-content">
-                                    <div class="modal-header">
+                            <div id="myModal" class="col-md-12 modal">
+                                <div class="modal-content col-md-8 col-lg-6 pl-0 pr-0" id="modal-content">
+                                    <div class="modal-header col-md-12">
                                         <h2><b>Information</b></h2>
                                         <p style="font-size: 12px; margin-bottom: 0;" id="bookName"></p>
                                     </div>
@@ -146,29 +165,39 @@
                                                 <tr>
                                                     <td class="left">Date</td>
                                                     <td id="date" class="right">
-                                                        <input type='text' data-toggle='datepicker' id='bDate' name='beginDate' style='width: 42.5%;'>
-                                                        <p id="till" style='width: 12.5%; margin: 0;  display: inline-block; text-align: center;'>Until</p>
-                                                        <input type='text' data-toggle='datepicker' id='eDate' style='width: 42.5%;' name='endDate'>
+                                                        <input type='text' data-toggle='datepicker' id='bDate' name='beginDate' style='width: 40%;'>
+                                                        <p id="till" style='width: 17.5%; margin: 0;  display: inline-block; text-align: center;'>Until</p>
+                                                        <input type='text' data-toggle='datepicker' id='eDate' style='width: 40%;' name='endDate'>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="left">Time</td>
                                                     <td id="time" class="right">
-                                                        <input type='text' id='beginTime' name='beginTime' style='width: 42.5%;'>
-                                                        <p style='width: 12.5%; margin: 0;  display: inline-block; text-align: center;'>Until</p>
-                                                        <input type='text' id='endTime' name='endTime' style='width: 42.5%;'>
+                                                        <input type='text' id='beginTime' name='beginTime' style='width: 40%;'>
+                                                        <p style='width: 17.5%; margin: 0;  display: inline-block; text-align: center;'>Until</p>
+                                                        <input type='text' id='endTime' name='endTime' style='width: 40%;'>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="left">Recurring event</td>
-                                                    <td class="right">
-                                                        <select>
-                                                            <option selected="selected">No</option>
-                                                            <option>Daily</option>
-                                                            <option>Weekly</option>
-                                                            <option>Monthly</option>
-                                                            <option>Yearly</option>
-                                                        </select>
+                                                    <td>
+                                                        <div class="select-size" id="recurringBoxes">
+                                                            <input type="checkbox" id="sunday" class="recurring" value="0">
+                                                            <input type="checkbox" id="monday" class="recurring" value="1">
+                                                            <input type="checkbox" id="tuesday" class="recurring" value="2">
+                                                            <input type="checkbox" id="wednesday" class="recurring" value="3">
+                                                            <input type="checkbox" id="thursday" class="recurring" value="4">
+                                                            <input type="checkbox" id="friday" class="recurring" value="5">
+                                                            <input type="checkbox" id="saturday" class="recurring" value="6">
+
+                                                            <label for="sunday">Sun</label>
+                                                            <label for="monday">Mon</label>
+                                                            <label for="tuesday">Tue</label>
+                                                            <label for="wednesday">Wed</label>
+                                                            <label for="thursday">Thu</label>
+                                                            <label for="friday">Fri</label>
+                                                            <label for="saturday">Sat</label>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -223,7 +252,6 @@
             },
             defaultView: 'agendaWeek',
             nowIndicator: true,
-            weekends: false,
             displayEventTitle: false,
             axisFormat: 'HH:mm',
             timeFormat: 'HH:mm',
@@ -247,13 +275,24 @@
             events: {!! $bookings !!},
             eventRender: function (event, element) {
                 element.find('.fc-title').empty();
-                element.find('.fc-title').append(event.creator_nicename);
+                element.find('.fc-title').append(event.title);
+                element.find('.fc-title').append("<br/>" + event.creator_nicename);
                 if (event.description == null) {
                     event.description = "";
                 }
                 element.find('.fc-title').append("<br/>" + event.description);
             },
             select: function (start, end, jsEvent, view, event) {
+                $(".recurring").prop("checked", false);
+
+
+                document.getElementById("bookTitle").disabled = false;
+                document.getElementById("bDate").disabled = false;
+                document.getElementById("eDate").disabled = false;
+                document.getElementById("beginTime").disabled = false;
+                document.getElementById("endTime").disabled = false;
+                document.getElementsByClassName("recurring").disabled = false;
+
                 var create = document.getElementById("createBook");
                 create.style.display = "block";
                 document.getElementById("editBook").style.display = "none";
@@ -289,18 +328,39 @@
                     var descriptionText = document.getElementById("descriptionText");
                     var description = $(descriptionText).val();
 
+                    var valueArray = [];
+                    $.each($("input[class='recurring']:checked"), function() {
+                        valueArray.push($(this).val());
+                    });
+
+                    var recurring = null;
+                    if(valueArray.length == 0) {
+                        recurring = null;
+                        beginTime = null;
+                        endTime = null;
+                    }
+                    else {
+                        recurring = "[" + valueArray + "]";
+                        start_time = null;
+                        end_time = null;
+                    }
+                    console.log(recurring);
+
                     var eventData = {
                         title: title,
                         description: description,
+                        recurring: recurring,
+                        start_time: beginTime,
+                        end_time: endTime,
                         start: start_time,
-                        end: end_time
+                        end:end_time,
                     };
-
+                    recurring = null;
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        url: "{{url('book/' . $assetId . '/store')}}", //placeholder URL for test
+                        url: "{{url('book/' . $assetId . '/store')}}",
                         type: "POST",
                         data: eventData,
                         success: function (eventData) {
@@ -311,107 +371,117 @@
                 }
             },
             eventResize: function (event) {
-                if (event.user_id == '{{$user->id}}') {
-                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var url = '{{ url("book/" . $assetId ."/edit") }}';
-                    var eventData = {
-                        id: event._id,
-                        title: event.title,
-                        start_time: start_time,
-                        end_time: end_time,
-                    };
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: eventData,
-                        type: "PATCH",
-                        success: function (eventData) {
-                            calendar.fullCalendar('rerenderEvents');
-                        }
-                    });
-                }
-
-                else if ('{{Gate::allows('admin')}}') {
-                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var url = '{{ url("book/" . $assetId ."/edit") }}';
-                    var eventData = {
-                        id: event._id,
-                        title: event.title,
-                        start_time: start_time,
-                        end_time: end_time,
-                    };
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: eventData,
-                        type: "PATCH",
-                        success: function (eventData) {
-                            calendar.fullCalendar('rerenderEvents');
-                        }
-                    });
-                }
-                else {
+                if(event.dow !== undefined) {
                     location.reload(false);
+            }
+                else {
+                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+
+                    if (event.user_id == '{{$user->id}}') {
+                        var url = '{{ url("book/" . $assetId ."/edit") }}';
+                        var eventData = {
+                            id: event._id,
+                            title: event.title,
+                            start_time: start_time,
+                            end_time: end_time,
+                        };
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: url + '/' + event._id,
+                            data: eventData,
+                            type: "PATCH",
+                            success: function (eventData) {
+                                calendar.fullCalendar('rerenderEvents');
+                            }
+                        });
+                    }
+
+                    else if ('{{Gate::allows('admin')}}') {
+                        var url = '{{ url("book/" . $assetId ."/edit") }}';
+                        var eventData = {
+                            id: event._id,
+                            title: event.title,
+                            start_time: start_time,
+                            end_time: end_time,
+                        };
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: url + '/' + event._id,
+                            data: eventData,
+                            type: "PATCH",
+                            success: function (eventData) {
+                                calendar.fullCalendar('rerenderEvents');
+                            }
+                        });
+                    }
+                    else {
+                        location.reload(false);
+                    }
                 }
             },
             eventDrop: function (event) {
-                if (event.user_id == '{{$user->id}}') {
-                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var url = '{{ url("book/" . $assetId ."/edit") }}';
-                    var eventData = {
-                        id: event._id,
-                        title: event.title,
-                        start_time: start_time,
-                        end_time: end_time,
-                    };
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: eventData,
-                        type: "PATCH",
-                        success: function (eventData) {
-                            calendar.fullCalendar('rerenderEvents');
-                        }
-                    });
-                    calendar.fullCalendar('rerenderEvents');
-                }
-                else if ('{{Gate::allows('admin')}}') {
-                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                    var url = '{{ url("book/" . $assetId ."/edit") }}';
-                    var eventData = {
-                        id: event._id,
-                        title: event.title,
-                        start_time: start_time,
-                        end_time: end_time,
-                    };
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url + '/' + event._id,
-                        data: eventData,
-                        type: "PATCH",
-                        success: function (eventData) {
-                            calendar.fullCalendar('rerenderEvents');
-                        }
-                    });
-                    calendar.fullCalendar('rerenderEvents');
+                if(event.dow !== undefined) {
+                    location.reload(false);
                 }
                 else {
-                    location.reload(false);
+                    var start_time = moment(event.start, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                    var end_time = moment(event.end, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+
+                    if (event.user_id == '{{$user->id}}') {
+                        var url = '{{ url("book/" . $assetId ."/edit") }}';
+                        var eventData = {
+                            id: event._id,
+                            title: event.title,
+                            start_time: start_time,
+                            end_time: end_time,
+                        };
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: url + '/' + event._id,
+                            data: eventData,
+                            type: "PATCH",
+                            success: function (eventData) {
+                                calendar.fullCalendar('rerenderEvents');
+                            }
+                        });
+                        calendar.fullCalendar('rerenderEvents');
+                    }
+                    else if ('{{Gate::allows('admin')}}') {
+                        var url = '{{ url("book/" . $assetId ."/edit") }}';
+                        var eventData = {
+                            id: event._id,
+                            title: event.title,
+                            start_time: start_time,
+                            end_time: end_time,
+                        };
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: url + '/' + event._id,
+                            data: eventData,
+                            type: "PATCH",
+                            success: function (eventData) {
+                                calendar.fullCalendar('rerenderEvents');
+                            }
+                        });
+                        calendar.fullCalendar('rerenderEvents');
+                    }
+                    else {
+                        location.reload(false);
+                    }
                 }
             },
             eventClick: function (event) {
+                $(".recurring").prop("checked", false);
+
                 var beginDate = moment(event.start, 'YYYY-MM-DD').format('YYYY-MM-DD');
                 var endDate = moment(event.end, 'YYYY-MM-DD').format('YYYY-MM-DD');
                 var beginTime = moment(event.start, 'HH:mm').format('HH:mm');
@@ -432,6 +502,7 @@
                 document.getElementById("eDate").disabled = false;
                 document.getElementById("beginTime").disabled = false;
                 document.getElementById("endTime").disabled = false;
+                document.getElementsByClassName("recurring").disabled = false;
 
                 /* Permission Checker */
                 if (event.user_id == '{{$user->id}}') {
@@ -469,6 +540,7 @@
                     document.getElementById("eDate").disabled = true;
                     document.getElementById("beginTime").disabled = true;
                     document.getElementById("endTime").disabled = true;
+                    document.getElementsByClassName("recurring").disabled = true;
 
                     document.getElementById("bDate").value = beginDate;
                     document.getElementById("eDate").value = endDate;
@@ -519,10 +591,29 @@
                         var title = titleText.value;
                         var description = $(descriptionText).val();
 
+                        var valueArray = [];
+                        $.each($("input[class='recurring']:checked"), function() {
+                            valueArray.push($(this).val());
+                        });
+
+                        var recurring = null;
+                        if(valueArray.length == 0) {
+                            recurring = "[]";
+                            bTime = null;
+                            eTime = null;
+                        }
+                        else {
+                            recurring = "[" + valueArray + "]";
+                            bDate = null;
+                            eDate = null;
+                        }
+                        console.log(recurring);
+
                         var eventData = {
                             id: event._id,
                             title: title,
                             description: description,
+                            recurring: recurring,
                             start_time: start_time,
                             end_time: end_time,
                         };
@@ -534,9 +625,11 @@
                             data: eventData,
                             type: "PATCH",
                             success: function (eventData) {
-
                                 calendar.fullCalendar('rerenderEvents');
                                 modal.style.display = "none";
+                                if(event.dow !== undefined) {
+                                    location.reload(false);
+                                }
                             },
                         });
                         calendar.fullCalendar('rerenderEvents');

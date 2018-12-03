@@ -15,12 +15,15 @@ class CreateBookingTable extends Migration
     {
         Schema::create('booking', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('assetId');
             $table->integer('user_id');
             $table->string('title', 100);
             $table->string('description', 100)->nullable();
-            $table->integer('assetId');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->string('recurring')->nullable();
+            $table->time('start')->nullable();
+            $table->time('end')->nullable();
+            $table->dateTime('start_time')->nullable();
+            $table->dateTime('end_time')->nullable();
             $table->timestamps();
         });
     }

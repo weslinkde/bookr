@@ -6,7 +6,4 @@
     <li class="nav-item @if(Request::is('admin/users', 'admin/users/*')) active @endif">
         <a class="nav-link" href="{!! url('admin/users') !!}"><span class="fas fa-users"></span> Users</a>
     </li>
-    <li class="nav-item @if(Request::is('admin/roles', 'admin/roles/*')) active @endif">
-        <a class="nav-link" href="{!! url('admin/roles') !!}"><span class="fas fa-lock"></span> Roles</a>
-    </li>
 @endif

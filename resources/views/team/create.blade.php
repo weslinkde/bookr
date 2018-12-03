@@ -15,7 +15,7 @@
                         @form_maker_table("teams", ['description' => 'string'])
 
                         <div class="raw-margin-top-24">
-                            <a class="btn btn-secondary pull-left" href="{{ url('teams/'.$team.'/show') }}">Cancel</a>
+                            <a class="btn btn-secondary pull-left" href="{{ url('book') }}">Cancel</a>
                             <button class="btn btn-primary pull-right" type="submit">Create</button>
                         </div>
 

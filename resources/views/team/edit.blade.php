@@ -5,8 +5,12 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-6 raw-margin-bottom-24">
+        <div class="col-md-12 raw-margin-bottom-24">
             <div>
+                @if (Auth::user()->isTeamAdmin($team->id) || Gate::allows('admin'))
+                    <a class="btn btn-danger pull-right raw-margin-bottom-4 ml-2" href="{{url('teams/delete')}}">Delete Team</a>
+                    <a class="btn btn-primary pull-right raw-margin-bottom-4" href="{{url('team/'.$team->id.'/invite')}}">Invite members</a>
+                @endif
                 <form method="post" action="{{ url('teams/'.$team->id) }}">
                     {!! csrf_field() !!}
                     {!! method_field('PATCH') !!}
@@ -15,24 +19,12 @@
                     @form_maker_object($team, ['description' => 'string'])
 
                     <div class="raw-margin-top-24">
-                        <a class="btn btn-secondary pull-left" href="{{ url('teams') }}">Cancel</a>
+                        <a class="btn btn-secondary pull-left" href="{{ url('teams/'.$team->id.'/show') }}">Cancel</a>
                         <button class="btn btn-primary pull-right" type="submit">Save</button>
                     </div>
 
                 </form>
             </div>
-        </div>
-        <div class="col-md-6 raw-margin-bottom-24">
-            @if (Auth::user()->isTeamAdmin($team->id))
-                <form method="post" action="{{ url('teams/'.$team->id.'/invite') }}">
-                    {!! csrf_field() !!}
-                    <div class="form-group">
-                        <label>Invite a new member</label>
-                        <input class="form-control" type="email" name="email" placeholder="Email">
-                    </div>
-                    <button class="btn btn-primary pull-right" type="submit">Invite</button>
-                </form>
-            @endif
         </div>
         @if (Auth::user()->isTeamAdmin($team->id))
             <div class="col-md-12 raw-margin-top-24">
@@ -53,8 +45,10 @@
                                 <tr>
                                     <td>{{ $member->name }}</td>
                                     <td>
-                                        @if (Auth::user()->isTeamAdmin($team->id))
+                                        @if ($team->user_id == $member->id)
                                             Team Owner
+                                        @else
+                                            Member
                                         @endif
                                     </td>
                                     <td>

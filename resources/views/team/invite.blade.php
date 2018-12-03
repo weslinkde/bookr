@@ -6,6 +6,8 @@
 
     <style>
         .tooltipTrigger {
+            color: dodgerblue;
+            cursor: pointer;
             position: relative;
             display: inline-block;
         }
