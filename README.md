@@ -1,7 +1,9 @@
-<div align="center">
-    <h1>Bookr</h1>
+<div align="center" style="border-bottom: 1px solid black;">
+    <h1 style="border: none;">Bookr</h1>
+    <p>An easy to use Booking System</p>
 </div>
-    
+<br>
+
 ### About Bookr
 Bookr gives users a possibility to manage their life's and/or their team's assets.
 
