@@ -49,11 +49,11 @@ You can now access the server at ```http://localhost:8000```
 
 ### Screenshots
 
-<img src="https://github.com/weslinkde/bookr/blob/develop/bookr/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu">
 
-<img src="https://github.com/weslinkde/bookr/blob/develop/bookr/screenshots/Bookr-Team-Panel" rel="Bookr Team Panel">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Team-Panel" rel="Bookr Team Panel">
 
-<img src="https://github.com/weslinkde/bookr/blob/develop/bookr/screenshots/Bookr-Calendar-Example" rel="Bookr Calendar Example">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Example" rel="Bookr Calendar Example">
 
 ### Tutorial
 
