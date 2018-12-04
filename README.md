@@ -27,6 +27,7 @@ Bookr is an easy to use Reservation / Booking System, that allows users to creat
 </ul>
 
 ### Installation guide
+######<a href="#documentation">Back to documentation</a>
 Clone the Github repository: <br>
 ```git clone https://github.com/weslinkde/bookr.git```
 
@@ -49,23 +50,25 @@ You can now access the server at <br>
  ```http://localhost:8000```
 
 ### Screenshots
+######<a href="#documentation">Back to documentation</a>
 <div align="center">
 <b>
 Main Menu <br>
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu"> <br>
 
 Team Panel <br>
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Team-Panel" rel="Bookr Team Panel">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Team-Panel" rel="Bookr Team Panel"> <br>
 
 Assets <br>
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Example" rel="Bookr Calendar Example">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Example" rel="Bookr Calendar Example"> <br>
 
 Booking Modal <br>
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Modal" rel="Bookr Calendar Modal">
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Modal" rel="Bookr Calendar Modal"> <br>
 </b>
 </div>
 
 ### Tutorial
+######<a href="#documentation">Back to documentation</a>
 When you first log in you will be redirected to the <a href="#screenshots">Main Menu</a>, here you can create a personal calendar or create a team.
 
 You can use team's to create Shared <a href="#screenshots">Assets</a> like Company Beamer's.
