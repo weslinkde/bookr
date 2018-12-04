@@ -86,35 +86,34 @@ You can now access the server at <br>
 
 ### Screenshots
 <a href="#documentation">Back to documentation</a><br><div align="center">
-<b>
-Main Menu <br>
+
+##### Main Menu
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu"> <br>
 
-Team Panel <br>
+##### Team Panel
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Team-Panel" rel="Bookr Team Panel"> <br>
 
-Assets <br>
+##### Booking Calendar
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Example" rel="Bookr Calendar Example"> <br>
 
-Booking Modal <br>
+##### Booking Modal
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Modal" rel="Bookr Calendar Modal"> <br>
-</b>
 </div>
 
 ### Tutorial
 <a href="#documentation">Back to documentation</a><br>
-When you first log in you will be redirected to the <a href="#screenshots">Main Menu</a>, here you can create a personal calendar or create a team.
+When you first log in you will be redirected to the <a href="#main-menu">Main Menu</a>, here you can create a personal calendar or create a team.
 
-You can use team's to create Shared <a href="#screenshots">Assets</a> like Company Beamer's.
+You can use teams to create Shared <a href="#team-panel">Assets</a> like Company Beamer's.
 
-When you have created a calendar you will be able to add Assets and personal calendars. When you have created an asset, it will be displayed at the <a href="#screenshots">Main Menu</a>.
+When you have created a calendar you will be able to add Assets and personal calendars. When you have created an asset, it will be displayed at the <a href="#main-menu">Main Menu</a>.
 
-When you click on the asset you have created, you will be redirected to the reservation page of the <a href="#screenshots">asset</a>.
+When you click on the asset you have created, you will be redirected to the reservation page of the <a href="#booking-calendar">Asset</a>.
 
 Here you are able to create reservations for that asset, by dragging from and to the desired times.
 
-An modalbox will popup and you will be able to give more information about the reservation, specify the given time and make the reservation recurring.
+An <a href="#booking-modal">modalbox</a> will popup and you will be able to give more information about the reservation, specify the given time and make the reservation recurring.
 
-You are also able to edit the date and time of the reservation by resizing it and/or dragging it to a different time / day. And you will be able to click on the reservation to edit / view the given information.
+You are also able to edit the date and time of the reservation by resizing it and/or dragging it to a different time / day.
 
 Only the creator and the team admin will be able to edit and delete the reservation, other team members will not be able to edit the reservation.
