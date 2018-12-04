@@ -8,7 +8,8 @@
 Bookr is an easy to use Reservation / Booking System, that allows users to create calendars and create team's for their company's.
 
 ### Documentation
-####Table of content
+
+<h4>Table of content</h4>
 <ul>
     <li>
         See <a href="#documentation">DOCUMENTATION</a> for project documentation
@@ -27,7 +28,7 @@ Bookr is an easy to use Reservation / Booking System, that allows users to creat
     </li>
 </ul>
 
-####Functions
+<h4>Functions</h4>
 <ul>
     <li>
         <b>Booking Functions</b>
