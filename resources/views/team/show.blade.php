@@ -139,8 +139,8 @@
                                     <tr>
                                         <td>Total Calendars:</td>
                                         <td>
-                                            @php($c = 0)
                                             @if(count($calendars) > 0)
+                                                @php($c = 0)
                                                 @foreach($calendars as $calendar)
                                                     @if($calendar->team_id == $team->id)
                                                         @php($c++)
@@ -170,25 +170,29 @@
                                                     @endif
                                                 @endforeach
                                             @endif
-                                            @if($i !== 0)
-                                                {{$i}}
+                                                @if($i !== 0)
+                                                    {{$i}}
                                                 @else
-                                                0
-                                            @endif
+                                                    0
+                                                @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Total Bookings:</td>
                                         <td>
-                                            @if(count($assets) > 0)
-                                                @foreach($assets as $asset)
-                                                    @foreach($bookings as $booking)
-                                                        @if($booking->assetId == $asset->id)
-                                                            @php($u++)
+                                            @foreach($calendars as $calendar)
+                                                @if($team->id == $calendar->team_id)
+                                                    @foreach($assets as $asset)
+                                                        @if($calendar->id == $asset->calendar_id)
+                                                            @foreach($bookings as $booking)
+                                                                @if($booking->assetId == $asset->id)
+                                                                    @php($u++)
+                                                                @endif
+                                                            @endforeach
                                                         @endif
                                                     @endforeach
-                                                @endforeach
-                                            @endif
+                                                @endif
+                                            @endforeach
                                             @if($u !== 0)
                                                 {{$u}}
                                             @else

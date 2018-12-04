@@ -6,6 +6,7 @@ use App\Assets;
 use App\Bookings;
 use App\Calendars;
 use App\Invite;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Gate;
@@ -41,13 +42,14 @@ class TeamController extends Controller
     {
         $id = $request->route()->parameter('id');
         $team = $this->service->find($id);
+        $team_owner = User::where('id', $team->user_id)->get();
         $user = Auth::user();
         $calendars = Calendars::orderBy('name', 'asc')->get();
         $assets = Assets::orderBy('name', 'asc')->get();
         $bookings = Bookings::orderBy('id', 'asc')->get();
 
         if($user->isTeamMember($team->id) || Gate::allows('admin')) {
-            return view('team.show', compact( 'team', 'user', 'calendars', 'assets', 'bookings'));
+            return view('team.show', compact( 'team','team_owner', 'user', 'calendars', 'assets', 'bookings'));
         }
         else {
             abort(500, 'Unable to view this team, you are not a member of this team.');

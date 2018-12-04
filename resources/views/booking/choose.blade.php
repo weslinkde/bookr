@@ -221,18 +221,21 @@
                                                         <li style="list-style: none;">
                                                             <a href="{{url('/teams/'.$team->id.'/show')}}"><span class="fas fa-users"></span> {{ $team->name }}</a>
                                                             <ul>
+                                                                <li>
+                                                                    <i class="fas fa-chess-king"></i> {{\App\Models\User::where('id', $team->user_id)->first()->name}}
+                                                                    @if($team->user_id == $user->id)
+                                                                        <b>(You)</b>
+                                                                    @endif
+                                                                </li>
                                                                 @foreach($team->members as $member)
-                                                                    <li>
-                                                                        @if($member->id == $team->user_id)
-                                                                            <i class="fas fa-chess-king"></i>
-                                                                        @else
-                                                                            <i class="far fa-user"></i>
-                                                                        @endif
-                                                                        {{$member->name}}
-                                                                        @if($member->id == $user->id)
-                                                                            <b>(You)</b>
-                                                                        @endif
-                                                                    </li>
+                                                                    @if($member->id !== $team->user_id)
+                                                                        <li>
+                                                                            <i class="far fa-user"></i> {{$member->name}}
+                                                                            @if($member->id == $user->id)
+                                                                                <b>(You)</b>
+                                                                            @endif
+                                                                        </li>
+                                                                    @endif
                                                                 @endforeach
                                                             </ul>
                                                         </li>
