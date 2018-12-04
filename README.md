@@ -1,17 +1,14 @@
-<div align="center" style="border-bottom: 1px solid black;">
-    <h1 style="border: none;">Bookr</h1>
-    <p>An easy to use Booking System</p>
+<div align="center">
+    <h1>Bookr</h1>
+    <p>An easy to use Reservation System</p>
 </div>
 <br>
 
 ### About Bookr
-Bookr gives users a possibility to manage their life's and/or their team's assets.
+Bookr is an easy to use Reservation / Booking System, that allows users to create calendars and create team's for their company's.
 
 ### Documentation
 <ul>
-    <li>
-        See <a href="#">PROJECT DEMO</a> for demo project
-    </li>
     <li>
         See <a href="#documentation">DOCUMENTATION</a> for project documentation
     </li>
@@ -52,6 +49,8 @@ You can now access the server at <br>
  ```http://localhost:8000```
 
 ### Screenshots
+<div align="center">
+<b>
 Main Menu <br>
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu">
 
@@ -63,6 +62,8 @@ Assets <br>
 
 Booking Modal <br>
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Modal" rel="Bookr Calendar Modal">
+</b>
+</div>
 
 ### Tutorial
 When you first log in you will be redirected to the <a href="#screenshots">Main Menu</a>, here you can create a personal calendar or create a team.
