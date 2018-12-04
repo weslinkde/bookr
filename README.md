@@ -8,6 +8,7 @@
 Bookr is an easy to use Reservation / Booking System, that allows users to create calendars and create team's for their company's.
 
 ### Documentation
+####Table of content
 <ul>
     <li>
         See <a href="#documentation">DOCUMENTATION</a> for project documentation
@@ -26,8 +27,41 @@ Bookr is an easy to use Reservation / Booking System, that allows users to creat
     </li>
 </ul>
 
+####Functions
+<ul>
+    <li>
+        <b>Booking Functions</b>
+        <ul>
+            <li>Creating reservations</li>
+            <li>Editing reservations</li>
+            <li>Viewing reservations</li>
+            <li>Recurring reservations</li>
+        </ul>
+    </li>
+    <li>
+        <b>Personal Calendars</b>
+        <ul>
+            <li>CRUD Calendars</li>
+            <li>CRUD Assets / Items</li>
+            <li><b>Booking Functions</b></li>
+        </ul>
+    </li>
+    <li>
+        <b>Team Calendars</b>
+        <ul>
+            <li>CRUD Teams</li>
+            <li>Viewing team information</li>
+            <li>Inviting members</li>
+            <li>Managing members</li>
+            <li>CRUD Calendars</li>
+            <li>CRUD Assets / Items</li>
+            <li><b>Booking Functions</b></li>
+        </ul>
+    </li>
+</ul>
+
 ### Installation guide
-######<a href="#documentation">Back to documentation</a>
+<a href="#documentation">Back to documentation</a><br>
 Clone the Github repository: <br>
 ```git clone https://github.com/weslinkde/bookr.git```
 
@@ -50,8 +84,7 @@ You can now access the server at <br>
  ```http://localhost:8000```
 
 ### Screenshots
-######<a href="#documentation">Back to documentation</a>
-<div align="center">
+<a href="#documentation">Back to documentation</a><br><div align="center">
 <b>
 Main Menu <br>
 <img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu"> <br>
@@ -68,7 +101,7 @@ Booking Modal <br>
 </div>
 
 ### Tutorial
-######<a href="#documentation">Back to documentation</a>
+<a href="#documentation">Back to documentation</a><br>
 When you first log in you will be redirected to the <a href="#screenshots">Main Menu</a>, here you can create a personal calendar or create a team.
 
 You can use team's to create Shared <a href="#screenshots">Assets</a> like Company Beamer's.
