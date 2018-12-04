@@ -1,18 +1,18 @@
-#Bookr
-###About Bookr
+# Bookr
+### About Bookr
 Bookr gives users a possibility to manage their life's and/or their team's assets.
 
-###Documentation
+### Documentation
 
 <ul>
     <li>
         See <a href="#">PROJECT DEMO</a> for demo project
     </li>
     <li>
-        See [DOCUMENTATION](#documentation) for project documentation
+        See [DOCUMENTATION](###documentation) for project documentation
     </li>
     <li>
-        See [INSTALL](#installation-guide) for installation instructions
+        See [INSTALL](###installation-guide) for installation instructions
     </li>
     <li>
         See <a href="https://github.com/weslinkde/bookr/commits/develop">CHANGES</a> for version history
@@ -22,7 +22,7 @@ Bookr gives users a possibility to manage their life's and/or their team's asset
     </li>
 </ul>
 
-###Installation guide
+### Installation guide
 
 Clone the Github repository: <br>
 ```git clone https://github.com/weslinkde/bookr.git```
@@ -44,7 +44,7 @@ Start the local development server <br>
 
 You can now access the server at ```http://localhost:8000```
 
-###Screenshots
+### Screenshots
 
 <img src="" rel="Bookr screenshot 1">
 
