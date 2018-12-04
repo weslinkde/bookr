@@ -9,10 +9,10 @@ Bookr gives users a possibility to manage their life's and/or their team's asset
         See <a href="#">PROJECT DEMO</a> for demo project
     </li>
     <li>
-        See [DOCUMENTATION](###documentation) for project documentation
+        See <a href="#documentation">DOCUMENTATION</a> for project documentation
     </li>
     <li>
-        See [INSTALL](###installation-guide) for installation instructions
+        See <a href="#installation-guide">INSTALL</a> for installation instructions
     </li>
     <li>
         See <a href="https://github.com/weslinkde/bookr/commits/develop">CHANGES</a> for version history
