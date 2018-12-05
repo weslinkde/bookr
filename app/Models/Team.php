@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
+    use Uuids;
+
     public $table = "teams";
 
     public $primaryKey = "id";
@@ -18,6 +21,8 @@ class Team extends Model
         'name',
         'description'
     ];
+
+    public $incrementing = false;
 
     public static $rules = [
         'name' => 'required|unique:teams'

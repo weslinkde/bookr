@@ -75,12 +75,7 @@ class TeamController extends Controller
     public function create(Request $request)
     {
         $team = $request->route()->parameter('id');
-        $user = Auth::user();
-        if($user->isTeamMember($team->id) || Gate::allows('admin')) {
-            return view('team.create', compact('team'));        }
-        else {
-            abort(500, 'Unable to view this team, you are not a member of this team.');
-        }
+        return view('team.create', compact('team'));
     }
 
     /**

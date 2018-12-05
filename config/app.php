@@ -214,7 +214,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
+        'Uuid' => Webpatser\Uuid\Uuid::class,
     ],
 
 ];

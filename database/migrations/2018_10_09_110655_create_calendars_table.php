@@ -14,11 +14,13 @@ class CreateCalendarsTable extends Migration
     public function up()
     {
         Schema::create('calendars', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->nullable();
-            $table->integer('team_id')->nullable();
+            $table->uuid('id');
+            $table->uuid('user_id')->nullable();
+            $table->uuid('team_id')->nullable();
             $table->string('name');
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 

@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    use Uuids;
+
     public $timestamps = false;
 
     /**
@@ -26,6 +29,8 @@ class Role extends Model
         'label',
         'permissions'
     ];
+
+    public $incrementing = false;
 
     /**
      * Rules

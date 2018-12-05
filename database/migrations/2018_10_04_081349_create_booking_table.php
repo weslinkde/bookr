@@ -14,9 +14,9 @@ class CreateBookingTable extends Migration
     public function up()
     {
         Schema::create('booking', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('assetId');
-            $table->integer('user_id');
+            $table->uuid('id');
+            $table->uuid('assetId');
+            $table->uuid('user_id');
             $table->string('title', 100);
             $table->string('description', 100)->nullable();
             $table->string('recurring')->nullable();
@@ -25,6 +25,8 @@ class CreateBookingTable extends Migration
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 

@@ -91,9 +91,9 @@ class BookingController extends Controller
         $booking->title = $request['title'];
         $booking->description = $request['description'];
 
-        if($request['recurring'] == null) {
-            $booking->start_time = $request['start_time'];
-            $booking->end_time = $request['end_time'];
+        if($request['start_time'] == null) {
+            $booking->start_time = $request['start'];
+            $booking->end_time = $request['end'];
         }
         else {
             $booking->recurring = $request['recurring'];

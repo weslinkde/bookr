@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Uuids;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\UserMeta;
@@ -12,7 +13,8 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, Uuids;
+
 
     /**
      * The database table used by the model.
@@ -34,6 +36,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     /**
      * User UserMeta

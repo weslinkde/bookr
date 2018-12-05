@@ -14,10 +14,12 @@ class CreateAssetsTable extends Migration
     public function up()
     {
         Schema::create('assets', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('calendar_id');
+            $table->uuid('id');
+            $table->uuid('calendar_id');
             $table->string('name', 20);
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 

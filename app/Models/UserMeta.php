@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class UserMeta extends Model
 {
+    use Uuids;
     /**
      * The database table used by the model.
      *

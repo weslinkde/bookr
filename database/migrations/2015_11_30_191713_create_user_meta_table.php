@@ -13,9 +13,9 @@ class CreateUserMetaTable extends Migration
     public function up()
     {
         Schema::create('user_meta', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
 
-            $table->integer('user_id')->unsigned();
+            $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('phone')->nullable();
@@ -26,7 +26,10 @@ class CreateUserMetaTable extends Migration
             $table->boolean('marketing')->default(0);
             $table->boolean('terms_and_cond')->default(1);
 
+
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 
