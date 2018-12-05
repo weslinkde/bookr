@@ -21,6 +21,9 @@ Bookr is an easy to use Reservation / Booking System, that allows users to creat
         See <a href="#screenshots">SCREENSHOTS</a> for screenshots
     </li>
     <li>
+        See <a href="#tutorial">TUTORIAL</a> for a tutorial
+    </li>
+    <li>
         See <a href="https://github.com/weslinkde/bookr/commits/develop">CHANGES</a> for version history
     </li>
     <li>
@@ -67,13 +70,10 @@ Clone the Github repository: <br>
 ```git clone https://github.com/weslinkde/bookr.git```
 
 Switch to the repo folder <br>
-```cd dev/bookr```
+```cd bookr```
 
 Install all the dependencies using composer <br>
 ```composer install```
-
-Generate a new application key <br>
-```php artisan key:generate```
 
 Run the database migrations <b>(Set the database connection in .env before migrating)</b> <br>
 ```php artisan migrate --seed```
@@ -101,12 +101,12 @@ You can now access the server at <br>
 </div>
 
 ### Tutorial
-<a href="#documentation">Back to documentation</a><br>
+<a href="#documentation">Back to documentation</a><br><br>
 When you first log in you will be redirected to the <a href="#main-menu">Main Menu</a>, here you can create a personal calendar or create a team.
 
-You can use teams to create Shared <a href="#team-panel">Assets</a> like Company Beamer's.
+You can use teams to create Shared <a href="#team-panel">Assets</a> like a Company's Beamers.
 
-When you have created a calendar you will be able to add Assets and personal calendars. When you have created an asset, it will be displayed at the <a href="#main-menu">Main Menu</a>.
+When you have created a calendar you will be able to add Assets / Agenda's. When you have created an asset, it will be displayed at the <a href="#main-menu">Main Menu</a>.
 
 When you click on the asset you have created, you will be redirected to the reservation page of the <a href="#booking-calendar">Asset</a>.
 

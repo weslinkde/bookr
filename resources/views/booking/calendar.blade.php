@@ -36,13 +36,13 @@
 
         /* Modal Content */
         .modal-content {
-            position: relative;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background-color: #fefefe;
             border: 1px solid #888;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            margin: 200px auto 0 auto;
-            background-color: #fefefe;
-            border: 1px solid #888;
             animation: modalopen;
             animation-duration: 0.4s;
             overflow: hidden;
@@ -80,11 +80,11 @@
 
         @keyframes modalopen {
             0% {
-                top: 80px;
+                top: 55%;
                 opacity: 0;
             }
             70% {
-                top: 0;
+                top: 50%;
             }
             100% {
                 opacity: 1;
@@ -132,6 +132,9 @@
         #friday:checked ~ label[for="friday"],
         #saturday:checked ~ label[for="saturday"] {
             background-color: whitesmoke;
+        }
+        .modal-content .btn:hover {
+            color: lightgray;
         }
     </style>
     <script src='{{asset('js/moment.js')}}'></script>

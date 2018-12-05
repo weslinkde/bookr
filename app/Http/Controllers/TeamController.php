@@ -75,7 +75,12 @@ class TeamController extends Controller
     public function create(Request $request)
     {
         $team = $request->route()->parameter('id');
-        return view('team.create', compact('team'));
+        $user = Auth::user();
+        if($user->isTeamMember($team->id) || Gate::allows('admin')) {
+            return view('team.create', compact('team'));        }
+        else {
+            abort(500, 'Unable to view this team, you are not a member of this team.');
+        }
     }
 
     /**
@@ -198,14 +203,18 @@ class TeamController extends Controller
         $team = $this->service->find($team_id);
         $user = Auth::user();
         $invite = Invite::where('token', $token)->first();
-        if($invite->created_at->toDateTimeString() >= Carbon::now()->subHours(2)->toDateTimeString()) {
-            DB::table('team_user')->updateOrInsert(
-                ['user_id' => $user->id, 'team_id' => $team->id]
-            );
-            return redirect('teams/'.$team->id.'/show');
+        if($user->isTeamMember($team_id)) {
+            return redirect('book')->withErrors('You have already joined this team.');
         }
         else {
-            return redirect('book')->withErrors('Your invite token has expired.');
+            if ($invite->created_at->toDateTimeString() >= Carbon::now()->subHours(2)->toDateTimeString()) {
+                DB::table('team_user')->updateOrInsert(
+                    ['user_id' => $user->id, 'team_id' => $team->id]
+                );
+                return redirect('teams/' . $team->id . '/show');
+            } else {
+                return redirect('book')->withErrors('Your invite token has expired.');
+            }
         }
     }
 
