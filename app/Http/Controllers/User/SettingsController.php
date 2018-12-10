@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Assets;
+use App\Calendars;
 use Exception;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -14,6 +16,25 @@ class SettingsController extends Controller
     public function __construct(UserService $userService)
     {
         $this->service = $userService;
+    }
+
+    /**
+     * View current user's profile
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile(Request $request)
+    {
+        $user = $request->user();
+        $calendars = Calendars::orderBy('name', 'asc')->get();
+        $assets = Assets::orderBy('name', 'asc')->get();
+
+        if ($user) {
+            return view('user.profile', compact('calendars', 'assets'))
+                ->with('user', $user);
+        }
+
+        return back()->withErrors(['Could not find user']);
     }
 
     /**

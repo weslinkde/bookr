@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
     */
 
     Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
+        Route::get('profile', 'SettingsController@profile');
         Route::get('settings', 'SettingsController@settings');
         Route::post('settings', 'SettingsController@update');
         Route::get('password', 'PasswordController@password');

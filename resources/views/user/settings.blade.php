@@ -19,9 +19,7 @@
                     @input_maker_create('name', ['type' => 'string'], $user)
                 </div>
 
-                @include('user.meta')
-
-                @if ($user->roles->first()->name === 'admin' || $user->id == 1)
+                @if (Gate::allows('admin'))
                     <div class="raw-margin-top-24">
                         @input_maker_label('Role')
                         @input_maker_create('roles', ['type' => 'relationship', 'model' => 'App\Models\Role', 'label' => 'label', 'value' => 'name'], $user)
@@ -29,9 +27,10 @@
                 @endif
 
                 <div class="raw-margin-top-24">
-                    <div class="btn-toolbar justify-content-between">
+                    <div class="btn-toolbar">
                         <button class="btn btn-primary" type="submit">Save</button>
                         <a class="btn btn-link" href="/user/password">Change Password</a>
+                        <a class="btn btn-secondary ml-auto" href="profile">Cancel</a>
                     </div>
                 </div>
             </form>

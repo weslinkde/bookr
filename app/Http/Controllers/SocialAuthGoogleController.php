@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,9 @@ class SocialAuthGoogleController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback($role = 'member')
+    public function callback()
     {
+        $role = Role::where('label', 'Member')->first();
         try {
             $googleUser = Socialite::driver('google')->user();
             $existUser = User::where('email',$googleUser->email)->first();
@@ -35,7 +37,7 @@ class SocialAuthGoogleController extends Controller
                 $user->password = md5(rand(1,10000));
                 $user->save();
                 DB::table('role_user')->insert(
-                    ['user_id' => $user->id, 'role_id' => 1]
+                    ['user_id' => $user->id, 'role_id' => $role->id]
                 );
                 Auth::loginUsingId($user->id);
             }

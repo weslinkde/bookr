@@ -69,29 +69,27 @@
                                                             @endif
                                                         @endforeach
                                                     @endif
-                                                        @if($k == 0)
-                                                            <p class="mb-0">No Assets were found for in this Calendar, you can create Assets <a href="{{url('calendar/'.$calendar->id.'/asset/create')}}">here</a>.</p>
-                                                        @endif
+                                                    @if($k == 0)
+                                                        <p class="mb-0">No Assets were found for in this Calendar, you can create Assets <a href="{{url('calendar/'.$calendar->id.'/asset/create')}}">here</a>.</p>
+                                                    @endif
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
                                 @endif
                             @endforeach
-                                @if($o == 0)
-                                    <div class="card raw-margin-bottom-5">
-                                        <div class="card-header">
-                                            <div class="mb-0 d-flex">
-                                                <button class="btn btn-link" style="padding: 0; text-decoration: none; color: black;">
-                                                    No Calendars found
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="mb-0">No Calendars were found, you can create Calendars <a href="{{url('calendar/create')}}">here</a>.</p>
+                            @if($o == 0)
+                                <div class="card raw-margin-bottom-5">
+                                    <div class="card-header">
+                                        <div class="mb-0 d-flex">
+                                            <button class="btn btn-link" style="padding: 0; text-decoration: none; color: black;">No Calendars found</button>
                                         </div>
                                     </div>
-                                @endif
+                                    <div class="card-body">
+                                        <p class="mb-0">No Calendars were found, you can create Calendars <a href="{{url('calendar/create')}}">here</a>.</p>
+                                    </div>
+                                </div>
+                            @endif
                         @else
                             <div class="card">
                                 <div class="card-header" id="heading" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
@@ -148,11 +146,11 @@
                                                         @php($c++)
                                                     @endif
                                                 @endforeach
-                                                    @if($c == 0)
-                                                        0
-                                                    @else
-                                                        {{$c}}
-                                                    @endif
+                                                @if($c == 0)
+                                                    0
+                                                @else
+                                                    {{$c}}
+                                                @endif
                                             @else
                                                 0
                                             @endif
@@ -172,11 +170,11 @@
                                                     @endif
                                                 @endforeach
                                             @endif
-                                                @if($i !== 0)
-                                                    {{$i}}
-                                                @else
-                                                    0
-                                                @endif
+                                            @if($i !== 0)
+                                                {{$i}}
+                                            @else
+                                                0
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
@@ -205,7 +203,7 @@
                                 </table>
                             </div>
                         </div>
-                    @endif
+                @endif
                 <!-- Team Members -->
                     <div class="card">
                         <div class="card-header">
@@ -218,13 +216,14 @@
                             <table class="table table-striped" style="font-size: 14px">
                                 @foreach($team->members as $member)
                                     <tr>
-                                        <td style='border: none;'><span class="fas fa-user"></span> {{ $member->name }} @if($member->id == $user->id)<b>(You)</b>@endif</td>
+                                        <td style='border: none;'><span class="fas fa-user"></span> {{ $member->name }} @if($member->id == $user->id)
+                                                <b>(You)</b>@endif</td>
                                         <td style="border:none;">
-                                        @if ($user->id == $team->user_id || Gate::allows('admin'))
-                                            @if($member->id !== $user->id)
-                                                    <a class="btn btn-danger btn-sm pull-right btn-xs" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
+                                            @if ($user->id == $team->user_id || Gate::allows('admin'))
+                                                @if($member->id !== $user->id)
+                                                    <a class="btn btn-danger btn-sm pull-right" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
+                                                @endif
                                             @endif
-                                        @endif
                                         </td>
                                     </tr>
                                 @endforeach

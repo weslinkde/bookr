@@ -25,7 +25,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="row">
-                @php($p = 0)
                 @php($o = 0)
                 @php($u = 0)
                 @php($z = 1)
@@ -38,6 +37,7 @@
                                     <a href="{{url('calendar/create')}}" class="ml-auto mt-2">Create a new Calendar</a>
                                 </div>
                                 @foreach($calendars as $calendar)
+                                    @php($p = 0)
                                     @if($user->id == $calendar->user_id)
                                         @php($z++)
                                         <div class="card raw-margin-bottom-5">
