@@ -8,7 +8,11 @@
         <div class="col-md-12 raw-margin-bottom-24">
             <div>
                 @if (Auth::user()->isTeamAdmin($team->id) || Gate::allows('admin'))
-                    <a class="btn btn-danger pull-right raw-margin-bottom-4 ml-2" href="{{url('teams/delete')}}">Delete Team</a>
+                    <form method="post" action="{{ url('teams/'.$team->id) }}">
+                        {!! csrf_field() !!}
+                        {!! method_field('delete') !!}
+                        <button type="submit" class="btn btn-danger pull-right raw-margin-bottom-4 ml-2">Delete Team</button>
+                    </form>
                     <a class="btn btn-primary pull-right raw-margin-bottom-4" href="{{url('team/'.$team->id.'/invite')}}">Invite members</a>
                 @endif
                 <form method="post" action="{{ url('teams/'.$team->id) }}">

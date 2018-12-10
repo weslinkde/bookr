@@ -19,24 +19,25 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="row">
+                <!-- Team Calendars -->
                 <div class="col-sm-7 col-md-8" style="padding: 0;">
                     <div class="col-md-12 raw-margin-bottom-24">
                         <div class="col-md-12 d-flex">
                             <h2 style="margin-left: -10px;">Calendars</h2>
-                            @if($user->isTeamAdmin($team->id) || Gate::allows('admin'))
+                            @if($user->id == $team->user_id || Gate::allows('admin'))
                                 <a href="{{url('calendar/create')}}" class="ml-auto mt-2">Create a new Calendar</a>
                             @endif
                         </div>
                         @if(count($calendars) > 0)
                             @foreach($calendars as $calendar)
+                                @php($k = 0)
                                 @if($calendar->team_id == $team->id)
                                     @php($o++)
-                                    @php($k = 0)
                                     <div class="card raw-margin-bottom-4">
                                         <div class="card-header calendars" id="heading{{$calendar->id}}" data-toggle="collapse" data-target="#collapse{{$calendar->id}}" aria-expanded="true" aria-controls="collapse{{$calendar->id}}">
                                             <h5 class="mb-0 d-flex" style="font-size: 14px;">
                                                 <a href="#" style="color: black; text-decoration: none;">{{$calendar->name}}</a>
-                                                @if($user->isTeamAdmin($team->id) || Gate::allows('admin'))
+                                                @if($user->id == $team->user_id || Gate::allows('admin'))
                                                     <a href="{{url('calendar/'.$calendar->id.'/asset/create')}}" class="ml-auto">Create a new Asset</a>
                                                 @endif
                                             </h5>
@@ -52,7 +53,7 @@
                                                                     <td>
                                                                         <a href="{{url('book/'.$asset->id)}}">{{$asset->name}}</a>
                                                                     </td>
-                                                                    @if($user->isTeamAdmin($team->id) || Gate::allows('admin'))
+                                                                    @if($user->id == $team->user_id || Gate::allows('admin'))
                                                                         <td class="pull-right">
                                                                             <form action="{{url('calendar/'.$calendar->id.'/asset/'.$asset->id.'/delete')}}" method="post" style="margin: 0;">
                                                                                 {!! method_field('delete') !!}
@@ -67,10 +68,10 @@
                                                                 </tr>
                                                             @endif
                                                         @endforeach
-                                                            @if($k == 0)
-                                                                <p class="mb-0">No Assets were found for in this Calendar, you can create Assets <a href="{{url('calendar/'.$calendar->id.'/asset/create')}}">here</a>.</p>
-                                                            @endif
                                                     @endif
+                                                        @if($k == 0)
+                                                            <p class="mb-0">No Assets were found for in this Calendar, you can create Assets <a href="{{url('calendar/'.$calendar->id.'/asset/create')}}">here</a>.</p>
+                                                        @endif
                                                 </table>
                                             </div>
                                         </div>
@@ -107,11 +108,12 @@
                         @endif
                     </div>
                 </div>
+                <!-- Team Information -->
                 <div class="col-sm-5 col-md-4 align-top">
                     <div class="col-md-12 d-flex">
                         <h2 style="margin-left: -10px;">Team</h2>
                     </div>
-                    @if (Auth::user()->isTeamAdmin($team->id) || Gate::allows('admin'))
+                    @if ($user->id == $team->user_id || Gate::allows('admin'))
                         <div class="card raw-margin-bottom-4">
                             <div class="card-header">
                                 <span class="fas fa-users"></span> Team panel
@@ -204,10 +206,11 @@
                             </div>
                         </div>
                     @endif
+                <!-- Team Members -->
                     <div class="card">
                         <div class="card-header">
                             <span class="fas fa-users"></span> Team Members
-                            @if (Auth::user()->isTeamAdmin($team->id) || Gate::allows('admin'))
+                            @if ($user->id == $team->user_id || Gate::allows('admin'))
                                 <a class="inviteBtn pull-right" href="{{url('team/'.$team->id.'/invite')}}">Invite members</a>
                             @endif
                         </div>
@@ -215,12 +218,14 @@
                             <table class="table table-striped" style="font-size: 14px">
                                 @foreach($team->members as $member)
                                     <tr>
-                                        <td style='padding-top: 20px; border: none;'><span class="fas fa-user"></span> {{ $member->name }}</td>
-                                        @if (Auth::user()->isTeamAdmin($team->id) || Gate::allows('admin'))
-                                            <td style="border:none;">
-                                                <a class="btn btn-danger btn-sm pull-right btn-xs" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
-                                            </td>
+                                        <td style='border: none;'><span class="fas fa-user"></span> {{ $member->name }} @if($member->id == $user->id)<b>(You)</b>@endif</td>
+                                        <td style="border:none;">
+                                        @if ($user->id == $team->user_id || Gate::allows('admin'))
+                                            @if($member->id !== $user->id)
+                                                    <a class="btn btn-danger btn-sm pull-right btn-xs" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
+                                            @endif
                                         @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </table>

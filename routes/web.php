@@ -27,6 +27,8 @@ Route::get('/', 'Auth\LoginController@showLoginForm');
 |--------------------------------------------------------------------------
 */
 
+Route::post('/send', 'EmailController@send');
+
 Route::get('/redirect', 'SocialAuthGoogleController@redirect');
 Route::get('/callback', 'SocialAuthGoogleController@callback');
 
@@ -176,15 +178,3 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 });
-
-/*
-|--------------------------------------------------------------------------
-| Todo Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::resource('todos', 'TodosController', ['except' => ['show']]);
-Route::post('todos/search', [
-    'as' => 'todos.search',
-    'uses' => 'TodosController@search'
-]);

@@ -15,7 +15,7 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->uuid('id');
-            $table->integer('team_id');
+            $table->uuid('team_id');
             $table->string('token', 20)->unique();
             $table->timestamps();
 

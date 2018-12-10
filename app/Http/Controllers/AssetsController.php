@@ -52,7 +52,7 @@ class AssetsController extends Controller
     {
         $calendar_id = $request->route()->parameter('calendar_id');
         if (Assets::where('name', $request['name'])->where('calendar_id', $calendar_id)->exists()) {
-            return redirect('book')->withErrors('This Asset already exists');
+            return back()->withErrors('This Asset already exists');
         } else {
             $booking = new Assets();
             $booking->calendar_id = $calendar_id;
@@ -94,7 +94,7 @@ class AssetsController extends Controller
         $asset_id = $request->route()->parameter('asset_id');
         $calendar_id = $request->route()->parameter('calendar_id');
         if (Assets::where('name', $request['name'])->where('calendar_id', $calendar_id)->exists()) {
-            return redirect('book')->withErrors('This Asset could not be updated, This Asset already exists');
+            return back()->withErrors('This Asset could not be updated, This Asset already exists');
         } else {
             $asset = Assets::find($asset_id);
             $asset->name = $request['name'];
@@ -116,6 +116,6 @@ class AssetsController extends Controller
         Bookings::where('assetId', $asset_id)->delete();
         $asset->delete();
 
-        return redirect('book')->with('message', 'Succesfully deleted '.$asset->name);
+        return back()->with('message', 'Succesfully deleted '.$asset->name);
     }
 }

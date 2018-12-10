@@ -10,6 +10,7 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Gate;
+use Illuminate\Support\Facades\Mail;
 use Exception;
 use Illuminate\Http\Request;
 use App\Services\TeamService;
@@ -162,10 +163,10 @@ class TeamController extends Controller
             $result = $this->service->destroy(Auth::user(), $id);
 
             if ($result) {
-                return redirect('teams')->with('message', 'Successfully deleted');
+                return redirect('book')->with('message', 'Successfully deleted');
             }
 
-            return redirect('teams')->with('message', 'Failed to delete');
+            return back()->with('message', 'Failed to delete');
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());
         }
@@ -215,17 +216,20 @@ class TeamController extends Controller
 
     public function inviteMember(UserInviteRequest $request, $id)
     {
-        try {
-            $result = $this->service->invite(Auth::user(), $id, $request->email);
+        $title = $request->input('title');
+        $content = $request->input('content');
 
-            if ($result) {
-                return back()->with('message', 'Successfully invited member');
-            }
+        Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
+        {
 
-            return back()->with('message', 'Failed to invite member - they may already be a member');
-        } catch (Exception $e) {
-            return back()->withErrors($e->getMessage());
-        }
+            $message->from('me@gmail.com', 'Jesse Dubbink');
+
+            $message->to('jesse.dubbink@gmail.com');
+
+        });
+
+
+        return response()->json(['message' => 'Request completed']);
     }
 
     /**
