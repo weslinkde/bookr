@@ -147,7 +147,7 @@
     <script src="{{asset('js/datepicker.js')}}"></script>
     <div class="container">
         <div class="row">
-            <div class="col-md-12 col-md-offset-2">
+            <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-body body">
                         <div id='calendar' class="calendar">
@@ -258,14 +258,10 @@
             displayEventTitle: false,
             axisFormat: 'HH:mm',
             timeFormat: 'HH:mm',
-            height: 700,
+            height: 500,
             defaultTimedEventDuration: '01:00',
             allDaySlot: false,
-            scrollTime: '07:00',
-            businessHours: {
-                start: '8:00',
-                end: '20:00',
-            },
+            scrollTime: '08:00',
             selectOverlap: false,
             eventOverlap: function (stillEvent, movingEvent) {
                 return false;

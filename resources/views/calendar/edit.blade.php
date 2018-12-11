@@ -19,11 +19,11 @@
                     <div class="row">
                         <div class="col-md-12 raw-margin-top-24">
                             <div class="d-flex">
-                                <div class="ml-auto p-2">
+                                <div class="p-2">
                                     {{ Form::submit('Edit', ['class' => 'btn btn-primary']) }}
                                     {{ Form::close() }}
                                 </div>
-                                <div class="p-2">
+                                <div class="ml-auto p-2">
                                     {{ Form::open(['method' => 'DELETE', 'url' => 'calendar/' . $calendar->id . '/delete']) }}
                                     @csrf
                                     {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="d-flex">
-                                <div class="p-2" style="margin-top: -45px;">
+                                <div class="p-2 ml-auto">
                                     <a href="{{url('book')}}">Back</a>
                                 </div>
                             </div>

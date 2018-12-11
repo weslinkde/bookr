@@ -33,10 +33,11 @@
         <div class="col-md-12">
             <div class="row d-flex justify-content-center mt-5">
                 <div class="col-md-4 col-md-offset-4">
-                    <form method="post" action="{{ url('teams/'.$team->id.'/show') }}">
+                    <form method="post" action="{{ url('team/'.$team->id.'/invite/send') }}">
                         {!! csrf_field() !!}
 
                         @form_maker_table("invite", ['email' => 'string'])
+
                         <div class="tooltipTrigger raw-margin-bottom-40" onclick="invitelink()">
                             No email? Send an invite link instead!
                             <div class="tooltiptext" id="invitelink">{{$url}}</div>

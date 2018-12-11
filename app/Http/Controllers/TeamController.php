@@ -10,6 +10,7 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Gate;
+use Illuminate\Notifications;
 use Illuminate\Support\Facades\Mail;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ use App\Http\Requests\TeamCreateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserInviteRequest;
 use App\Http\Requests\TeamUpdateRequest;
+use App\Notifications\InviteTeamMember;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
@@ -182,10 +184,15 @@ class TeamController extends Controller
     {
         $team_id = $request->route()->parameter('id');
         $team = $this->service->find($team_id);
-        $token = new Invite();
-        $token->team_id = $team->id;
-        $token->token = bin2hex(random_bytes(10));
-        $token->save();
+        if(Invite::where('team_id', $team_id)->first() == null) {
+            $token = new Invite();
+            $token->team_id = $team->id;
+            $token->token = bin2hex(random_bytes(10));
+            $token->save();
+        }
+        else {
+            $token = Invite::where('team_id', $team_id)->first();
+        }
 
         $url = "localhost:8000/team/".$team->id."/accept/".$token->token;
 
@@ -214,22 +221,23 @@ class TeamController extends Controller
         }
     }
 
-    public function inviteMember(UserInviteRequest $request, $id)
+    public function inviteMember(Request $request)
     {
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $team_id = $request->route()->parameter('id');
+        $team = $this->service->find($team_id);
+        $token = Invite::where('team_id', $team_id)->first();
 
-        Mail::send('emails.send', ['title' => $title, 'content' => $content], function ($message)
-        {
+        $url = "/team/".$team->id."/accept/".$token->token;
 
-            $message->from('me@gmail.com', 'Jesse Dubbink');
+        $member = User::where('email', $request['email'])->first();
 
-            $message->to('jesse.dubbink@gmail.com');
-
-        });
-
-
-        return response()->json(['message' => 'Request completed']);
+        if($member == null) {
+            return redirect('teams/'.$team->id.'/show')->withErrors('Make sure that the person you are trying to invite in registered.');
+        }
+        else {
+            $member->notify(new InviteTeamMember($url, $team));
+            return redirect('teams/'.$team->id.'/show')->with('message', 'Invitation send to '.$request['email']);
+        }
     }
 
     /**

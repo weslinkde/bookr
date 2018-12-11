@@ -20,10 +20,10 @@
         <div class="col-lg-10">
             <div class="row">
                 <!-- Team Calendars -->
-                <div class="col-sm-7 col-md-8" style="padding: 0;">
+                <div class="col-md-7" style="padding: 0;">
                     <div class="col-md-12 raw-margin-bottom-24">
                         <div class="col-md-12 d-flex">
-                            <h2 style="margin-left: -10px;">Calendars</h2>
+                            <h2 style="margin-left: -10px;">Calendar(s)</h2>
                             @if($user->id == $team->user_id || Gate::allows('admin'))
                                 <a href="{{url('calendar/create')}}" class="ml-auto mt-2">Create a new Calendar</a>
                             @endif
@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <!-- Team Information -->
-                <div class="col-sm-5 col-md-4 align-top">
+                <div class="col-md-5 align-top">
                     <div class="col-md-12 d-flex">
                         <h2 style="margin-left: -10px;">Team</h2>
                     </div>
@@ -205,7 +205,7 @@
                         </div>
                 @endif
                 <!-- Team Members -->
-                    <div class="card">
+                    <div class="card mb-2">
                         <div class="card-header">
                             <span class="fas fa-users"></span> Team Members
                             @if ($user->id == $team->user_id || Gate::allows('admin'))
@@ -216,8 +216,7 @@
                             <table class="table table-striped" style="font-size: 14px">
                                 @foreach($team->members as $member)
                                     <tr>
-                                        <td style='border: none;'><span class="fas fa-user"></span> {{ $member->name }} @if($member->id == $user->id)
-                                                <b>(You)</b>@endif</td>
+                                        <td style='border: none;'><span class="fas fa-user"></span> {{ $member->name }} @if($member->id == $user->id)<b>(You)</b>@endif</td>
                                         <td style="border:none;">
                                             @if ($user->id == $team->user_id || Gate::allows('admin'))
                                                 @if($member->id !== $user->id)

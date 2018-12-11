@@ -1,8 +1,7 @@
 @extends('layouts.master')
 
 @section('app-content')
-    <div class="form-small">
-
+    <div class="form-small mt-1">
         <h2 class="text-center">Please sign in</h2>
 
         <form method="POST" action="/login">

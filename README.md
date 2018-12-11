@@ -24,7 +24,7 @@ Bookr is an easy to use Reservation / Booking System, that allows users to creat
         See <a href="#tutorial">TUTORIAL</a> for a tutorial
     </li>
     <li>
-        See <a href="https://github.com/weslinkde/bookr/commits/develop">CHANGES</a> for version history
+        See <a href="https://github.com/weslinkde/bookr/commits/develop">CHANGES</a> for the changelog
     </li>
     <li>
         See <a href="https://github.com/weslinkde/bookr/blob/develop/LICENSE">LICENCE</a> for licencing terms
