@@ -36,7 +36,7 @@ class ActivateController extends Controller
     public function sendToken()
     {
         $this->service->sendActivationToken();
-        return view('auth.activate.token');
+        return redirect('book')->with('message', 'A new token has been emailed to you.');
     }
 
     /**
@@ -47,7 +47,7 @@ class ActivateController extends Controller
     public function activate($token)
     {
         if ($this->service->activateUser($token)) {
-            return redirect('dashboard')->with('message', 'Your account was activated');
+            return redirect('book')->with('message', 'Your account was activated');
         }
 
         return view('auth.activate.email')->withErrors(['Could not validate your token']);

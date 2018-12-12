@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Notifications\ActivateUserEmail;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,7 @@ class SocialAuthGoogleController extends Controller
                 DB::table('role_user')->insert(
                     ['user_id' => $user->id, 'role_id' => $role->id]
                 );
+
                 Auth::loginUsingId($user->id);
             }
             return redirect()->to('/book');

@@ -30,6 +30,8 @@ class UserMeta extends Model
         'activation_token',
     ];
 
+    public $incrementing = false;
+
     /**
      * User
      *

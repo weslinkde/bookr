@@ -44,6 +44,7 @@ class BookingController extends Controller
         $allDowBookings = $dowBook->get($this->columnsTime);
 
         $bookings = $allDowBookings->merge($allBookings)->toJson();
+
         return view('booking.calendar', compact('team','bookings', 'dowBookings', 'name', 'book', 'assetId', 'description', 'assetid', 'user', 'assets', 'allBookings'));
     }
 

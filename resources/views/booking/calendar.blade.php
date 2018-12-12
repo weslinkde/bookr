@@ -145,7 +145,7 @@
     <script src="{{asset('js/clockpicker.js')}}"></script>
     <link href="{{asset('css/datepicker.css')}}" rel="stylesheet"/>
     <script src="{{asset('js/datepicker.js')}}"></script>
-    <div class="container">
+    <div class="container" id="fullscreen">
         <div class="row">
             <div class="col-xs-12">
                 <div class="panel panel-default">
@@ -258,10 +258,10 @@
             displayEventTitle: false,
             axisFormat: 'HH:mm',
             timeFormat: 'HH:mm',
-            height: 500,
             defaultTimedEventDuration: '01:00',
             allDaySlot: false,
             scrollTime: '08:00',
+            height: 700,
             selectOverlap: false,
             eventOverlap: function (stillEvent, movingEvent) {
                 return false;

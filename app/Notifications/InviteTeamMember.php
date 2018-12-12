@@ -13,8 +13,7 @@ class InviteTeamMember extends Notification
      *
      * @var string
      */
-    public $url;
-    public $team;
+    public $url, $team, $member, $newMember, $password;
 
     /**
      * Create a notification instance.
@@ -22,10 +21,13 @@ class InviteTeamMember extends Notification
      * @param  string  $token
      * @return void
      */
-    public function __construct($url, $team)
+    public function __construct($url, $team, $member, $newMember, $password)
     {
         $this->url = $url;
         $this->team = $team;
+        $this->member = $member;
+        $this->newMember = $newMember;
+        $this->password = $password;
     }
 
     /**
@@ -49,10 +51,25 @@ class InviteTeamMember extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->greeting('Hey '.$notifiable->name)
-            ->line('You have been invited by '.User::where('id', $this->team->user_id)->first()->name.' to join '.$this->team->name.'.')
-            ->line('By continuing you will be redirected to the Bookr app.')
-            ->action('Join team', url($this->url));
+        if($this->newMember == null) {
+            return (new MailMessage)
+                ->subject('Bookr Invitation')
+                ->greeting('Hey '. $notifiable->name .',')
+                ->line('You have been invited by ' . User::where('id', $this->team->user_id)->first()->name . ' to join ' . $this->team->name . '.')
+                ->line('By continuing you will be redirected to the Bookr app.')
+                ->action('Join team', url($this->url));
+        }
+        else {
+            return (new MailMessage)
+                ->subject('Bookr Invitation')
+                ->greeting('Hey,')
+                ->line('You have been invited by ' . User::where('id', $this->team->user_id)->first()->name . ' to join ' . $this->team->name . '.')
+                ->line("We have created a new account for you since you aren't registered yet.<br> Your new login credentials are:")
+                ->line("Email: <strong> " . $this->newMember->email . " <br></strong> Password: <strong> ". $this->password . " </strong>")
+                ->line('<strong>Please make sure you edit these credentials when you login.</strong>')
+                ->action('Join team', url($this->url))
+                ->line('By continuing you will be redirected to the Bookr app.');
+
+        }
     }
 }

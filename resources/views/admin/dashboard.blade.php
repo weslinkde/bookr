@@ -12,14 +12,10 @@
         </div>
     </div>
 
-    <div class="row raw-margin-top-24">
+    <div class="row">
         <div class="col-md-4">
             <h2 class="text-center">Server</h2>
             <table class="table table-striped raw-margin-top-48">
-                <tr>
-                    <td>PHP Version</td>
-                    <td class="text-right">{{ phpversion() }}</td>
-                </tr>
                 <tr>
                     <td>Server Address</td>
                     <td class="text-right">{{ request()->server('SERVER_ADDR') }}</td>
@@ -74,8 +70,8 @@
                     <td class="text-right">{{ app(App\Models\User::class)->count() }}</td>
                 </tr>
                 <tr>
-                    <td>Roles</td>
-                    <td class="text-right">{{ app(App\Models\Role::class)->count() }}</td>
+                    <td>Invites</td>
+                    <td class="text-right">{{ app(App\Invite::class)->count() }}</td>
                 </tr>
                 <tr>
                     <td>Teams</td>

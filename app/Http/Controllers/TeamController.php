@@ -10,6 +10,7 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Gate;
+use App\Models\Role;
 use Illuminate\Notifications;
 use Illuminate\Support\Facades\Mail;
 use Exception;
@@ -225,17 +226,36 @@ class TeamController extends Controller
     {
         $team_id = $request->route()->parameter('id');
         $team = $this->service->find($team_id);
+        $email = $request['email'];
         $token = Invite::where('team_id', $team_id)->first();
+        $password = str_random(16);
+        $role = Role::where('label', 'Member')->first();
 
         $url = "/team/".$team->id."/accept/".$token->token;
 
-        $member = User::where('email', $request['email'])->first();
+        $member = User::where('email', $email)->first();
+        $newMember = null;
 
-        if($member == null) {
-            return redirect('teams/'.$team->id.'/show')->withErrors('Make sure that the person you are trying to invite in registered.');
+        if($member !== null) {
+            $member->notify(new InviteTeamMember($url, $team, $member, $newMember, $password));
+            return redirect('teams/'.$team->id.'/show')->with('message', 'Invitation send to '.$request['email']);
+        }
+
+        if($member == Auth::user()) {
+            return redirect('teams/'.$team->id.'/show')->withErrors("You can't invite yourself to your team.");
         }
         else {
-            $member->notify(new InviteTeamMember($url, $team));
+            $newMember = new User();
+            $newMember->email = $email;
+            $newMember->name = "Guest-".str_random(16);
+            $newMember->password = bcrypt($password);
+            $newMember->save();
+
+            DB::table('role_user')->insert(
+                ['user_id' => $newMember->id, 'role_id' => $role->id]
+            );
+
+            $newMember->notify(new InviteTeamMember($url, $team, $member, $newMember, $password));
             return redirect('teams/'.$team->id.'/show')->with('message', 'Invitation send to '.$request['email']);
         }
     }
