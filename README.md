@@ -88,16 +88,16 @@ You can now access the server at <br>
 <a href="#documentation">Back to documentation</a><br><div align="center">
 
 ##### Main Menu
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu" rel="Bookr Main Menu"> <br>
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Main-Menu.png" rel="Bookr Main Menu"> <br>
 
 ##### Team Panel
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Team-Panel" rel="Bookr Team Panel"> <br>
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Team-Panel.png" rel="Bookr Team Panel"> <br>
 
 ##### Booking Calendar
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Example" rel="Bookr Calendar Example"> <br>
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Example.png" rel="Bookr Calendar Example"> <br>
 
 ##### Booking Modal
-<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Modal" rel="Bookr Calendar Modal"> <br>
+<img src="https://github.com/weslinkde/bookr/blob/develop/screenshots/Bookr-Calendar-Modal.png" rel="Bookr Calendar Modal"> <br>
 </div>
 
 ### Tutorial

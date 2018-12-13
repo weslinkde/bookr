@@ -24,6 +24,7 @@ use App\Notifications\InviteTeamMember;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
+
 class TeamController extends Controller
 {
     public function __construct(TeamService $teamService)
@@ -211,14 +212,10 @@ class TeamController extends Controller
             return redirect('book')->withErrors('You have already joined this team.');
         }
         else {
-            if ($invite->created_at->toDateTimeString() >= Carbon::now()->subHours(2)->toDateTimeString()) {
-                DB::table('team_user')->updateOrInsert(
-                    ['user_id' => $user->id, 'team_id' => $team->id]
-                );
-                return redirect('teams/' . $team->id . '/show');
-            } else {
-                return redirect('book')->withErrors('Your invite token has expired.');
-            }
+            DB::table('team_user')->updateOrInsert(
+                ['user_id' => $user->id, 'team_id' => $team->id]
+            );
+            return redirect('teams/' . $team->id . '/show');
         }
     }
 

@@ -220,7 +220,7 @@
                                         <td style="border:none;">
                                             @if ($user->id == $team->user_id || Gate::allows('admin'))
                                                 @if($member->id !== $user->id)
-                                                    <a class="btn btn-danger btn-sm pull-right" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to remove this member?')">Remove</a>
+                                                    <a class="btn btn-danger btn-sm pull-right" href="{{ url('teams/'.$team->id.'/remove/'.$member->id) }}" onclick="return confirm('Are you sure you want to kick this member from your team?')">Kick</a>
                                                 @endif
                                             @endif
                                         </td>

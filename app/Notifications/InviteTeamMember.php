@@ -53,22 +53,22 @@ class InviteTeamMember extends Notification
     {
         if($this->newMember == null) {
             return (new MailMessage)
-                ->subject('Bookr Invitation')
+                ->subject(config('app.name') .' Invitation')
                 ->greeting('Hey '. $notifiable->name .',')
                 ->line('You have been invited by ' . User::where('id', $this->team->user_id)->first()->name . ' to join ' . $this->team->name . '.')
-                ->line('By continuing you will be redirected to the Bookr app.')
+                ->line('By continuing you will be redirected to the '. config('app.name') .' app.')
                 ->action('Join team', url($this->url));
         }
         else {
             return (new MailMessage)
-                ->subject('Bookr Invitation')
+                ->subject(config('app.name') .' Invitation')
                 ->greeting('Hey,')
                 ->line('You have been invited by ' . User::where('id', $this->team->user_id)->first()->name . ' to join ' . $this->team->name . '.')
-                ->line("We have created a new account for you since you aren't registered yet.<br> Your new login credentials are:")
-                ->line("Email: <strong> " . $this->newMember->email . " <br></strong> Password: <strong> ". $this->password . " </strong>")
+                ->line("We have noticed you don't have an account yet, so we have created one for you!")
+                ->line("Your new login credentials are: <br> Email: <strong> " . $this->newMember->email . " <br></strong> Password: <strong> ". $this->password . " </strong>")
                 ->line('<strong>Please make sure you edit these credentials when you login.</strong>')
                 ->action('Join team', url($this->url))
-                ->line('By continuing you will be redirected to the Bookr app.');
+                ->line('By continuing you will be redirected to the '. config('app.name') .' app.');
 
         }
     }
