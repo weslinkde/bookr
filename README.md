@@ -5,7 +5,7 @@
 <br>
 
 ### About Bookr
-Bookr is an easy to use Reservation / Booking System, that allows users to create calendars and create team's for their company's.
+Bookr is an easy to use Reservation / Booking System, that allows users to create calendars and create team's for their company's. It has been mainly developed by Jesse Dubbink during an Students Intership.
 
 ### Documentation
 
